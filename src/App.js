@@ -43,7 +43,7 @@ function App() {
 					<Nav/>
                     <Routes>{/* views */}
                         <Route path='/' element={<Home/>}></Route>
-                        <Route path='/member/sing_up_form' element={<SignUp/>}></Route>    
+                        <Route path='/member/sign_up_form' element={<SignUp/>}></Route>    
                         <Route path='/member/sign_in_form' element={<SignIn/>}></Route>
                         <Route path='/member/modify_form' element={<Modify/>}></Route>
                         <Route path='/*' element={<Error/>}></Route>

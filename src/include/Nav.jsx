@@ -23,7 +23,7 @@ const Nav = () => {
             </>
             :
             <>
-            <Link to="/member/sing_up_form">JOIN</Link>&nbsp;
+            <Link to="/member/sign_up_form">JOIN</Link>&nbsp;
             <Link to="/member/sign_in_form">LOGIN</Link>&nbsp;
             </>
             }
