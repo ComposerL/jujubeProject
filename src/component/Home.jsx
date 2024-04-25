@@ -4,7 +4,7 @@ const Home = () => {
    
     return (
         <div id='home_wrap'>
-            This is Home.
+            {process.env.REACT_APP_HOST}
         </div>
     )
 }
