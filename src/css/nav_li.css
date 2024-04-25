@@ -1,0 +1,15 @@
+#nav_wrap ul.nav_menu li {
+    margin: 10px 0px;
+}
+#nav_wrap div.nav_contents {
+    display: flex;
+}
+#nav_wrap div.nav_contents div.nav_img_wrap {
+    width: 50px;
+}
+#nav_wrap div.nav_contents div.nav_text_wrap {
+    
+}
+#nav_wrap ul.nav_menu li img {
+    vertical-align: middle;
+}
