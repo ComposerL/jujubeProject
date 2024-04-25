@@ -12,6 +12,7 @@ import Modify from './component/member/Modify';
 import Error from './component/Error';
 import Nav from './include/Nav';
 
+
 //reducer setting
 const initial_state = { //state 초기값
     isLogin: false,

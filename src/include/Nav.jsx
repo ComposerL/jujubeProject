@@ -1,32 +1,22 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import '../css/nav.css';
+import NavLi from '../component/main_nav/NavLi';
 
 const Nav = () => {
 
-    // redex setting
-    const dispatch = useDispatch();
-    const state_isLogin = useSelector((state) => state.isLogin);
-
     return (
         <nav id='nav_wrap'>
-            <Link to="/">HOME</Link>
-        
-            &nbsp;&nbsp;
-            {
-            state_isLogin
-            ?
-            <>
-            <Link to="/member/modify_form">MODIFY</Link>&nbsp;&nbsp;
-            <Link >DELETE</Link>&nbsp;&nbsp;
-            <Link >LOGOUT</Link>&nbsp;&nbsp;
-            </>
-            :
-            <>
-            <Link to="/member/sing_up_form">JOIN</Link>&nbsp;
-            <Link to="/member/sign_in_form">LOGIN</Link>&nbsp;
-            </>
-            }
+            <ul className='nav_menu'>
+                <NavLi command="/" img_src="/imgs/home_icon.png" text="HOME"/>
+                <NavLi command="/member/search_member_form" img_src="/imgs/create_icon_line.png" text="SEARCH"/>
+                <NavLi command="/" img_src="/imgs/message_icon_line.png" text="MESSAGE"/>
+                <NavLi command="/" img_src="/imgs/create_icon_line.png" text="CREATE"/>
+                <NavLi command="/member/my_home" img_src="/imgs/my_icon_line.png" text="PROFILE"/>
+            </ul>
+            <div className="nav_detail_menu">
+                
+            </div>
         </nav>
     )
 }
