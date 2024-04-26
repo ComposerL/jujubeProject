@@ -3,6 +3,7 @@ import { legacy_createStore as createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './css/common.css';
+import './App.css';
 import Header from './include/Header';
 import Footer from './include/Footer';
 import Home from './component/Home';
@@ -11,6 +12,7 @@ import SignIn from './component/member/SignIn';
 import Modify from './component/member/Modify';
 import Error from './component/Error';
 import Nav from './include/Nav';
+
 
 
 //reducer setting
@@ -40,17 +42,19 @@ function App() {
 		<div className="App">
 			<Provider store={store}>
                 <BrowserRouter>
-                    <Header/>
-					<Nav/>
-                    <Routes>{/* views */}
-                        <Route path='/' element={<Home/>}></Route>
-                        <Route path='/member/sign_up_form' element={<SignUp/>}></Route>    
-                        <Route path='/member/sign_in_form' element={<SignIn/>}></Route>
-                        <Route path='/member/modify_form' element={<Modify/>}></Route>
-                        <Route path='/*' element={<Error/>}></Route>
-                    </Routes>
-
-                    <Footer/>
+                    <nav>
+                        <Nav/>
+                    </nav>                    
+                    <section>
+                        <Header/>                 
+                        <Routes>{/* views */}
+                            <Route path='/' element={<Home/>}></Route>
+                            <Route path='/member/sign_up_form' element={<SignUp/>}></Route>    
+                            <Route path='/member/sign_in_form' element={<SignIn/>}></Route>
+                            <Route path='/member/modify_form' element={<Modify/>}></Route>
+                            <Route path='/*' element={<Error/>}></Route>
+                        </Routes>
+                    </section>
                 </BrowserRouter>
             </Provider>
 		</div>

@@ -12,11 +12,11 @@ const NavLi = (props) => {
         setCommand(props.command);
         setText(props.text);
         setImg_src(props.img_src);
-    },[]);
+    },[]);      
 
     return (
         <li>
-            <Link to={command}>
+            <Link to={command} >
                 <div className='nav_contents'>
                     <div className='nav_img_wrap'><img src={img_src}/></div>
                     <div className='nav_text_wrap'>{text}</div>
