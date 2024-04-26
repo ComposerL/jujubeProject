@@ -36,8 +36,8 @@ const Nav = () => {
                 <div className='nav_detail_modal_wrap'>
                     <div className='nav_detail_list_wrap'>
                         <ul className='nav_detail_list'>
-                            <li><Link to="">정보수정</Link></li>
-                            <li><Link to="">로그아웃</Link></li>
+                            <li><Link to="/member/modify_form">정보수정</Link></li>
+                            <li><Link to="/">로그아웃</Link></li>
                         </ul>
                     </div>
                 </div>
