@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
-import { useDispatch } from "react-redux";
 import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
+import { setSession } from "./action/session_action";
 // import axios from 'axios';
 
 import '../../css/member/sign_up_form.css';
@@ -51,31 +51,24 @@ const SignUp = () => {
         let form = document.sign_up_form;
 
         if (mId === '') {
-            alert('input new id');
+            alert('새로운 아이디를 입력하세요');
             form.m_id.focus();
         } else if (mPw === '') {
-            alert('input new pw');
+            alert('새로운 비밀번호를 입력하세요');
             form.m_pw.focus();
         } else if (mName === '') {
-            alert('input new name');
+            alert('새로운 이름을 입력하세요');
             form.m_name.focus();
         } else if (mMail === '') {
-            alert('input new mail');
+            alert('새로운 메일을 입력하세요');
             form.m_mail.focus();
         } else if (mPhone === '') {
-            alert('input new phone');
+            alert('새로운 핸드폰 번호를 입력하세요');
             form.m_phone.focus();
         } else  {
             ajax_member_sign_up();
         }
     }
-
-    
-    
-    // $("#file").on('change',function(){
-    //     var fileName = $("#file").val();
-    //     $(".upload-name").val(fileName);
-    //   });
 
     const ajax_member_sign_up = () => {
         console.log('ajax_member_sign_up()');
