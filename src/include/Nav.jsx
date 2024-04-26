@@ -20,7 +20,7 @@ const Nav = () => {
     return (
         <div id='nav_wrap'>
             <ul className='nav_menu'>
-                <NavLi command="/" img_src="/imgs/nav_home_icon.png" text="HOME"/>
+                <NavLi command="/home" img_src="/imgs/nav_home_icon.png" text="HOME"/>
                 <NavLi command="/member/search_member_form" img_src="/imgs/nav_search_icon.png" text="SEARCH"/>
                 <NavLi command="/member/message" img_src="/imgs/nav_messege_icon.png" text="MESSAGE"/>
                 <NavLi command="/story/create_story" img_src="/imgs/nav_create_icon.png" text="CREATE"/>
