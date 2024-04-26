@@ -28,7 +28,22 @@ const SignUp = () => {
 
         setGender(e.target.value);
     
-    }
+    };
+
+    // 자기소개 입력수 제한
+    const handleInputChange = (e) => {
+        
+        const newText = e.target.value;
+        
+        if (newText.length <= 50) {
+            setMSelfIntroduction(newText);
+        } 
+
+        if (newText.length >= 50) {
+            alert('최대 50자까지 입력할 수 있습니다.');
+        }
+
+    };
     
     const signUpClickHandler = () => {
         console.log('signUpClickHandler()');
@@ -46,23 +61,28 @@ const SignUp = () => {
             form.m_name.focus();
         } else if (mMail === '') {
             alert('input new mail');
-            form.m_pw.focus();
+            form.m_mail.focus();
         } else if (mPhone === '') {
             alert('input new phone');
-            form.m_pw.focus();
-        } else if (mSelfIntroduction > 200) {
-            alert('최대 200자 까지입니다');
-            form.value = form.value.substring(0,200);  
-            form.m_pw.focus();
-        } else {
-
+            form.m_phone.focus();
+        } else  {
             ajax_member_sign_up();
-
         }
     }
 
+    
+    
+    // $("#file").on('change',function(){
+    //     var fileName = $("#file").val();
+    //     $(".upload-name").val(fileName);
+    //   });
+
     const ajax_member_sign_up = () => {
         console.log('ajax_member_sign_up()');
+
+        let m_profiles = $('input[name="m_profile_thumbnail"]');
+       
+        let files = m_profiles[0].files;
 
         let formData = new FormData();
         formData.append("m_id", mId);
@@ -71,7 +91,7 @@ const SignUp = () => {
         formData.append("m_mail", mMail);
         formData.append("m_phone", mPhone);
         formData.append("m_self_introduction", mSelfIntroduction);
-        formData.append("m_profile_thumbnail", mProfileThumbnail);
+        formData.append("m_profile_thumbnail", files[0]);
         formData.append("m_gender", mGender);
 
         $.ajax({
@@ -88,8 +108,6 @@ const SignUp = () => {
             success: function(data) {
 
                 console.log('ajax member_join communication success()');
-
-                console.log('data===>', data);
 
                 //data ==> null,1
                 if (data > 0 && data !== null) {
@@ -124,15 +142,23 @@ const SignUp = () => {
                         <input type="text" name="m_name" value={mName} placeholder="이름" onChange={(e) => setMName(e.target.value)}/><br />
                         <input type="email" name="m_mail" value={mMail} placeholder="이메일" onChange={(e) => setMMail(e.target.value)}/><br />
                         <input type="text" name="m_phone" value={mPhone} placeholder="전화번호" onChange={(e) => setMPhone(e.target.value)}/><br />
-                        <textarea name="m_self_introduction" placeholder="자기소개" value={mSelfIntroduction} onChange={(e) => setMSelfIntroduction(e.target.value)}></textarea>
+                        <textarea name="m_self_introduction" placeholder="자기소개" value={mSelfIntroduction} onChange={handleInputChange}></textarea>
                         <div className="select_gender">
+                            성별선택: &nbsp;
                             <div className="select_m"><input type="radio" name="m_gender" value="M" checked={mGender === 'M'} onChange={genderChangeHandler}/> 남자</div>                    
                             <div className="select_f"><input type="radio" name="m_gender" value="F" checked={mGender === 'F'} onChange={genderChangeHandler}/> 여자</div>  
                         </div>
-                        <input type="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/>
+                        
+                        <div class="filebox">
+                        <input class="upload-name" value={mProfileThumbnail} placeholder="첨부파일"/>
+                        <label for="file">파일찾기</label> 
+                        <input type="file" id="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/>
+                        </div>
+
+                        {/* <input type="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/> */}
+
                         <input type="button" value="회원가입" onClick={signUpClickHandler}/><br />
                         <div className="line">또는</div>
-                        <p><a href="#none">google으로 로그인</a><br /></p>
                         <p><a href="#none">비밀번호 찾기</a></p>
                     </form>
                 </div>
