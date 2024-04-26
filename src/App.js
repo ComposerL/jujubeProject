@@ -51,9 +51,9 @@ function App() {
                     <section>
                         <Header/>                 
                         <Routes>{/* views */}
-                            <Route path='/' element={<Home/>}></Route>
+                            <Route path='/home' element={<Home/>}></Route>
                             <Route path='/member/sign_up_form' element={<SignUp/>}></Route>    
-                            <Route path='/member/sign_in_form' element={<SignIn/>}></Route>
+                            <Route path='/' element={<SignIn/>}></Route>
                             <Route path='/member/modify_form' element={<Modify/>}></Route>
                             <Route path='/member/search_member_form' element={<SearchMember/>}></Route>
                             <Route path='/member/message' element={<Message/>}></Route>
