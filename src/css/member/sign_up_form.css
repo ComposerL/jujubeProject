@@ -65,15 +65,22 @@ p {
     
 }
 
+/*textarea start */
 textarea {
     width: 100%;
-    height: 6.25em;
+    height: 4em;
     border: 1px solid #dbdbdb;
     border-radius: 3px;
     resize: none;
     font-size: 14px;
-    
-  }
+}
+
+textarea::placeholder {
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 10px;
+}
+/*textarea end */
 
 .select_gender {
     width: 100%;
@@ -140,4 +147,37 @@ a:hover {
     color: #242424; 
 }
 
+/* 파일 인풋 스타일 변경 */
+.filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 60%;
+    color: #999999;
+}
 
+/* label 스타일 변경 */
+.filebox label {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    height: 20px;
+    margin-left: 10px;
+}
+
+/* 기존 디자인 없애기 */
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
