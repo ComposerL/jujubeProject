@@ -22,8 +22,8 @@ const Nav = () => {
             <ul className='nav_menu'>
                 <NavLi command="/" img_src="/imgs/nav_home_icon.png" text="HOME"/>
                 <NavLi command="/member/search_member_form" img_src="/imgs/nav_search_icon.png" text="SEARCH"/>
-                <NavLi command="/" img_src="/imgs/nav_messege_icon.png" text="MESSAGE"/>
-                <NavLi command="/" img_src="/imgs/nav_create_icon.png" text="CREATE"/>
+                <NavLi command="/member/message" img_src="/imgs/nav_messege_icon.png" text="MESSAGE"/>
+                <NavLi command="/story/create_story" img_src="/imgs/nav_create_icon.png" text="CREATE"/>
                 <NavLi command="/member/my_home" img_src="/imgs/nav_my_icon.png" text="PROFILE"/>
             </ul>
             <div className="nav_detail_menu" onMouseEnter={navModalMouseEnterHandler} onMouseLeave={navModalMouseLeaveHandler}>
