@@ -1,10 +1,10 @@
 body {
-  background: center 5px no-repeat url(/public/imgs/bg.png)
+  background: center 25px no-repeat url(/public/imgs/bg.png)
 }
 div.App {
   width: 952px;
   margin:0 auto;
-  margin-top: 48px;
+  margin-top: 68px;
   display: flex;
 }
 
