@@ -49,7 +49,6 @@ function App() {
                         <Route path='/member/modify_form' element={<Modify/>}></Route>
                         <Route path='/*' element={<Error/>}></Route>
                     </Routes>
-
                     <Footer/>
                 </BrowserRouter>
             </Provider>
