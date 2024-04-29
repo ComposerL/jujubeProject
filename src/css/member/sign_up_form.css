@@ -8,7 +8,7 @@
     padding-right: 311px;
 }
 
-.sign_up_box {
+#sign_up_container.sign_up_box {
     width: 350px;
     padding: 20px;
     margin-bottom: 20px;
@@ -18,7 +18,7 @@
     /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
 }
 
-.sign_in_box {
+#sign_up_container.sign_in_box {
     width: 350px;
     padding: 20px;
     background-color: #fff;
@@ -27,7 +27,7 @@
     /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
 }
 
-.logo_image {
+#sign_up_container.logo_image {
     width: 150px; /* 로고 이미지 너비 조절 */
     height: 200px; /* 로고 이미지 높이 조절 */
     background-size: cover; /* 이미지를 적절한 크기로 자동 조절 */
@@ -35,10 +35,7 @@
     margin: 0 auto; /* 가운데 정렬 */
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="button"] {
+.sign_up_box.input {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -48,7 +45,7 @@ input[type="button"] {
     font-size: 14px;
 }
 
-input[type="button"] {
+.sign_up_box.input[type="button"] {
     background-color: #3897f0;
     color: #fff;
     font-weight: bold;
@@ -56,11 +53,11 @@ input[type="button"] {
     border-radius: 10px;
 }
 
-input[type="button"]:hover {
+.sign_up_box.input[type="button"]:hover {
     background-color: #357ae8;
 }
 
-p {
+#sign_up_container.p {
     text-align: center;
     font-size: 14px;
     margin: 10px 0;
@@ -68,7 +65,7 @@ p {
 }
 
 /*textarea start */
-textarea {
+#sign_up_container.textarea {
     width: 100%;
     height: 4em;
     border: 1px solid #dbdbdb;
@@ -77,14 +74,14 @@ textarea {
     font-size: 14px;
 }
 
-textarea::placeholder {
+#sign_up_container.textarea::placeholder {
     margin-top: 10px;
     margin-left: 10px;
     padding: 10px;
 }
 /*textarea end */
 
-.select_gender {
+#sign_up_container.select_gender {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -93,18 +90,18 @@ textarea::placeholder {
     font-size: 14px;
 }
 
-.select_gender {
+#sign_up_container.select_gender {
     display: flex;
 }
 
 
-.select_m , .select_f {
+#sign_up_container.select_m , .select_f {
     margin-right: 10px;
     
 }
 
 /* 구분선 */
-.line {
+#sign_up_container.line {
 	display:flex;
 	flex-basis:100%;
 	align-items:center;
@@ -113,7 +110,7 @@ textarea::placeholder {
 	margin:8px 0px;
     font-weight: bolder;
 }
-.line:before{
+#sign_up_container.line:before{
 	content:"";
 	flex-grow:1;
 	margin:0px 16px;
@@ -122,7 +119,7 @@ textarea::placeholder {
 	font-size:0px;
 	line-height: 0px;
 }
-.line:after {
+#sign_up_container.line:after {
 	content:"";
 	flex-grow:1;
 	margin:0px 16px;
@@ -132,13 +129,13 @@ textarea::placeholder {
 	line-height: 0px;
 }
 
-a {
+#sign_up_container.a {
     color: #242424;
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
+#sign_up_container.a:hover {
+    text-decoration: none;
 }
 
 #sign_up_btn {
@@ -175,7 +172,7 @@ a:hover {
 }
 
 /* 기존 디자인 없애기 */
-.filebox input[type="file"] {
+#sign_up_container.filebox input[type="file"] {
     position: absolute;
     width: 0;
     height: 0;
@@ -184,7 +181,7 @@ a:hover {
     border: 0;
 }
 
-.scrollable-div {
+#sign_up_container.scrollable-div {
     width: 300px; /* 원하는 너비 설정 */
     height: 200px; /* 원하는 높이 설정 */
     overflow: auto; /* 내용이 넘칠 때만 스크롤바 표시 */

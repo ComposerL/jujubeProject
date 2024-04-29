@@ -80,11 +80,12 @@ const SignIn = () => {
         formData.append("m_id", mId);
         formData.append("m_pw", mPw);
 
-        console.log('formData', formData);
-
+        console.log('mId', mId);
+        console.log('mPw', mPw);
+        
         $.ajax({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
-            method: 'post',
+            type: 'post',
             processData: false,
             contentType: false,
             dataType: 'json',
@@ -97,7 +98,7 @@ const SignIn = () => {
                 console.log('ajax member_join communication success()');
 
                 //data ==> null,1
-                if (data > 0 && data !== null) {
+                if (data !== null) {
                     alert('member signIn process success!!');
                     
                 } else {
@@ -109,11 +110,12 @@ const SignIn = () => {
             }, 
             error: function(data) {
                 console.log('ajax member_join communication error()');
-
+                console.log('data', data);
             },
             complete: function(data) {
                 console.log('ajax member_join communication copmlete()');
             
+                
             }
         });
     }
@@ -123,7 +125,7 @@ const SignIn = () => {
             <div className="sign_in_box">
                 <div className="logo_image">
                 </div>
-                    <form action="member/sign_in_confirm" method="post" name="sign_in_form">
+                    <form>
                         <input type="text" name="m_id" value={mId} placeholder="아이디" onChange={(e) => setMId(e.target.value)}/><br />
                         <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e) => setMPw(e.target.value)}/><br />
                         <input type="button" value="로그인" onClick={signInClickHandler}/><br />

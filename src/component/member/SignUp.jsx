@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // import axios from 'axios';
 
 import '../../css/member/sign_up_form.css';
+
 import '../../css/common.css'
 
 
@@ -149,33 +150,34 @@ const SignUp = () => {
             <div className="sign_up_box">
                 <div className="logo_image">
                 </div>
-                    <form action="member/sign_up_confirm" method="post" name="sign_up_form" encType="multipart/form-data">
-                        <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" onChange={(e) => setMId(e.target.value)}/><br />
-                        <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e)=> setMPw(e.target.value)}/><br />
-                        <input type="text" name="m_name" value={mName} placeholder="이름" onChange={(e) => setMName(e.target.value)}/><br />
-                        <input type="email" name="m_mail" value={mMail} placeholder="이메일" onChange={(e) => setMMail(e.target.value)}/><br />
-                        <input type="text" name="m_phone" value={mPhone} placeholder="전화번호" onChange={(e) => setMPhone(e.target.value)}/><br />
-                        <textarea name="m_self_introduction" placeholder="자기소개" value={mSelfIntroduction} onChange={handleInputChange}></textarea>
-                        <div className="select_gender">
-                            성별선택: &nbsp;
-                            <div className="select_m"><input type="radio" name="m_gender" value="M" checked={mGender === 'M'} onChange={genderChangeHandler}/> 남자</div>                    
-                            <div className="select_f"><input type="radio" name="m_gender" value="F" checked={mGender === 'F'} onChange={genderChangeHandler}/> 여자</div>  
-                        </div>
-                        
-                        <div className="filebox">
-                        <input className="upload-name" placeholder="첨부파일"/>
-                        <label htmlFor="file">파일찾기</label> 
-                        <input type="file" id="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/>
-                        <img id="preview" src="#" alt="" style={{ maxWidth: '50%', maxHeight: '50px' }} />
-                        </div>
+                <form action="member/sign_up_confirm" method="post" name="sign_up_form" encType="multipart/form-data">
+                    <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" onChange={(e) => setMId(e.target.value)}/><br />
+                    <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e)=> setMPw(e.target.value)}/><br />
+                    <input type="text" name="m_name" value={mName} placeholder="이름" onChange={(e) => setMName(e.target.value)}/><br />
+                    <input type="email" name="m_mail" value={mMail} placeholder="이메일" onChange={(e) => setMMail(e.target.value)}/><br />
+                    <input type="text" name="m_phone" value={mPhone} placeholder="전화번호" onChange={(e) => setMPhone(e.target.value)}/><br />
+                    <textarea name="m_self_introduction" placeholder="자기소개" value={mSelfIntroduction} onChange={handleInputChange}></textarea>
+                    <div className="select_gender">
+                        성별선택: &nbsp;
+                        <div className="select_m"><input type="radio" name="m_gender" value="M" checked={mGender === 'M'} onChange={genderChangeHandler}/> 남자</div>                    
+                        <div className="select_f"><input type="radio" name="m_gender" value="F" checked={mGender === 'F'} onChange={genderChangeHandler}/> 여자</div>  
+                    </div>
+                    
+                    <div className="filebox">
+                    <input className="upload-name" placeholder="첨부파일"/>
+                    <label htmlFor="file">파일찾기</label> 
+                    <input type="file" id="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/>
+                    <img id="preview" src="#" alt="" style={{ maxWidth: '50%', maxHeight: '50px' }} />
+                    </div>
 
-                        {/* <input type="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/> */}
+                    {/* <input type="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/> */}
 
-                        <input type="button" value="회원가입" onClick={signUpClickHandler}/><br />
-                        <div className="line">또는</div>
-                        <p><a href="#none">비밀번호 찾기</a></p>
-                    </form>
-                </div>
+                    <input type="button" value="회원가입" onClick={signUpClickHandler}/><br />
+                    <div className="line">또는</div>
+                    <p><a href="#none">비밀번호 찾기</a></p>
+                </form>
+            </div>
+
             <div className="sign_in_box">
                 <div className="sign_up_btn">
                     <p><Link to="/">로그인 하기</Link></p>
