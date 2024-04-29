@@ -4,7 +4,7 @@ import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signInSuccess } from '../../App';
 
 
@@ -12,7 +12,7 @@ import '../../css/member/sign_in_form.css';
 
 
 const SignIn = ({setIslogin, setMemberId}) => {
-
+    
     //hook
     const [mId, setMId] = useState('');
     const [mPw, setMPw] = useState('');
@@ -36,7 +36,6 @@ const SignIn = ({setIslogin, setMemberId}) => {
 
         } else {
 
-            dispatch(signInSuccess(sessionID));  
             ajax_sign_in();
         }
     }
@@ -105,21 +104,26 @@ const SignIn = ({setIslogin, setMemberId}) => {
                 //data ==> null,1
                 if (data > 0 && data !== null) {
                     alert('member signIn process success!!');
-                    sessionStorage.setItem('sessoionID', data.sessionID);
-                    setIslogin(true);
-                    setMemberId(data.mId);   
-                    navigate('/home');
+
+                    dispatch({
+                        type: "sign_in_success",
+                        sessionID:data.sessionID,
+                    });   
 
                 } else {
                     alert('member signIn process fail!!');
-                    setIslogin(false);
+                    dispatch({
+                        type: "sign_in_fail",
+                        sessionID: "",
+                    }); 
+                    
                     setMId(''); setMPw('');
                 }
 
             }, 
             error: function(data) {
                 console.log('ajax member_join communication error()');
-
+                
             },
             complete: function(data) {
                 console.log('ajax member_join communication copmlete()');
