@@ -41,7 +41,7 @@ const SignIn = ({setIslogin, setMemberId}) => {
         }
     }
 
-    //google 로그인
+    //google 로그인 시작
     const handleGoogleLoginSuccess = (credentialResponse) => {
         // 토큰 jwt로 decoded
         const token = credentialResponse?.credential; // 로그인 성공 시 받은 토큰
@@ -65,11 +65,11 @@ const SignIn = ({setIslogin, setMemberId}) => {
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             success: function(response) {
-                
+                alert('google signIn process success');
                 console.log('Authentication successful!', response);
             },
             error: function(status, error) {
-            
+                alert('google signIn process fail!!');
                 console.log('Authentication failed', status, error);
             },
             complete: function(data) {
