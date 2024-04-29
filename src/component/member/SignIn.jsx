@@ -64,9 +64,9 @@ const SignIn = ({setIslogin, setMemberId}) => {
             data: JSON.stringify({ idToken: token }),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
-            success: function(response) {
+            success: function(data) {
                 alert('google signIn process success');
-                console.log('Authentication successful!', response);
+                console.log('Authentication successful!', data);
             },
             error: function(status, error) {
                 alert('google signIn process fail!!');
@@ -138,8 +138,6 @@ const SignIn = ({setIslogin, setMemberId}) => {
                         <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e) => setMPw(e.target.value)}/><br />
                         <input type="button" value="로그인" onClick={signInClickHandler}/><br />
                         <div className="line">또는</div>
-                        <p><a href="#none">google으로 로그인</a></p><br />
-
                         <GoogleLogin
                         onSuccess={handleGoogleLoginSuccess}
                         onError={handleGoogleLoginError}

@@ -76,9 +76,8 @@ function App() {
                     </>
                     :
                     <Routes>{/* views */}
-                        <Route path='/' element={<SignIn/>}>
-                            <Route path='/member/sign_up_form' element={<SignUp/>}></Route>
-                        </Route>                       
+                        <Route path='/' element={<SignIn/>}></Route>                       
+                        <Route path='/member/sign_up_form' element={<SignUp/>}></Route>
                     </Routes>
                 }                
                 </Provider>
