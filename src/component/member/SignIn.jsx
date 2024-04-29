@@ -25,7 +25,7 @@ const SignIn = ({setIslogin, setMemberId}) => {
             form.m_id.focus();
         
         } else if (mPw === '') {
-            alert('아이디를 입력해주세요');
+            alert('비밀번호를 입력해주세요');
             form.m_pw.focus();
         } else {
 
