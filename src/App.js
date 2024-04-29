@@ -41,7 +41,7 @@ function App() {
     const store = createStore(reducer);  
     
     //hooks
-    const [isLogin,setIsLogin] = useState(true);
+    const [isLogin,setIsLogin] = useState(false);
 
 	return (
 		<div className="App">
