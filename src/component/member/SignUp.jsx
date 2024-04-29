@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
-import { setSession } from "./action/session_action";
+// import { setSession } from "./action/session_action";
 // import axios from 'axios';
 
 import '../../css/member/sign_up_form.css';

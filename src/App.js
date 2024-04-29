@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { legacy_createStore as createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -15,7 +15,6 @@ import SignIn from './component/member/SignIn';
 import Modify from './component/member/Modify';
 import Error from './component/Error';
 import Nav from './include/Nav';
-
 
 
 //reducer setting
@@ -39,33 +38,48 @@ const reducer = (currentState = initial_state , action) => {
 function App() {
 
 	//store
-    const store = createStore(reducer);
+    const store = createStore(reducer);  
+    
+    //hooks
+    const [isLogin,setIsLogin] = useState(true);
 
 	return (
 		<div className="App">
-			<Provider store={store}>
-                <BrowserRouter>
+            <BrowserRouter>
+                <Provider store={store}>                
+                {
+                    isLogin
+                    ?
+                    <>                    
                     <nav>
                         <Nav/>
                     </nav>                    
                     <section>
                         <Header/>                 
-                        <Routes>{/* views */}
-                            <Route path='/home' element={<Home/>}></Route>
-                            <Route path='/member/sign_up_form' element={<SignUp/>}></Route>    
-                            <Route path='/' element={<SignIn/>}></Route>
-                            <Route path='/member/modify_form' element={<Modify/>}></Route>
-                            <Route path='/member/search_member_form' element={<SearchMember/>}></Route>
-                            <Route path='/member/message' element={<Message/>}></Route>
-                            <Route path='/story/create_story' element={<CreateStory/>}></Route>
-                            <Route path='/member/my_home' element={<MyHome/>}></Route>
-                            <Route path='/*' element={<Error/>}></Route>
-                        </Routes>
-                    </section>
-                </BrowserRouter>
-            </Provider>
+                            <Routes>{/* views */}
+                                <Route path='/home' element={<Home/>}></Route>
+                                <Route path='/member/modify_form' element={<Modify/>}></Route>
+                                <Route path='/member/search_member_form' element={<SearchMember/>}></Route>
+                                <Route path='/member/message' element={<Message/>}></Route>
+                                <Route path='/story/create_story' element={<CreateStory/>}></Route>
+                                <Route path='/member/my_home' element={<MyHome/>}></Route>
+                                <Route path='/*' element={<Error/>}></Route>
+                            </Routes>
+                    </section>            
+                    </>
+                    :
+                    <Routes>{/* views */}
+                        <Route path='/' element={<SignIn/>}></Route>
+                        <Route path='/member/sign_up_form' element={<SignUp/>}></Route>
+                    </Routes>
+                }                
+                </Provider>
+            </BrowserRouter>
+
+			
 		</div>
 	);
 }
 
 export default App;
+
