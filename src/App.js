@@ -16,20 +16,19 @@ import Modify from './component/member/Modify';
 import Error from './component/Error';
 import Nav from './include/Nav';
 
-<<<<<<< HEAD
-=======
+
 //action
 export const signInSuccess = (sessionID) => ({
     type: 'sign_in_success',
     sessionID
 });
->>>>>>> 60a90f2cd8b787584cca36fbfeec386e913d7a97
 
 //reducer setting
 const initial_state = { //state 초기값
     isLogin: false,
     sessionID: '',
 }
+
 const reducer = (currentState = initial_state , action) => {
     console.log("Home reducer()");
 
@@ -77,8 +76,9 @@ function App() {
                     </>
                     :
                     <Routes>{/* views */}
-                        <Route path='/' element={<SignIn/>}></Route>
-                        <Route path='/member/sign_up_form' element={<SignUp/>}></Route>
+                        <Route path='/' element={<SignIn/>}>
+                            <Route path='/member/sign_up_form' element={<SignUp/>}></Route>
+                        </Route>                       
                     </Routes>
                 }                
                 </Provider>

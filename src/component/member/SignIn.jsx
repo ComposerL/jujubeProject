@@ -65,7 +65,6 @@ const SignIn = ({setIslogin, setMemberId}) => {
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             success: function(response) {
-                
                 console.log('Authentication successful!', response);
             },
             error: function(status, error) {
