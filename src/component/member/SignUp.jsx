@@ -163,14 +163,11 @@ const SignUp = () => {
                         </div>
                         
                         <div className="filebox">
-                        <input className="upload-name" placeholder="첨부파일"/>
-                        <label htmlFor="file">파일찾기</label> 
+                        <input className="upload-name" value={mProfileThumbnail} placeholder="첨부파일"/>
+                        <label htmlFor="file">파일찾기</label>
                         <input type="file" id="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/>
-                        <img id="preview" src="#" alt="미리보기" style={{ maxWidth: '50%', maxHeight: '50px' }} />
+                        {/* <img id="preview" src="#" alt=""/> */}
                         </div>
-
-                        {/* <input type="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/> */}
-
                         <input type="button" value="회원가입" onClick={signUpClickHandler}/><br />
                         <div className="line">또는</div>
                         <p><a href="#none">비밀번호 찾기</a></p>

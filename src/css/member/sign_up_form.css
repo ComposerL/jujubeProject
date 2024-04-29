@@ -190,3 +190,9 @@ a:hover {
     overflow: auto; /* 내용이 넘칠 때만 스크롤바 표시 */
     /* 또는 overflow: scroll; 로 설정하면 항상 스크롤바가 표시됩니다. */
 }
+
+#preview {
+    max-width: 100%;
+    max-height: 100px;
+    border-radius: 50%;
+}
