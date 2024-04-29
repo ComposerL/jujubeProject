@@ -6,13 +6,6 @@ import './css/common.css';
 import './App.css';
 import Wrap from './component/Wrap';
 
-//action
-
-export const signInSuccess = (sessionID) => ({
-    type: 'sign_in_success',
-    sessionID
-});
-
 //reducer setting
 const initial_state = { //state 초기값
     isLogin: false,

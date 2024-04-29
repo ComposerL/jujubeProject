@@ -1,26 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
-import { useDispatch, useSelector } from 'react-redux';
-import { signInSuccess } from '../../App';
-
 
 import '../../css/member/sign_in_form.css';
 
-
-const SignIn = ({setIslogin, setMemberId}) => {
+const SignIn = () => {
     
     //hook
     const [mId, setMId] = useState('');
     const [mPw, setMPw] = useState('');
-    
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
 
-    const signInClickHandler = (sessionID) => {
+    const signInClickHandler = () => {
 
         console.log("signInClickHandler()");
 
@@ -48,8 +40,7 @@ const SignIn = ({setIslogin, setMemberId}) => {
         console.log(decoded); // 디코딩된 정보 콘솔에 출력
         
         ajax_google_sign_in(token);
-     
-        navigate('/home');
+        
     };
 
     const handleGoogleLoginError = () => {
@@ -59,17 +50,19 @@ const SignIn = ({setIslogin, setMemberId}) => {
     const ajax_google_sign_in = (token) => {
         $.ajax({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
-            type: 'POST',
+            type: 'post',
             data: JSON.stringify({ idToken: token }),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             success: function(data) {
                 alert('google signIn process success');
                 console.log('Authentication successful!', data);
+
             },
             error: function(status, error) {
                 alert('google signIn process fail!!');
                 console.log('Authentication failed', status, error);
+
             },
             complete: function(data) {
                 console.log('ajax member_join communication copmlete()');
@@ -86,6 +79,8 @@ const SignIn = ({setIslogin, setMemberId}) => {
         let formData = new FormData();
         formData.append("m_id", mId);
         formData.append("m_pw", mPw);
+
+        console.log('formData', formData);
 
         $.ajax({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
@@ -104,18 +99,9 @@ const SignIn = ({setIslogin, setMemberId}) => {
                 //data ==> null,1
                 if (data > 0 && data !== null) {
                     alert('member signIn process success!!');
-
-                    dispatch({
-                        type: "sign_in_success",
-                        sessionID:data.sessionID,
-                    });   
-
+                    
                 } else {
                     alert('member signIn process fail!!');
-                    dispatch({
-                        type: "sign_in_fail",
-                        sessionID: "",
-                    }); 
                     
                     setMId(''); setMPw('');
                 }
@@ -123,7 +109,7 @@ const SignIn = ({setIslogin, setMemberId}) => {
             }, 
             error: function(data) {
                 console.log('ajax member_join communication error()');
-                
+
             },
             complete: function(data) {
                 console.log('ajax member_join communication copmlete()');
