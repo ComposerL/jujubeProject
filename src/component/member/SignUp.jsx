@@ -166,7 +166,7 @@ const SignUp = () => {
                         <input className="upload-name" placeholder="첨부파일"/>
                         <label htmlFor="file">파일찾기</label> 
                         <input type="file" id="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/>
-                        <img id="preview" src="#" alt="미리보기" style={{ maxWidth: '50%', maxHeight: '50px' }} />
+                        <img id="preview" src="#" alt="" style={{ maxWidth: '50%', maxHeight: '50px' }} />
                         </div>
 
                         {/* <input type="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/> */}
