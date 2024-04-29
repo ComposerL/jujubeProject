@@ -83,7 +83,6 @@ function App() {
                 }                
                 </Provider>
             </BrowserRouter>
-
 			
 		</div>
 	);
