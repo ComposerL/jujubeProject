@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from 'react-redux';
+import { signInSuccess } from '../../App';
+
 
 import '../../css/member/sign_in_form.css';
-
 
 
 const SignIn = ({setIslogin, setMemberId}) => {
@@ -14,8 +18,10 @@ const SignIn = ({setIslogin, setMemberId}) => {
     const [mPw, setMPw] = useState('');
     
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const signInClickHandler = () => {
+    const signInClickHandler = (sessionID) => {
+
         console.log("signInClickHandler()");
 
         let form = document.sign_in_form;
@@ -27,10 +33,52 @@ const SignIn = ({setIslogin, setMemberId}) => {
         } else if (mPw === '') {
             alert('비밀번호를 입력해주세요');
             form.m_pw.focus();
+
         } else {
 
+            dispatch(signInSuccess(sessionID));  
             ajax_sign_in();
         }
+    }
+
+    //google 로그인
+    const handleGoogleLoginSuccess = (credentialResponse) => {
+        // 토큰 jwt로 decoded
+        const token = credentialResponse?.credential; // 로그인 성공 시 받은 토큰
+        const decoded = jwtDecode(token); // 받은 토큰을 디코딩하여 사용자 정보 추출
+        console.log(decoded); // 디코딩된 정보 콘솔에 출력
+        
+        ajax_google_sign_in(token);
+     
+        navigate('/home');
+    };
+
+    const handleGoogleLoginError = () => {
+        console.log('Login Failed');
+    };
+
+    const ajax_google_sign_in = (token) => {
+        $.ajax({
+            url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
+            type: 'POST',
+            data: JSON.stringify({ idToken: token }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(response) {
+                
+                console.log('Authentication successful!', response);
+            },
+            error: function(status, error) {
+            
+                console.log('Authentication failed', status, error);
+            },
+            complete: function(data) {
+                console.log('ajax member_join communication copmlete()');
+            
+                console.log('token: ', token);
+            }
+        });
+        
     }
 
     const ajax_sign_in = () => {
@@ -91,6 +139,11 @@ const SignIn = ({setIslogin, setMemberId}) => {
                         <input type="button" value="로그인" onClick={signInClickHandler}/><br />
                         <div className="line">또는</div>
                         <p><a href="#none">google으로 로그인</a></p><br />
+
+                        <GoogleLogin
+                        onSuccess={handleGoogleLoginSuccess}
+                        onError={handleGoogleLoginError}
+                        />
                         <p><a href="#none">비밀번호 찾기</a></p>
                     </form>
                 </div>

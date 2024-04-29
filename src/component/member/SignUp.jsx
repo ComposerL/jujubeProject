@@ -156,7 +156,7 @@ const SignUp = () => {
                 </div>
             <div className="sign_in_box">
                 <div className="sign_up_btn">
-                    <p><Link to="/member/sign_in_form">로그인 하기</Link></p>
+                    <p><Link to="/">로그인 하기</Link></p>
                 </div>
             </div>
         </div>
