@@ -6,8 +6,8 @@ import './css/common.css';
 import './App.css';
 import Wrap from './component/Wrap';
 
-
 //action
+
 export const signInSuccess = (sessionID) => ({
     type: 'sign_in_success',
     sessionID
@@ -15,7 +15,7 @@ export const signInSuccess = (sessionID) => ({
 
 //reducer setting
 const initial_state = { //state 초기값
-    isLogin: true,
+    isLogin: false,
     sessionID: '',
 }
 
@@ -43,8 +43,7 @@ function App() {
                 <BrowserRouter>
                     <Wrap/>  
                 </BrowserRouter>
-            </Provider>
-			
+            </Provider>			
 		</div>
 	);
 }
