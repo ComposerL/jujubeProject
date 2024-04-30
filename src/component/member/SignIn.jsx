@@ -1,25 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
-import { useDispatch } from 'react-redux';
-
+import axios from 'axios'; 
 
 import '../../css/member/sign_in_form.css';
+import '../../css/common.css'
 
-
-const SignIn = ({setIslogin, setMemberId}) => {
-
+const SignIn = () => {
+    
     //hook
     const [mId, setMId] = useState('');
     const [mPw, setMPw] = useState('');
-    
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
 
-    const signInClickHandler = (sessionID) => {
+    const signInClickHandler = () => {
 
         console.log("signInClickHandler()");
 
@@ -35,8 +30,7 @@ const SignIn = ({setIslogin, setMemberId}) => {
 
         } else {
 
-             
-            ajax_sign_in();
+            axios_member_login();
         }
     }
 
@@ -48,8 +42,7 @@ const SignIn = ({setIslogin, setMemberId}) => {
         console.log(decoded); // 디코딩된 정보 콘솔에 출력
         
         ajax_google_sign_in(token);
-     
-        navigate('/home');
+        
     };
 
     const handleGoogleLoginError = () => {
@@ -59,17 +52,19 @@ const SignIn = ({setIslogin, setMemberId}) => {
     const ajax_google_sign_in = (token) => {
         $.ajax({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
-            type: 'POST',
+            type: 'post',
             data: JSON.stringify({ idToken: token }),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             success: function(data) {
                 alert('google signIn process success');
                 console.log('Authentication successful!', data);
+
             },
             error: function(status, error) {
                 alert('google signIn process fail!!');
                 console.log('Authentication failed', status, error);
+
             },
             complete: function(data) {
                 console.log('ajax member_join communication copmlete()');
@@ -78,53 +73,45 @@ const SignIn = ({setIslogin, setMemberId}) => {
             }
         });
         
-    }
+    }   
 
-    const ajax_sign_in = () => {
-        console.log('ajax_sign_in()');
+    const axios_member_login = () => {
+        console.log('axios_member_login()');
 
-        let formData = new FormData();
-        formData.append("m_id", mId);
-        formData.append("m_pw", mPw);
-        
-        $.ajax({
+        axios({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
-            type: 'post',
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            xhrFields: { 
-                withCredentials: true
-            },
-            data: formData,
-            success: function(data) {
-
-                console.log('ajax member_join communication success()');
-
-                //data ==> null,1
-                if (data > 0 && data !== null) {
-                    alert('member signIn process success!!');
-                    sessionStorage.setItem('sessoionID', data.sessionID);
-                    setIslogin(true);
-                    setMemberId(data.mId);   
-                    navigate('/home');
-
-                } else {
-                    alert('member signIn process fail!!');
-                    setIslogin(false);
-                    setMId(''); setMPw('');
-                }
-
-            }, 
-            error: function(data) {
-                console.log('ajax member_join communication error()');
-
-            },
-            complete: function(data) {
-                console.log('ajax member_join communication copmlete()');
-            
+            method: 'get',
+            params: {
+                'm_id': mId,
+                'm_pw': mPw,
             }
+            
+        })
+        .then(response => {
+            console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
+            console.log('data ---> ', response.data);
+
+            if (response.data !== null) {
+                alert('MEMBER LOGIN PROCESS SUCCESS!!');
+                
+               
+
+            } else {
+                alert('MEMBER LOGIN PROCESS FAIL!!');
+               
+
+            }
+
+        })
+        .catch(error => {
+            console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR', error);
+            
+        })
+        .finally(data => {
+            console.log('AXIOS MEMBER_LOGIN COMMUNICATION COMPLETE',);
+
         });
+
     }
 
     return (
@@ -136,7 +123,7 @@ const SignIn = ({setIslogin, setMemberId}) => {
                         <input type="text" name="m_id" value={mId} placeholder="아이디" onChange={(e) => setMId(e.target.value)}/><br />
                         <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e) => setMPw(e.target.value)}/><br />
                         <input type="button" value="로그인" onClick={signInClickHandler}/><br />
-                        <div className="line">또는</div>
+                        <div className="or_line">또는</div>
                         <GoogleLogin
                         onSuccess={handleGoogleLoginSuccess}
                         onError={handleGoogleLoginError}

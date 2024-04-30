@@ -29,22 +29,22 @@ const SignUp = () => {
     };
 
     //프로필 
-    const ProfileThumbnailChagneHandler = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
+    // const ProfileThumbnailChagneHandler = (e) => {
+    //     const file = e.target.files[0];
+    //     const reader = new FileReader();
 
-        reader.onload = (event) => {
+    //     reader.onload = (event) => {
 
-            // 파일의 데이터 URL 가져오기
-            const previewUrl = event.target.result;
+    //         // 파일의 데이터 URL 가져오기
+    //         const previewUrl = event.target.result;
 
-            // 이미지를 보여줄 img 요소를 선택하여 소스를 설정
-            document.getElementById('preview').src = previewUrl;
-        };
+    //         // 이미지를 보여줄 img 요소를 선택하여 소스를 설정
+    //         document.getElementById('preview').src = previewUrl;
+    //     };
     
-        // 파일을 읽어옴
-        reader.readAsDataURL(file);
-    }
+    //     // 파일을 읽어옴
+    //     reader.readAsDataURL(file);
+    // }
     
 
     // 자기소개 입력수 제한
@@ -104,12 +104,14 @@ const SignUp = () => {
         formData.append("m_profile_thumbnail", files[0]);
         formData.append("m_gender", mGender);
 
+        console.log('files', files[0]);
+
         $.ajax({
             url: `${process.env.REACT_APP_HOST}/member/sign_up_confirm`,
             method: 'post',
-            enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
+            enctype: 'multipart/form-data',
             dataType: 'json',
             xhrFields: { 
                 withCredentials: true   
@@ -118,7 +120,7 @@ const SignUp = () => {
             success: function(data) {
 
                 console.log('ajax member_join communication success()');
-
+                console.log('data===>', data);
                 //data ==> null,1
                 if (data > 0 && data !== null) {
                     alert('member join process success!!');
@@ -128,24 +130,24 @@ const SignUp = () => {
                     alert('member join process fail!!');
                     setMId(''); setMPw(''); setMMail(''); setMPhone(''); setMName(''); setMSelfIntroduction(''); setMProfileThumbnail(''); 
                 }
-
             }, 
             error: function(data) {
                 console.log('ajax member_join communication error()');
-
+                console.log('data', data);
             },
             complete: function(data) {
                 console.log('ajax member_join communication copmlete()');
 
+            
+               
             }
         });
     }
     
     return (
         <div id="sign_up_container">            
+
             <div className="sign_up_box">
-                <div className="logo_image">
-                </div>
                     <form action="member/sign_up_confirm" method="post" name="sign_up_form" encType="multipart/form-data">
                         <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" onChange={(e) => setMId(e.target.value)}/><br />
                         <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e)=> setMPw(e.target.value)}/><br />
@@ -159,27 +161,27 @@ const SignUp = () => {
                             <div className="select_f"><input type="radio" name="m_gender" value="F" checked={mGender === 'F'} onChange={genderChangeHandler}/> 여자</div>  
                         </div>
                         
-                        <div class="filebox">
-                        <input class="upload-name" value={mProfileThumbnail} placeholder="첨부파일"/>
-                        <label for="file">파일찾기</label> 
-                        <input type="file" id="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={ProfileThumbnailChagneHandler}/>
-                        <img id="preview" src="#" alt="미리보기" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+                        <div className="filebox">
+                        <input className="upload-name" value={mProfileThumbnail} placeholder="첨부파일"/>
+                        <label htmlFor="file">파일찾기</label>
+                        <input type="file" id="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/>
+                        <img id="preview" src="#" alt="" style={{ maxWidth: '50%', maxHeight: '50px' }} />
+
                         </div>
-
-                        {/* <input type="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={(e) => setMProfileThumbnail(e.target.value)}/> */}
-
                         <input type="button" value="회원가입" onClick={signUpClickHandler}/><br />
                         <div className="line">또는</div>
                         <p><a href="#none">비밀번호 찾기</a></p>
                     </form>
                 </div>
+
             <div className="sign_in_box">
                 <div className="sign_up_btn">
                     <p><Link to="/">로그인 하기</Link></p>
-                </div>
+                </div>    
             </div>
-        </div>
-    )
+
+    </div>
+    );
 }
 
 export default SignUp;
