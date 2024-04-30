@@ -3,12 +3,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-top: 50px;
+    padding-top: 150px;
     padding-left: 250px;
     padding-right: 311px;
 }
 
-#sign_in_container.sign_in_box {
+#sign_in_container .sign_in_box {
     width: 350px;
     padding: 20px;
     margin-bottom: 20px;
@@ -18,7 +18,7 @@
     /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
 }
 
-#sign_in_container.sign_up_box {
+#sign_in_container .sign_up_box {
     width: 350px;
     padding: 20px;
     background-color: #fff;
@@ -65,7 +65,7 @@
 }
 
 /* 구분선 */
-#sign_in_container .or_line {
+.sign_in_box .or_line {
 	display:flex;
 	flex-basis:100%;
 	align-items:center;
@@ -93,10 +93,14 @@
 	line-height: 0px;
 }
 
-#sign_in_container.sign_up_btn {
+#sign_in_container .sign_up_btn {
     text-align: center;
 }
 
-#sign_in_container.sign_up_btn a {
+#sign_in_container .sign_up_btn a {
     color: #242424; 
+}
+
+.sign_in_box h3 {
+    padding: 20px;
 }
