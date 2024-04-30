@@ -34,7 +34,6 @@ const SignUp = () => {
     const ProfileThumbnailChagneHandler = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
-        setMProfileThumbnail(e.target.value);
         
         reader.onload = (event) => {
             
@@ -45,6 +44,7 @@ const SignUp = () => {
             document.getElementById('preview').src = previewUrl;
         };
         // 파일을 읽어옴
+        setMProfileThumbnail(e.target.value);
         reader.readAsDataURL(file);
     }
     
