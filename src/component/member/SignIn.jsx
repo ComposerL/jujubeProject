@@ -120,7 +120,7 @@ const SignIn = () => {
         })
         .catch(error => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR');
-            console.log('data===>', error.data);
+
         })
         .finally(() => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION COMPLETE');
