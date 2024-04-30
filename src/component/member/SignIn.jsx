@@ -127,10 +127,12 @@ const SignIn = () => {
                         <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e) => setMPw(e.target.value)}/><br />
                         <input type="button" value="로그인" onClick={signInClickHandler}/><br />
                         <div className="or_line">또는</div>
-                        <GoogleLogin
-                        onSuccess={handleGoogleLoginSuccess}
-                        onError={handleGoogleLoginError}
-                        />
+                        <div className="google_login_box">
+                            <GoogleLogin
+                            onSuccess={handleGoogleLoginSuccess}
+                            onError={handleGoogleLoginError}
+                            />
+                        </div>
                         <p><a href="#none">비밀번호 찾기</a></p>
                     </form>
                 </div>
