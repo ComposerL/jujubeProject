@@ -4,6 +4,7 @@ import '../css/nav.css';
 import NavLi from '../component/main_nav/NavLi';
 import $ from 'jquery';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 
 const Nav = () => {
@@ -23,6 +24,7 @@ const Nav = () => {
 
     const signOutBtnClickHandler = () => {
         console.log("signOutBtnClickHandler()");
+        axios_sign_out_confirm();
         dispatch({
             type:'session_out',
             sessionID: '',
@@ -30,6 +32,27 @@ const Nav = () => {
         navigate('/');
     }
 
+    const axios_sign_out_confirm = () => {
+        console.log('axios_sign_out_confirm()');
+        
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/sign_out_confirm`, 
+            method: 'GET',
+        })
+        .then(response => {
+            console.log('AXIOS SIGN OUT COMMUNICATION SUCCESS');
+
+        })
+        .catch(error => {
+            console.log('AXIOS SIGN OUT COMMUNICATION ERROR');
+            
+        })
+        .finally(() => {
+            console.log('AXIOS SIGN OUT COMMUNICATION COMPLETE');
+
+        });
+    }
+    
     return (
         <div id='nav_wrap'>
             <ul className='nav_menu'>
