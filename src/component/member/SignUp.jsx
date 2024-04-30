@@ -15,7 +15,7 @@ const SignUp = () => {
     const [mMail, setMMail] = useState('');
     const [mPhone, setMPhone] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
-    const [mProfileThumbnail, setMProfileThumbnail] = useState('default.jpg');
+    const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [mGender, setGender] = useState('M');
 
     const navigate = useNavigate();
@@ -152,7 +152,7 @@ const SignUp = () => {
             <div className="sign_up_box">
                     <form name="sign_up_form">
                         <h3>회원가입</h3>
-                        <img id="preview" src="/imgs/default.jpg" alt="" onClick={getUploadClickHandler}/>
+                        <img id="preview" src="/imgs/profile_default.png" alt="" onClick={getUploadClickHandler}/>
                         <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" onChange={(e) => setMId(e.target.value)}/><br />
                         <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e)=> setMPw(e.target.value)}/><br />
                         <input type="text" name="m_name" value={mName} placeholder="이름" onChange={(e) => setMName(e.target.value)}/><br />
@@ -166,7 +166,7 @@ const SignUp = () => {
                         </div>
                         
                         <div className="filebox">
-                        <input className="upload-name" value={mProfileThumbnail} placeholder="첨부파일"/>
+                        <input className="upload-name" placeholder="첨부파일"/>
                         <label htmlFor="file">파일찾기</label>
                         <input type="file" id="file" name="m_profile_thumbnail" value={mProfileThumbnail} onChange={ProfileThumbnailChagneHandler}/>
                         </div>
