@@ -7,11 +7,15 @@ import axios from 'axios';
 
 import '../../css/member/sign_in_form.css';
 import '../../css/common.css'
+import { useDispatch } from 'react-redux';
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
 const SignIn = () => {
     
+    //dipatch
+    const dispatch = useDispatch();
+
     //hook
     const [mId, setMId] = useState('');
     const [mPw, setMPw] = useState('');
@@ -90,7 +94,10 @@ const SignIn = () => {
         axios({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`, 
             method: 'post',
-            data: formData,  
+            data: formData,
+            headers: {
+                'Content-Type':'application/json;charset=UTF-8',
+            }
         })
         .then(response => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
@@ -98,8 +105,16 @@ const SignIn = () => {
     
             if (response.data !== null) {
                 alert('회원 로그인 처리 성공!!');
+                dispatch({
+                    type: 'sign_in_success',
+                    sessionID: response.data.sessionID,
+                });
             } else {
                 alert('회원 로그인 처리 실패!!');
+                dispatch({
+                    type: 'session_out',
+                    sessionID: '',
+                });
             }
         })
         .catch(error => {

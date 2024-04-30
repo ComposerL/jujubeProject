@@ -60,15 +60,6 @@ const Modify = () => {
         }
     }
 
-    //리셋버튼
-    // const modifyResetBtnClickHandler = () => {
-    //     pringLog(DEFAULT_COMPONENT_NAME, 'modifyResetBtnClickHandler()')
-        
-    //     setMId(curMId);
-    //     setMMail(curMMail);
-    //     setMPhone(curMPhone);
-    // }
-
     const axios_get_member = () => {
         console.log('axios_get_member()')
 
@@ -104,50 +95,7 @@ const Modify = () => {
         
     }
 
-    // const axios_member_modify = () => {
-    //     pringLog(DEFAULT_COMPONENT_NAME, 'axios_member_modify');
-
-    //     
-    //     let m_profiles = $('input[name="m_profile"]');
-    //     let files = m_profiles[0].files;
-
-    //     let formData = new FormData();
-    //     formData.append('sessionID', sessionStorage.getItem('sessionID'));
-    //     formData.append("m_id", mId);
-    //     formData.append("m_mail", mMail);
-    //     formData.append("m_phone", mPhone);
-    //     if(files.length !== undefined) formData.append("m_profile_img", files[0]);
-
-    //     axios({
-    //         url: 'http://localhost:3001/member/modify_confirm',
-    //         method: 'put',
-    //         data: formData,
-
-    //     })
-    //     .then(response => {
-    //         pringLog(DEFAULT_COMPONENT_NAME, 'ajax_get_member communication success', response.data)   //null
-
-    //         if (response.data === null) {
-    //             alert('modify member modify process fail');
-    //         } else {
-
-    //             if (response.data.result > 0) {
-    //                 alert('modify member modify process success');
-    //                 navigate('/');
-    //             } else {
-    //                 alert('modify member modify process fail');
-
-    //             }
-    //         }
-    //     })
-    //     .catch(error => {
-    //         pringLog(DEFAULT_COMPONENT_NAME, 'ajax_get_member communication error')
-    //     })
-    //     .finally(data => {
-    //         pringLog(DEFAULT_COMPONENT_NAME, 'ajax_get_member communication complete')
-    //     })
-
-    // }
+    
 
     return (
         <div id='modify_container'>
