@@ -8,20 +8,22 @@ import Wrap from './component/Wrap';
 
 //reducer setting
 const initial_state = { //state 초기값
-    isLogin: false,
-    sessionID: '',
+    isLogin: true,
+    cookie: '',
 }
 
 const reducer = (currentState = initial_state , action) => {
     console.log("Home reducer()");
 
     switch(action.type){
+        case 'session_out':
+            return {...currentState, isLogin: false, cookie: action.cookie};
         case 'sign_in_success':
-            return {...currentState, isLogin: true, sessionID: action.sessionID};
+            return {...currentState, isLogin: true, cookie: action.cookie};
         case 'sign_in_fail':
-            return {...currentState, isLogin: false, sessionID: action.sessionID}    
+            return {...currentState, isLogin: false, cookie: action.cookie} 
         case 'sign_out_success':
-            return {...currentState, isLogin: false, sessionID: ''};
+            return {...currentState, isLogin: false, cookie: action.cookie};
         default:
             return currentState;
     }
