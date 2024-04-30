@@ -8,7 +8,7 @@
     padding-right: 311px;
 }
 
-.sign_in_box {
+#sign_in_container.sign_in_box {
     width: 350px;
     padding: 20px;
     margin-bottom: 20px;
@@ -18,7 +18,7 @@
     /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
 }
 
-.sign_up_box {
+#sign_in_container.sign_up_box {
     width: 350px;
     padding: 20px;
     background-color: #fff;
@@ -27,7 +27,7 @@
     /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
 }
 
-.logo_image {
+#sign_in_container.logo_image {
     width: 150px; /* 로고 이미지 너비 조절 */
     height: 150px; /* 로고 이미지 높이 조절 */
     background-size: cover; /* 이미지를 적절한 크기로 자동 조절 */
@@ -35,9 +35,7 @@
     margin: 0 auto; /* 가운데 정렬 */
 }
 
-input[type="text"],
-input[type="password"],
-input[type="button"] {
+#sign_in_container input{
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -47,7 +45,7 @@ input[type="button"] {
     font-size: 14px;
 }
 
-input[type="button"] {
+#sign_in_container input[type="button"] {
     background-color: #3897f0;
     color: #fff;
     font-weight: bold;
@@ -55,11 +53,11 @@ input[type="button"] {
     border-radius: 10px;
 }
 
-input[type="button"]:hover {
+#sign_in_container input[type="button"]:hover {
     background-color: #357ae8;
 }
 
-p {
+#sign_in_container p {
     text-align: center;
     font-size: 14px;
     margin: 10px 0;
@@ -67,7 +65,7 @@ p {
 }
 
 /* 구분선 */
-.line {
+#sign_in_container .or_line {
 	display:flex;
 	flex-basis:100%;
 	align-items:center;
@@ -76,7 +74,7 @@ p {
 	margin:8px 0px;
     font-weight: bolder;
 }
-.line::before{
+#sign_in_container .or_line::before{
 	content:"";
 	flex-grow:1;
 	margin:0px 16px;
@@ -85,7 +83,7 @@ p {
 	font-size:0px;
 	line-height: 0px;
 }
-.line::after {
+#sign_in_container .or_line::after {
 	content:"";
 	flex-grow:1;
 	margin:0px 16px;
@@ -95,19 +93,10 @@ p {
 	line-height: 0px;
 }
 
-a {
-    color: #242424;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-#sign_up_btn {
+#sign_in_container.sign_up_btn {
     text-align: center;
 }
 
-#sign_up_btn a {
+#sign_in_container.sign_up_btn a {
     color: #242424; 
 }

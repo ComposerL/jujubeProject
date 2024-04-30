@@ -146,9 +146,8 @@ const SignUp = () => {
     
     return (
         <div id="sign_up_container">            
+
             <div className="sign_up_box">
-                <div className="logo_image">
-                </div>
                     <form action="member/sign_up_confirm" method="post" name="sign_up_form" encType="multipart/form-data">
                         <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" onChange={(e) => setMId(e.target.value)}/><br />
                         <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e)=> setMPw(e.target.value)}/><br />
@@ -174,17 +173,15 @@ const SignUp = () => {
                         <p><a href="#none">비밀번호 찾기</a></p>
                     </form>
                 </div>
+
             <div className="sign_in_box">
                 <div className="sign_up_btn">
                     <p><Link to="/">로그인 하기</Link></p>
-                </div>
+                </div>    
             </div>
 
-            {/* <div className="scrollable-div">
-    
-            </div> */}
-        </div>
-    )
+    </div>
+    );
 }
 
 export default SignUp;
