@@ -17,6 +17,7 @@
 #search_member_wrap div.logined_view_input_text_wrap input[name="search_member"]{
     width: 260px;
     height: 40px;
+    padding: 0 10px;
     border: 1px solid #dbdbdb;
     border-radius: 3px;
     box-sizing: border-box;
@@ -42,4 +43,40 @@
 #search_member_wrap div.logined_view_input_text_wrap span.search_btn img {
     width: 70%;
     cursor: pointer;
+}
+
+#search_member_wrap div.search_result_wrap {
+    margin-top: 50px;
+    text-align: center;
+    display: none;
+}
+
+#search_member_wrap div.search_result_wrap ul.search_result {
+    width: 300px;
+    margin: auto;
+}
+
+#search_member_wrap div.search_result_wrap ul.search_result li {
+    display: flex;
+    padding: 10px;
+    border-radius: 7px;
+    &:hover {
+        cursor: pointer;
+        background-color: #eee;
+    }
+}
+#search_member_wrap div.search_result_wrap ul.search_result li div.search_result_frofile_thum_wrap {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #ddd;
+}
+#search_member_wrap div.search_result_wrap ul.search_result li div.search_result_frofile_info_wrap {
+    
+    p {
+        text-align: left;
+        padding-left: 10px;
+        height: 25px;
+        line-height: 25px;
+    }
 }
