@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
-// import axios from 'axios';
 
 import '../../css/member/sign_up_form.css';
 import '../../css/common.css'
@@ -124,7 +123,7 @@ const SignUp = () => {
                 //data ==> null,1
                 if (data > 0 && data !== null) {
                     alert('member join process success!!');
-                    navigate('/member/sign_in_form');
+                    navigate('/');
                     
                 } else {
                     alert('member join process fail!!');
@@ -146,9 +145,9 @@ const SignUp = () => {
     
     return (
         <div id="sign_up_container">            
-
+        
             <div className="sign_up_box">
-                    <form action="member/sign_up_confirm" method="post" name="sign_up_form" encType="multipart/form-data">
+                    <form name="sign_up_form">
                         <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" onChange={(e) => setMId(e.target.value)}/><br />
                         <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e)=> setMPw(e.target.value)}/><br />
                         <input type="text" name="m_name" value={mName} placeholder="이름" onChange={(e) => setMName(e.target.value)}/><br />

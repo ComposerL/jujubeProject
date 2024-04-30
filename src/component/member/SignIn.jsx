@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
-import axios from 'axios'; 
+import axios from 'axios';
 
 import '../../css/member/sign_in_form.css';
 import '../../css/common.css'
@@ -77,68 +77,64 @@ const SignIn = () => {
 
     const axios_member_login = () => {
         console.log('axios_member_login()');
-
+        
+        let formData = new FormData();
+        formData.append("m_id", mId);
+        formData.append("m_pw", mPw);
+        
         axios({
-            url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
-            method: 'get',
-            params: {
-                'm_id': mId,
-                'm_pw': mPw,
-            }
-            
+            url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`, 
+            method: 'post',
+            data: formData,  
         })
         .then(response => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
-
+    
             if (response.data !== null) {
-                alert('MEMBER LOGIN PROCESS SUCCESS!!');
-                
-               
-
+                alert('회원 로그인 처리 성공!!');
             } else {
-                alert('MEMBER LOGIN PROCESS FAIL!!');
-               
-
+                alert('회원 로그인 처리 실패!!');
             }
-
         })
         .catch(error => {
-            console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR', error);
+            console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR');
             
         })
-        .finally(data => {
-            console.log('AXIOS MEMBER_LOGIN COMMUNICATION COMPLETE',);
+        .finally(() => {
+            console.log('AXIOS MEMBER_LOGIN COMMUNICATION COMPLETE');
 
         });
-
+    
     }
-
+    
     return (
         <div id="sign_in_container">            
             <div className="sign_in_box">
                 <div className="logo_image">
                 </div>
-                    <form>
-                        <input type="text" name="m_id" value={mId} placeholder="아이디" onChange={(e) => setMId(e.target.value)}/><br />
-                        <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e) => setMPw(e.target.value)}/><br />
-                        <input type="button" value="로그인" onClick={signInClickHandler}/><br />
-                        <div className="or_line">또는</div>
-                        <div className="google_login_box">
-                            <GoogleLogin
-                            onSuccess={handleGoogleLoginSuccess}
-                            onError={handleGoogleLoginError}
-                            />
-                        </div>
-                        <p><a href="#none">비밀번호 찾기</a></p>
-                    </form>
-                </div>
+                <form name='sign_in_form'>
+                    <input type="text" name="m_id" value={mId} placeholder="아이디" onChange={(e) => setMId(e.target.value)}/><br />
+                    <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e) => setMPw(e.target.value)}/><br />
+                    <input type="button" value="로그인" onClick={signInClickHandler}/><br />
+                    <div className="or_line">또는</div>
+                        
+                        <GoogleLogin
+                        width={350}
+                        onSuccess={handleGoogleLoginSuccess}
+                        onError={handleGoogleLoginError}
+                        />
+                        
+                    <p><a href="#none">비밀번호 찾기</a></p>
+                </form>
+            </div>
             <div className="sign_up_box">
                 <div className="sign_up_btn">
                     <p><Link to="/member/sign_up_form">가입하기</Link></p>
                 </div>
             </div>
         </div>
+        
     );
 }
 

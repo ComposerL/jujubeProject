@@ -8,7 +8,7 @@ import Wrap from './component/Wrap';
 
 //reducer setting
 const initial_state = { //state 초기값
-    isLogin: true,
+    isLogin: false,
     cookie: '',
 }
 

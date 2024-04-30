@@ -65,7 +65,7 @@
 }
 
 /* 구분선 */
-#sign_in_container .or_line {
+.sign_in_box .or_line {
 	display:flex;
 	flex-basis:100%;
 	align-items:center;
@@ -93,10 +93,10 @@
 	line-height: 0px;
 }
 
-#sign_in_container.sign_up_btn {
+#sign_in_container .sign_up_btn {
     text-align: center;
 }
 
-#sign_in_container.sign_up_btn a {
+#sign_in_container .sign_up_btn a {
     color: #242424; 
 }
