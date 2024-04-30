@@ -8,6 +8,8 @@ import axios from 'axios';
 import '../../css/member/sign_in_form.css';
 import '../../css/common.css'
 
+axios.defaults.withCredentials = true
+
 const SignIn = () => {
     
     //hook
@@ -56,6 +58,9 @@ const SignIn = () => {
             data: JSON.stringify({ idToken: token }),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
+            xhrFields: { 
+                withCredentials: true   
+            },
             success: function(data) {
                 alert('google signIn process success');
                 console.log('Authentication successful!', data);
@@ -77,7 +82,7 @@ const SignIn = () => {
 
     const axios_member_login = () => {
         console.log('axios_member_login()');
-        
+
         let formData = new FormData();
         formData.append("m_id", mId);
         formData.append("m_pw", mPw);
@@ -111,8 +116,7 @@ const SignIn = () => {
     return (
         <div id="sign_in_container">            
             <div className="sign_in_box">
-                <div className="logo_image">
-                </div>
+                <h3>로그인</h3>
                 <form name='sign_in_form'>
                     <input type="text" name="m_id" value={mId} placeholder="아이디" onChange={(e) => setMId(e.target.value)}/><br />
                     <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e) => setMPw(e.target.value)}/><br />

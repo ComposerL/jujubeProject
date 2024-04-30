@@ -9,7 +9,7 @@
 
 #sign_up_container .sign_up_box, .sign_in_box {
     width: 350px;
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 20px;
     background-color: #fff;
     border: 1px solid #dbdbdb;
@@ -93,7 +93,7 @@
 }
 
 /* 구분선 */
-#sign_up_container .or_line {
+.sign_up_box .or_line {
 	display:flex;
 	flex-basis:100%;
 	align-items:center;
@@ -102,7 +102,7 @@
 	margin:8px 0px;
     font-weight: bolder;
 }
-#sign_up_container .or_line:before{
+#sign_up_container .or_line::before{
 	content:"";
 	flex-grow:1;
 	margin:0px 16px;
@@ -111,7 +111,7 @@
 	font-size:0px;
 	line-height: 0px;
 }
-#sign_up_container .or_line:after {
+#sign_up_container .or_line::after {
 	content:"";
 	flex-grow:1;
 	margin:0px 16px;
@@ -164,7 +164,7 @@
 }
 
 /* 기존 디자인 없애기 */
-#sign_up_container .filebox input[type="file"] {
+#sign_up_container .filebox {
     position: absolute;
     width: 0;
     height: 0;
@@ -173,3 +173,12 @@
     border: 0;
 }
 
+.sign_up_box h3 {
+    padding: 5px;
+}
+
+#preview {
+    max-width: 130px;
+    max-height: 130px;
+    border-radius: 50%;
+}

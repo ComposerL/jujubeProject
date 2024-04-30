@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 
 import '../../css/member/modify_form.css'
 
+axios.defaults.withCredentials = true
+
 const Modify = () => {
 
     const [mId, setMId] = useState('');
