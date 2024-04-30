@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState, KeyboardEvent } from 'react';
 import '../../css/member/search_member.css';
 import $ from 'jquery';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
 
 const SearchMember = () => {
 
     const [searchId, setSearchId] = useState('');
+    const [memberList, setMemberList] = useState([]);
 
     useEffect(() => {
         console.log("searchMember useEffect()");
@@ -16,6 +20,7 @@ const SearchMember = () => {
         console.log("searchBtnClickHandler()");
         if(searchId !== ''){
             $('#search_member_wrap div.search_result_wrap').show();
+            axios_search_member();
             setSearchId('');
         }else{
             alert('Please input search member id');
@@ -30,36 +35,66 @@ const SearchMember = () => {
             searchBtnClickHandler();
         }
     };
+
+    //비동기 통신
+    const axios_search_member = () => {
+        console.log('axios_search_member()');
+        
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/get_search_member`, 
+            method: 'GET',
+            params: {
+                search_member : searchId,
+            }
+        })
+        .then(response => {
+            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
+            console.log('data ---> ', response.data);
+            
+            if (response.data !== null) {
+                console.log("회원 정보 조회 성공!!");
+                setMemberList(response.data);
+            } else {
+                alert('회원 정보 조회 실패!!');
+            }
+        })
+        .catch(error => {
+            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION ERROR');
+            
+        })
+        .finally(() => {
+            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION COMPLETE');
+
+        });
+    
+    }
     
     return (
         <div id='search_member_wrap'>
             <h3>회원찾기</h3>
             <div className="logined_view_input_text_wrap">
                 <input type="text" name='search_member' value={searchId} onKeyDown={handleKeyDown} onChange={(e)=>{ console.log("change"); setSearchId(e.target.value) }} placeholder='회원아이디를 입력하세요'/>
-                <span tabIndex={0} className='search_btn'  >
+                <span tabIndex={0} className='search_btn' onClick={searchBtnClickHandler} >
                     <img src="/imgs/search_icon.png" />
                 </span>
             </div>
             <div className='search_result_wrap'>
                 <ul className='search_result'>
-                    <li>
-                        <div className='search_result_frofile_thum_wrap'>
-                            <img src="" alt="" />
-                        </div>
-                        <div className='search_result_frofile_info_wrap'>
-                            <p>gildong</p>
-                            <p>hong gil dong</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div className='search_result_frofile_thum_wrap'>
-                            <img src="" alt="" />
-                        </div>
-                        <div className='search_result_frofile_info_wrap'>
-                            <p>chanho</p>
-                            <p>park chan ho</p>
-                        </div>
-                    </li>
+                    {   
+                        memberList.map((member, index) => {
+                            return (
+                                <li key={index}>
+                                    <div className='search_result_frofile_thum_wrap'>
+                                        <img src="/imgs/profile_default.png" />
+                                    </div>
+                                    <div className='search_result_frofile_info_wrap'>
+                                        <p>{member.M_ID}</p>
+                                        <p>{member.M_NAME}</p>
+                                    </div>
+                                </li>
+                            )
+                        })
+                    }
                 </ul>
             </div>
         </div>
