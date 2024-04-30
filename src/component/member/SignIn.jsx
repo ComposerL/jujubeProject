@@ -9,7 +9,7 @@ import '../../css/member/sign_in_form.css';
 import '../../css/common.css'
 import { useDispatch } from 'react-redux';
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
 const SignIn = () => {
     
@@ -119,7 +119,7 @@ const SignIn = () => {
         })
         .catch(error => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR');
-            console.log(error.data);
+            
         })
         .finally(() => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION COMPLETE');
