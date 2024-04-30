@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/nav.css';
 import NavLi from '../component/main_nav/NavLi';
 import $ from 'jquery';
+import { useDispatch } from 'react-redux';
 
 
 const Nav = () => {
     
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     //hook
 
     //handler
@@ -15,6 +19,15 @@ const Nav = () => {
     }
     const navModalMouseLeaveHandler = () => {      
         $('#nav_wrap div.nav_detail_menu div.nav_detail_modal_wrap').hide();      
+    }
+
+    const signOutBtnClickHandler = () => {
+        console.log("signOutBtnClickHandler()");
+        dispatch({
+            type:'session_out',
+            sessionID: '',
+        });
+        navigate('/');
     }
 
     return (
@@ -37,7 +50,7 @@ const Nav = () => {
                     <div className='nav_detail_list_wrap'>
                         <ul className='nav_detail_list'>
                             <li><Link to="/member/modify_form">정보수정</Link></li>
-                            <li><Link to="/">로그아웃</Link></li>
+                            <li onClick={signOutBtnClickHandler}><a href="">로그아웃</a></li>
                         </ul>
                     </div>
                 </div>

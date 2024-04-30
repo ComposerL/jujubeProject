@@ -1,17 +1,29 @@
-import React, { useEffect, useRef, useState, KeyboardEvent } from 'react';
+import React, { useEffect, useState} from 'react';
 import '../../css/member/search_member.css';
 import $ from 'jquery';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
 const SearchMember = () => {
 
+    const dispatch = useDispatch();
+    const sessionID = useSelector(store => store.sessionID);
+    const navigate = useNavigate();
     const [searchId, setSearchId] = useState('');
     const [memberList, setMemberList] = useState([]);
 
     useEffect(() => {
         console.log("searchMember useEffect()");
+        if(sessionID === ''){
+            dispatch({
+                type:'session_out',
+                sessionID: '',
+            });
+            navigate('/');
+        }
         $('#search_member_wrap input[name="search_member"]').focus();
         setSearchId('');
     },[]);
@@ -20,7 +32,7 @@ const SearchMember = () => {
         console.log("searchBtnClickHandler()");
         if(searchId !== ''){
             $('#search_member_wrap div.search_result_wrap').show();
-            axios_search_member();
+            axios_get_search_member();
             setSearchId('');
         }else{
             alert('Please input search member id');
@@ -37,8 +49,8 @@ const SearchMember = () => {
     };
 
     //비동기 통신
-    const axios_search_member = () => {
-        console.log('axios_search_member()');
+    const axios_get_search_member = () => {
+        console.log('axios_get_search_member()');
         
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_search_member`, 
@@ -85,7 +97,13 @@ const SearchMember = () => {
                             return (
                                 <li key={index}>
                                     <div className='search_result_frofile_thum_wrap'>
-                                        <img src="/imgs/profile_default.png" />
+                                        {
+                                            member.M_PROFILE_THUMBNAIL !== null
+                                            ?
+                                            <img src={process.env.REACT_APP_MEMBER_PROFILE_THUM_DIR + member.M_ID + member.M_PROFILE_THUMBNAIL} />
+                                            :
+                                            <img src="/imgs/profile_default.png" />
+                                        }
                                     </div>
                                     <div className='search_result_frofile_info_wrap'>
                                         <p>{member.M_ID}</p>
