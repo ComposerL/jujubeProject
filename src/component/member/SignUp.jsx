@@ -15,7 +15,7 @@ const SignUp = () => {
     const [mMail, setMMail] = useState('');
     const [mPhone, setMPhone] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
-    const [mProfileThumbnail, setMProfileThumbnail] = useState('');
+    const [mProfileThumbnail, setMProfileThumbnail] = useState('default.jpg');
     const [mGender, setGender] = useState('M');
 
     const navigate = useNavigate();
@@ -24,27 +24,26 @@ const SignUp = () => {
         console.log('genderChangeHandler()');
 
         setGender(e.target.value);
-    
+        
     };
 
     const getUploadClickHandler = () => {
         document.getElementById("file").click();
-    }
-
+    }       
     //프로필 
     const ProfileThumbnailChagneHandler = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
-
+        setMProfileThumbnail(e.target.value);
+        
         reader.onload = (event) => {
-
+            
             // 파일의 데이터 URL 가져오기
             const previewUrl = event.target.result;
-
+            
             // 이미지를 보여줄 img 요소를 선택하여 소스를 설정
             document.getElementById('preview').src = previewUrl;
         };
-    
         // 파일을 읽어옴
         reader.readAsDataURL(file);
     }

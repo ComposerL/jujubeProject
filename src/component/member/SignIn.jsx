@@ -8,7 +8,7 @@ import axios from 'axios';
 import '../../css/member/sign_in_form.css';
 import '../../css/common.css'
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
 const SignIn = () => {
     
@@ -90,21 +90,19 @@ const SignIn = () => {
         axios({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`, 
             method: 'post',
-            data: formData,  
+            data: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         })
         .then(response => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
     
-            if (response.data !== null) {
-                alert('회원 로그인 처리 성공!!');
-            } else {
-                alert('회원 로그인 처리 실패!!');
-            }
         })
         .catch(error => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR');
-            
+            console.log(error.data);
         })
         .finally(() => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION COMPLETE');
