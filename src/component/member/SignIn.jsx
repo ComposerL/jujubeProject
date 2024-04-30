@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from 'react-redux';
-import { signInSuccess } from '../../App';
 
 
 import '../../css/member/sign_in_form.css';
@@ -36,7 +35,7 @@ const SignIn = ({setIslogin, setMemberId}) => {
 
         } else {
 
-            dispatch(signInSuccess(sessionID));  
+             
             ajax_sign_in();
         }
     }
@@ -87,15 +86,15 @@ const SignIn = ({setIslogin, setMemberId}) => {
         let formData = new FormData();
         formData.append("m_id", mId);
         formData.append("m_pw", mPw);
-
+        
         $.ajax({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
-            method: 'post',
+            type: 'post',
             processData: false,
             contentType: false,
             dataType: 'json',
             xhrFields: { 
-                withCredentials: true   
+                withCredentials: true
             },
             data: formData,
             success: function(data) {
@@ -133,7 +132,7 @@ const SignIn = ({setIslogin, setMemberId}) => {
             <div className="sign_in_box">
                 <div className="logo_image">
                 </div>
-                    <form action="member/sign_in_confirm" method="post" name="sign_in_form">
+                    <form>
                         <input type="text" name="m_id" value={mId} placeholder="아이디" onChange={(e) => setMId(e.target.value)}/><br />
                         <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e) => setMPw(e.target.value)}/><br />
                         <input type="button" value="로그인" onClick={signInClickHandler}/><br />
