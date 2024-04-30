@@ -21,10 +21,6 @@ const reducer = (currentState = initial_state , action) => {
             return {...currentState, isLogin: false, sessionID: action.sessionID};
         case 'sign_in_success':
             return {...currentState, isLogin: true, sessionID: action.sessionID};
-        case 'sign_in_fail':
-            return {...currentState, isLogin: false, sessionID: action.sessionID} 
-        case 'sign_out_success':
-            return {...currentState, isLogin: false, sessionID: action.sessionID};
         default:
             return currentState;
     }

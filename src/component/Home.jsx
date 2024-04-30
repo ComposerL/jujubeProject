@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { getCookie } from '../util/cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Home = () => {
 
     const dispatch = useDispatch();
-    const [cookie, setCookie] = useState();
+    const sessionID = useSelector(store => store.sessionID);
 
     useEffect(() => {
         console.log("Home useEffect()");
-
-        setCookie(getCookie(""));//서버에서 넘어오는 쿠키 키값 입력
         
-        if(cookie === ''){
+        if(sessionID === ''){
             dispatch({
                 type: 'session_out',
-                cookie: '',
+                sessionID: '',
             });
         }
 
@@ -24,8 +21,8 @@ const Home = () => {
 
     return (
         <div id='home_wrap'>
-            {process.env.REACT_APP_HOST}
-            
+            <div>{process.env.REACT_APP_HOST}</div>
+            <div>sessionID: {sessionID}</div>
         </div>
     )
 }
