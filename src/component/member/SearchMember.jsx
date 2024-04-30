@@ -100,7 +100,7 @@ const SearchMember = () => {
                                         {
                                             member.M_PROFILE_THUMBNAIL !== null
                                             ?
-                                            <img src={`${process.env.REACT_APP_MEMBER_PROFILE_THUM_DIR}/${member.M_ID}/${member.M_PROFILE_THUMBNAIL}`} />
+                                            <img src={`${process.env.REACT_APP_MEMBER_PROFILE_THUM_DIR}${member.M_ID}\\${member.M_PROFILE_THUMBNAIL}`} />
                                             :
                                             <img src="/imgs/profile_default.png" />
                                         }
