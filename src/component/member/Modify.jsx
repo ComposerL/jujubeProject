@@ -1,19 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useEffect } from 'react';
-import sessionID from '../../App';
 import { useNavigate } from 'react-router-dom';
-import $ from 'jquery';
-
-
+import $, { data } from 'jquery';
+import { useDispatch, useSelector } from 'react-redux';
 import '../../css/member/modify_form.css'
 
 axios.defaults.withCredentials = true
 
 const Modify = () => {
+    
+    const navigate = useNavigate();
+    const sessionID = useSelector(store => store.sessionID);
+    const dispatch = useDispatch();
 
     const [mId, setMId] = useState('');
-    const [mPw, setMPw] = useState('');
     const [mName, setMName] = useState('');
     const [mMail, setMMail] = useState('');
     const [mPhone, setMPhone] = useState('');
@@ -21,35 +21,25 @@ const Modify = () => {
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [mGender, setGender] = useState('M');
 
-
-    // const [curMId, setCurMId] = useState('');
-    // const [curMPw, setCurMPw] = useState('');
-    // const [curMName, setCurMName] = useState('');
-    // const [curMMail, setCurMMail] = useState('');
-    // const [curMPhone, setCurMPhone] = useState('');
-    // const [curMSelfIntroduction, setCurMSelfIntroduction] = useState('');
-    // const [curMProfileThumbnail, setCurMProfileThumbnail] = useState('');
-    // const [curMgender, setCurMgender] = useState('M');
-
-    //로그인이 되있는지 확인
-    const navigate = useNavigate();
-    const session = useContext(sessionID);
-
     useEffect(() => {
-        console.log('useEffect()');
+        console.log('modify useEffect()');
 
-        if (session === '') {
+        if (sessionID === '') {
+            dispatch({
+                type: 'session_out',
+                sessionID: '',
+            })
             navigate('/');
-            
         } else {
-            axios_get_member(session);
-
+            axios_get_member(sessionID);
         }
 
     }, []);
 
+    console.log('session', sessionID);
+
     const getUploadClickHandler = () => {
-        document.getElementById("file").click();
+        $('.filebox input[name="m_profile_thumbnail"]').click();
     }
 
     const ProfileThumbnailChagneHandler = (e) => {
@@ -93,25 +83,38 @@ const Modify = () => {
         }
     }   
 
-    const axios_get_member = (session) => {
+    const axios_get_member = () => {
         console.log('axios_get_member()')
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_member`, 
             method: 'get',
             params: {
-                sessionID: session
+                member : sessionID
             }
         })
         .then(response => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS', response.data);
 
             if (response.data === null) {
-                navigate('/');
+                dispatch({
+                    type: 'session_out',
+                    sessionID: '',
+                })
                 return;
             }
-            setMId(session.mId);
-            setMPw(session.mPw);
+
+            const memberData = response.data.member;
+            if (!memberData) {
+                console.log('회원 정보가 존재하지 않습니다.');
+                return;
+            }
+
+            setMId(memberData.M_ID);
+            setMMail(memberData.M_MAIL);
+            setMName(memberData.M_NAME);
+            setMPhone(memberData.M_PHONE);
+            setGender(memberData.M_ID);
 
         })
         .catch(error => {
@@ -125,24 +128,25 @@ const Modify = () => {
 
     const axios_member_modify = () => {
         console.log('axios_member_modify');
-
         
-        let m_profiles = $('input[name="m_profile"]');
+        let m_profiles = $('input[name="m_profile_thumbnail"]');
+        
         let files = m_profiles[0].files;
 
         let formData = new FormData();
-        formData.append('sessionID', sessionStorage.getItem('sessionID'));
+        
         formData.append("m_id", mId);
+        formData.append("m_name", mName);
         formData.append("m_mail", mMail);
         formData.append("m_phone", mPhone);
         formData.append("m_self_introduction", mSelfIntroduction);
-        if(files.length !== undefined) formData.append("m_profile_img", files[0]);
+        formData.append("m_profile_thumbnail", files[0]);
+        formData.append("m_gender", mGender);
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/modify_confirm`, 
             method: 'post',
             data: formData,
-
         })
         .then(response => {
             console.log('ajax_get_member communication success', response.data)   //null
@@ -153,6 +157,10 @@ const Modify = () => {
 
                 if (response.data.result > 0) {
                     alert('modify member modify process success');
+                    dispatch({
+                        type:'sign_in_success',
+                        sessionID: response.data.sessionID,
+                    })
                     navigate('/');
                 } else {
                     alert('modify member modify process fail');
@@ -161,10 +169,11 @@ const Modify = () => {
             }
         })
         .catch(error => {
-            console.log('ajax_get_member communication error')
+            console.log('ajax_get_member communication error');
+            console.log('error_message ', error);
         })
         .finally(data => {
-            console.log('ajax_get_member communication complete')
+            console.log('ajax_get_member communication complete');
         })
 
     }
@@ -174,9 +183,9 @@ const Modify = () => {
             <div className='modify_box'>
                 <form name='modify_form'>
                     <h3>정보수정</h3>
-                    <img id="preview" src="#" alt="" onClick={getUploadClickHandler}/>
+                    <img id="preview" src="/imgs/profile_default.png" alt="" onClick={getUploadClickHandler}/>
                     <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" readOnly disabled/><br />
-                    <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" readOnly disabled/><br />
+                    {/* <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" readOnly disabled/><br /> */}
                     <input type="text" name="m_name" value={mName} placeholder="이름" onChange={(e) => setMName(e.target.value)}/><br />
                     <input type="email" name="m_mail" value={mMail} placeholder="이메일" onChange={(e) => setMMail(e.target.value)}/><br />
                     <input type="text" name="m_phone" value={mPhone} placeholder="전화번호" onChange={(e) => setMPhone(e.target.value)}/><br />
