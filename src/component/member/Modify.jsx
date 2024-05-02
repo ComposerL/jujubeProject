@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import $, { data } from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../css/member/modify_form.css'
+import { axios_get_member } from '../../util/sessionCheck';
 
 axios.defaults.withCredentials = true
 
@@ -13,7 +14,6 @@ const Modify = () => {
     const sessionID = useSelector(store => store.sessionID);
     const dispatch = useDispatch();
 
-    const [member, setMember] = useState(null);
     const [mId, setMId] = useState('');
     const [mName, setMName] = useState('');
     const [mMail, setMMail] = useState('');
@@ -21,7 +21,7 @@ const Modify = () => {
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [mGender, setGender] = useState('M');
-
+    
     useEffect(() => {
         console.log('modify useEffect()');
 
@@ -32,10 +32,12 @@ const Modify = () => {
             })
             navigate('/');
         } else {
-            axios_get_member();
+            modify_get_member(sessionID);
         }
 
     }, []);
+
+    
 
     const getUploadClickHandler = () => {
         $('.filebox input[name="m_profile_thumbnail"]').click();
@@ -82,8 +84,8 @@ const Modify = () => {
         }
     }   
 
-    const axios_get_member = () => {
-        console.log('axios_get_member()')
+    const modify_get_member = () => {
+        console.log('modify_get_member()')
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_member`, 
@@ -104,22 +106,18 @@ const Modify = () => {
             }
 
             const memberData = response.data.member;
-            if (!memberData) {
-                console.log('회원 정보가 존재하지 않습니다.');
-                return;
-            }
-
+            
             setMId(memberData.M_ID);
             setMMail(memberData.M_MAIL);
             setMName(memberData.M_NAME);
             setMPhone(memberData.M_PHONE);
-            setMSelfIntroduction(memberData.M_SELF_INTRODUCTION);
             setGender(memberData.M_GENDER);
-            setMProfileThumbnail(memberData.M_PROFILE_THUMBNAIL);
-
+            setMSelfIntroduction(memberData.M_SELF_INTRODUCTION);
+            // setMProfileThumbnail(memberData.M_PROFILE_THUMBNAIL);
         })
         .catch(error => {
             console.log('ajax_get_member communication error');
+
         })
         .finally(data => {
             console.log('ajax_get_member communication complete');
@@ -129,13 +127,13 @@ const Modify = () => {
 
     const axios_member_modify = () => {
         console.log('axios_member_modify');
-        
+    
         let m_profiles = $('input[name="m_profile_thumbnail"]');
         
         let files = m_profiles[0].files;
 
         let formData = new FormData();
-        
+
         formData.append("m_id", mId);
         formData.append("m_name", mName);
         formData.append("m_mail", mMail);
@@ -144,57 +142,49 @@ const Modify = () => {
         formData.append("m_profile_thumbnail", files[0]);
         formData.append("m_gender", mGender);
 
+        console.log('formData=======>', ...formData);
+
         axios({
             url: `${process.env.REACT_APP_HOST}/member/modify_confirm`, 
             method: 'post',
             data: formData,
+            
         })
         .then(response => {
-            console.log('ajax_get_member communication success', response.data)   //null
-
+            console.log('axios_member_modify communication success', response.data);
+    
             if (response.data === null) {
                 alert('modify member modify process fail');
             } else {
-
                 if (response.data.result > 0) {
                     alert('modify member modify process success');
                     dispatch({
-                        type:'sign_in_success',
+                        type: 'sign_in_success',
                         sessionID: response.data.sessionID,
-                    })
+                    });
                     navigate('/');
                 } else {
-                    alert('modify member modify process fail');
-
+                    alert('modify member modify process fail...');
                 }
             }
         })
         .catch(error => {
-            console.log('ajax_get_member communication error');
-            console.log('error_message ', error);
+            console.log('axios_member_modify communication error', error);
+            alert('modify member modify process fail');
         })
-        .finally(data => {
-            console.log('ajax_get_member communication complete');
-        })
-
+        .finally((data) => {
+            console.log('axios_member_modify communication complete', data);
+            
+        });
     }
+    
 
     return (
         <div id='modify_container'>
             <div className='modify_box'>
                 <form name='modify_form'>
                     <h3>정보수정</h3>
-                    {member && (
-                        <img 
-                            id="preview" 
-                            src={member.M_PROFILE_THUMBNAIL !== null
-                                ? `${process.env.REACT_APP_HOST}/${member.M_PROFILE_THUMBNAIL}`
-                                : "/imgs/profile_default.png"
-                            } 
-                            alt=""
-                            onClick={getUploadClickHandler}
-                        />
-                    )}
+                    <img id="preview" src="/imgs/profile_default.png" alt="" onClick={getUploadClickHandler}/>
                     <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" readOnly disabled/><br />
                     {/* <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" readOnly disabled/><br /> */}
                     <input type="text" name="m_name" value={mName} placeholder="이름" onChange={(e) => setMName(e.target.value)}/><br />
