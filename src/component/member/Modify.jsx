@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import $, { data } from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../css/member/modify_form.css'
-import { axios_get_member } from '../../util/sessionCheck';
+
 
 axios.defaults.withCredentials = true
 
