@@ -4,23 +4,26 @@ import $ from 'jquery';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { axios_get_member } from '../../util/sessionCheck';
 
 axios.defaults.withCredentials = true;
 
 const SearchMember = () => {
 
     const dispatch = useDispatch();
-    const sessionID = useSelector(store => store.sessionID);
     const navigate = useNavigate();
     const [searchId, setSearchId] = useState('');
     const [memberList, setMemberList] = useState([]);
 
     useEffect(() => {
         console.log("searchMember useEffect()");
-        if(sessionID === ''){
+        let result = axios_get_member();
+        if(result === null){
+            sessionStorage.removeItem('sessionID');
             dispatch({
                 type:'session_out',
-                sessionID: '',
+                sessionID: null,
+                loginedMember: '',
             });
             navigate('/');
         }
@@ -63,12 +66,24 @@ const SearchMember = () => {
             console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
             
-            if (response.data !== null) {
-                console.log("회원 정보 조회 성공!!");
-                setMemberList(response.data);
-            } else {
-                alert('회원 정보 조회 실패!!');
+            if(response.data === -1){
+                alert('session out!!');
+                dispatch({
+                    type:'session_out',
+                    sessionID: null,
+                    loginedMember: '',
+                });
+                navigate('/');
+            }else{
+                if (response.data !== null) {
+                    console.log("회원 정보 조회 성공!!");
+                    
+                    setMemberList(response.data);
+                } else {
+                    alert('회원 정보 조회 실패!!');
+                }
             }
+            
         })
         .catch(error => {
             console.log('AXIOS GET SEARCH MEMBER COMMUNICATION ERROR');
@@ -100,7 +115,7 @@ const SearchMember = () => {
                                         {
                                             member.M_PROFILE_THUMBNAIL !== null
                                             ?
-                                            <img src={`${process.env.REACT_APP_MEMBER_PROFILE_THUM_DIR}${member.M_ID}\\${member.M_PROFILE_THUMBNAIL}`} />
+                                            <img src={`${process.env.REACT_APP_HOST}/${member.M_ID}/${member.M_PROFILE_THUMBNAIL}`} />
                                             :
                                             <img src="/imgs/profile_default.png" />
                                         }

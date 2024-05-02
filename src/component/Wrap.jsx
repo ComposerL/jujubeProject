@@ -16,12 +16,12 @@ import { useSelector } from 'react-redux';
 
 const Wrap = () => {
 
-    const isLogin = useSelector(store => store.isLogin);
+    const sessionID = useSelector(store => store.sessionID);
 
     return (
         <>
             {
-                isLogin
+                sessionID !== null
                 ?
                 <>                    
                 <nav>
