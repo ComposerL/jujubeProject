@@ -1,33 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { axios_get_member } from '../util/sessionCheck';
+import axios from 'axios';
 
 const Home = () => {
 
     const dispatch = useDispatch();
     const sessionID = useSelector(store => store.sessionID);
     const loginedMember = useSelector(store => store.loginedMember);
-    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("Home useEffect()");
-        let result = axios_get_member();
-        if(result === null){
-            sessionStorage.removeItem('sessionID');
-            dispatch({
-                type:'session_out',
-                sessionID: null,
-                loginedMember: '',
-            });
-            navigate('/');
-        }else{
-            dispatch({
-                type:'session_enter',
-                loginedMember: result,
-            });
-        }
+        axios_get_member();
     },[]);
+
+    const axios_get_member = () => {
+        console.log("axios_get_member()");
+        axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
+            
+        })
+       .then(respones => {
+            console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
+            console.log(respones.data);
+            if(respones.data === -1){
+                console.log("Home session out!!");
+                sessionStorage.removeItem('sessionID');
+                dispatch({
+                    type:'session_out',
+                });
+            }else{
+    
+                if(respones.data === null){
+                    console.log("undefined member");
+                    sessionStorage.removeItem('sessionID');
+                    dispatch({
+                        type:'session_out',
+                    });
+                }else{
+                    console.log("member_id: " + respones.data.member.M_ID);
+                    dispatch({
+                        type:'session_enter',
+                        loginedMember: respones.data.member.M_ID,
+                    });
+                }
+    
+            }
+       })
+       .catch(error => {
+            console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
+        
+        })
+        .finally(() => {
+            console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
+             
+        });
+    }
 
     
 

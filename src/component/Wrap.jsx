@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Header from '../include/Header';
@@ -15,12 +15,11 @@ import Nav from '../include/Nav';
 import { useSelector } from 'react-redux';
 
 const Wrap = () => {
-
     const session = useSelector(store => store.sessionID);
 
     return (
         <>
-            {
+            {   
                 session !== null
                 ?
                 <>                    
@@ -40,9 +39,9 @@ const Wrap = () => {
                     </Routes>
                 </section>            
                 </>
-                :
+                :                    
                 <Routes>{/* views */}
-                    <Route path='/' element={<SignIn/>}></Route>                       
+                    <Route path='/*' element={<SignIn/>}></Route>                       
                     <Route path='/member/sign_up_form' element={<SignUp/>}></Route>
                 </Routes>
                 }
