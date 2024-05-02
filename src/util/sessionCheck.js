@@ -18,7 +18,7 @@ export const axios_get_member = () => {
                 return null;
             }else{
                 console.log("member_id: " + respones.data.member.M_ID);
-                return respones.data.member;
+                return respones.data.member.M_ID;
             }
 
         }
