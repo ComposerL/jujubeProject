@@ -25,9 +25,11 @@ const Nav = () => {
     const signOutBtnClickHandler = () => {
         console.log("signOutBtnClickHandler()");
         axios_sign_out_confirm();
+        sessionStorage.removeItem('sessionID');
         dispatch({
             type:'session_out',
-            sessionID: '',
+            sessionID: null,
+            loginedMember: '',
         });
         navigate('/');
     }

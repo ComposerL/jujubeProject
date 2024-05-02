@@ -105,19 +105,24 @@ const SignIn = () => {
         .then(response => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
-    
+            
             if (response.data !== null) {
                 alert('회원 로그인 처리 성공!!');
+                sessionStorage.setItem('sessionID', response.data.sessionID);
                 dispatch({
                     type: 'sign_in_success',
                     sessionID: response.data.sessionID,
+                    loginedMember: response.data.loginedMember,
                 });
             } else {
                 alert('회원 로그인 처리 실패!!');
                 dispatch({
                     type: 'session_out',
-                    sessionID: '',
+                    sessionID: null,
+                    loginedMember: '',
                 });
+                setMId('');
+                setMPw('');
             }
         })
         .catch(error => {

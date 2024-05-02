@@ -8,9 +8,9 @@ import Wrap from './component/Wrap';
 
 //reducer setting
 const initial_state = { //state 초기값
-    isLogin: true,
     cookie: '',
-    sessionID: '',
+    sessionID: sessionStorage.getItem('sessionID'),
+    loginedMember: '',
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -18,9 +18,11 @@ const reducer = (currentState = initial_state , action) => {
 
     switch(action.type){
         case 'session_out':
-            return {...currentState, isLogin: false, sessionID: action.sessionID};
+            return {...currentState, loginedMember: action.loginedMember, sessionID: action.sessionID};
+        case 'session_enter':
+            return {...currentState, loginedMember: action.loginedMember};
         case 'sign_in_success':
-            return {...currentState, isLogin: true, sessionID: action.sessionID};
+            return {...currentState, loginedMember: action.loginedMember, sessionID: action.sessionID};
         default:
             return currentState;
     }
