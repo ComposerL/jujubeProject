@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/nav.css';
 import NavLi from '../component/main_nav/NavLi';
 import $ from 'jquery';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 
 const Nav = () => {
     
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     //hook
 
     //handler
@@ -17,6 +22,37 @@ const Nav = () => {
         $('#nav_wrap div.nav_detail_menu div.nav_detail_modal_wrap').hide();      
     }
 
+    const signOutBtnClickHandler = () => {
+        console.log("signOutBtnClickHandler()");
+        axios_sign_out_confirm();
+        dispatch({
+            type:'session_out',
+            sessionID: '',
+        });
+        navigate('/');
+    }
+
+    const axios_sign_out_confirm = () => {
+        console.log('axios_sign_out_confirm()');
+        
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/sign_out_confirm`, 
+            method: 'GET',
+        })
+        .then(response => {
+            console.log('AXIOS SIGN OUT COMMUNICATION SUCCESS');
+
+        })
+        .catch(error => {
+            console.log('AXIOS SIGN OUT COMMUNICATION ERROR');
+            
+        })
+        .finally(() => {
+            console.log('AXIOS SIGN OUT COMMUNICATION COMPLETE');
+
+        });
+    }
+    
     return (
         <div id='nav_wrap'>
             <ul className='nav_menu'>
@@ -37,7 +73,7 @@ const Nav = () => {
                     <div className='nav_detail_list_wrap'>
                         <ul className='nav_detail_list'>
                             <li><Link to="/member/modify_form">정보수정</Link></li>
-                            <li><Link to="/">로그아웃</Link></li>
+                            <li onClick={signOutBtnClickHandler}><a href="">로그아웃</a></li>
                         </ul>
                     </div>
                 </div>

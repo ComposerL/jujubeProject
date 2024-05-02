@@ -99,6 +99,7 @@ const SignIn = () => {
                 'Content-Type':'application/json;charset=UTF-8',
             }
         })
+        
         .then(response => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
@@ -119,7 +120,7 @@ const SignIn = () => {
         })
         .catch(error => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR');
-            
+            console.log('data===>', error);
         })
         .finally(() => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION COMPLETE');

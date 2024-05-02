@@ -46,14 +46,19 @@
 }
 
 #search_member_wrap div.search_result_wrap {
-    margin-top: 50px;
+    margin-top: 40px;
     text-align: center;
     display: none;
 }
 
 #search_member_wrap div.search_result_wrap ul.search_result {
     width: 300px;
+    height: 450px;
     margin: auto;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }
 }
 
 #search_member_wrap div.search_result_wrap ul.search_result li {
@@ -70,6 +75,10 @@
     height: 50px;
     border-radius: 50px;
     background-color: #ddd;
+    overflow: hidden;
+}
+#search_member_wrap div.search_result_wrap ul.search_result li div.search_result_frofile_thum_wrap img {
+    width: 100%;
 }
 #search_member_wrap div.search_result_wrap ul.search_result li div.search_result_frofile_info_wrap {
     
