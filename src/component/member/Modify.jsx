@@ -1,16 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useEffect } from 'react';
-import sessionID from '../../App';
 import { useNavigate } from 'react-router-dom';
 import $ from 'jquery';
-
-
+import { useDispatch, useSelector } from 'react-redux';
 import '../../css/member/modify_form.css'
 
 axios.defaults.withCredentials = true
 
 const Modify = () => {
+    
+    const navigate = useNavigate();
+    const sessionID = useSelector(store => store.sessionID);
+    const dispatch = useDispatch();
 
     const [mId, setMId] = useState('');
     const [mPw, setMPw] = useState('');
@@ -21,7 +22,6 @@ const Modify = () => {
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [mGender, setGender] = useState('M');
 
-
     // const [curMId, setCurMId] = useState('');
     // const [curMPw, setCurMPw] = useState('');
     // const [curMName, setCurMName] = useState('');
@@ -31,25 +31,22 @@ const Modify = () => {
     // const [curMProfileThumbnail, setCurMProfileThumbnail] = useState('');
     // const [curMgender, setCurMgender] = useState('M');
 
-    //로그인이 되있는지 확인
-    const navigate = useNavigate();
-    const session = useContext(sessionID);
-
     useEffect(() => {
-        console.log('useEffect()');
+        console.log('modify useEffect()');
 
-        if (session === '') {
-            navigate('/');
-            
+        if (sessionID === '') {
+            dispatch({
+                type: 'session_out',
+                sessionID: '',
+            })
         } else {
-            axios_get_member(session);
-
+            axios_get_member(sessionID);
         }
 
     }, []);
 
     const getUploadClickHandler = () => {
-        document.getElementById("file").click();
+        $('.filebox input[name="m_profile_thumbnail"]').click();
     }
 
     const ProfileThumbnailChagneHandler = (e) => {
@@ -93,25 +90,31 @@ const Modify = () => {
         }
     }   
 
-    const axios_get_member = (session) => {
+    const axios_get_member = (sessionID) => {
         console.log('axios_get_member()')
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_member`, 
             method: 'get',
             params: {
-                sessionID: session
+                'accessToken': sessionID
             }
         })
         .then(response => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS', response.data);
 
             if (response.data === null) {
-                navigate('/');
+                dispatch({
+                    type: 'session_out',
+                    sessionID: '',
+                })
                 return;
             }
-            setMId(session.mId);
-            setMPw(session.mPw);
+            const memberData = response.data.member;
+            setMId(memberData.M_ID);
+            setMMail(memberData.M_MAIL);
+            setMName(memberData.M_NAME);
+            setMPhone(memberData.M_PHONE);
 
         })
         .catch(error => {

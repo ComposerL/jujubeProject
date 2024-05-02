@@ -28,7 +28,8 @@ const SignUp = () => {
     };
 
     const getUploadClickHandler = () => {
-        document.getElementById("file").click();
+        //document.getElementById("file").click();
+        $('.filebox input[name="m_profile_thumbnail"]').click();
     }       
     //프로필 
     const ProfileThumbnailChagneHandler = (e) => {
