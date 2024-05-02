@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, json } from 'react-router-dom';
 import $ from 'jquery';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
@@ -47,7 +47,13 @@ const SignIn = () => {
         const decoded = jwtDecode(token); // 받은 토큰을 디코딩하여 사용자 정보 추출
         console.log(decoded); // 디코딩된 정보 콘솔에 출력
         
-        ajax_google_sign_in(token);
+        const userInfo = {
+            email: decoded.email,
+            sub: decoded.sub
+        };
+        console.log(userInfo);
+
+        ajax_google_sign_in(userInfo);
         
     };
 
@@ -55,16 +61,18 @@ const SignIn = () => {
         console.log('Login Failed');
     };
 
-    const ajax_google_sign_in = (token) => {
+    const ajax_google_sign_in = (userInfo) => {
+
         $.ajax({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
             type: 'post',
-            data: JSON.stringify({ idToken: token }),
+            data: JSON.stringify(userInfo),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             xhrFields: { 
                 withCredentials: true   
             },
+            
             success: function(data) {
                 alert('google signIn process success');
                 console.log('Authentication successful!', data);
@@ -78,7 +86,7 @@ const SignIn = () => {
             complete: function(data) {
                 console.log('ajax member_join communication copmlete()');
             
-                console.log('token: ', token);
+                console.log('userInfo: ', userInfo);
             }
         });
         
@@ -86,7 +94,7 @@ const SignIn = () => {
 
     const axios_member_login = () => {
         console.log('axios_member_login()');
-
+        
         let formData = new FormData();
         formData.append("m_id", mId);
         formData.append("m_pw", mPw);

@@ -94,7 +94,7 @@ const SignUp = () => {
         console.log('ajax_member_sign_up()');
 
         let m_profiles = $('input[name="m_profile_thumbnail"]');
-       
+        
         let files = m_profiles[0].files;
 
         let formData = new FormData();
@@ -106,8 +106,6 @@ const SignUp = () => {
         formData.append("m_self_introduction", mSelfIntroduction);
         formData.append("m_profile_thumbnail", files[0]);
         formData.append("m_gender", mGender);
-
-        console.log('files', files[0]);
 
         $.ajax({
             url: `${process.env.REACT_APP_HOST}/member/sign_up_confirm`,
