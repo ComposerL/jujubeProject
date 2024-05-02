@@ -7,22 +7,21 @@ import './App.css';
 import Wrap from './component/Wrap';
 
 //reducer setting
-const initial_state = { //state 초기값
-    cookie: '',
+const initial_state = {
     sessionID: sessionStorage.getItem('sessionID'),
-    loginedMember: '',
 }
 
 const reducer = (currentState = initial_state , action) => {
-    console.log("Home reducer()");
+    console.log("App reducer()");
 
     switch(action.type){
         case 'session_out':
-            return {...currentState, loginedMember: action.loginedMember, sessionID: action.sessionID};
+            return {...currentState, sessionID: sessionStorage.getItem('sessionID')};
         case 'session_enter':
-            return {...currentState, loginedMember: action.loginedMember};
+            console.log("session_enter loginedMember: ", action.loginedMember);
+            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};
         case 'sign_in_success':
-            return {...currentState, loginedMember: action.loginedMember, sessionID: action.sessionID};
+            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};
         default:
             return currentState;
     }
