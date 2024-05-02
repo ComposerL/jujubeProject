@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, json } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";

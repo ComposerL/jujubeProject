@@ -13,6 +13,7 @@ const Modify = () => {
     const sessionID = useSelector(store => store.sessionID);
     const dispatch = useDispatch();
 
+    const [member, setMember] = useState(null);
     const [mId, setMId] = useState('');
     const [mName, setMName] = useState('');
     const [mMail, setMMail] = useState('');
@@ -31,12 +32,10 @@ const Modify = () => {
             })
             navigate('/');
         } else {
-            axios_get_member(sessionID);
+            axios_get_member();
         }
 
     }, []);
-
-    console.log('session', sessionID);
 
     const getUploadClickHandler = () => {
         $('.filebox input[name="m_profile_thumbnail"]').click();
@@ -114,7 +113,9 @@ const Modify = () => {
             setMMail(memberData.M_MAIL);
             setMName(memberData.M_NAME);
             setMPhone(memberData.M_PHONE);
-            setGender(memberData.M_ID);
+            setMSelfIntroduction(memberData.M_SELF_INTRODUCTION);
+            setGender(memberData.M_GENDER);
+            setMProfileThumbnail(memberData.M_PROFILE_THUMBNAIL);
 
         })
         .catch(error => {
@@ -183,7 +184,17 @@ const Modify = () => {
             <div className='modify_box'>
                 <form name='modify_form'>
                     <h3>정보수정</h3>
-                    <img id="preview" src="/imgs/profile_default.png" alt="" onClick={getUploadClickHandler}/>
+                    {member && (
+                        <img 
+                            id="preview" 
+                            src={member.M_PROFILE_THUMBNAIL !== null
+                                ? `${process.env.REACT_APP_HOST}/${member.M_PROFILE_THUMBNAIL}`
+                                : "/imgs/profile_default.png"
+                            } 
+                            alt=""
+                            onClick={getUploadClickHandler}
+                        />
+                    )}
                     <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" readOnly disabled/><br />
                     {/* <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" readOnly disabled/><br /> */}
                     <input type="text" name="m_name" value={mName} placeholder="이름" onChange={(e) => setMName(e.target.value)}/><br />
