@@ -14,22 +14,12 @@ const Modify = () => {
     const dispatch = useDispatch();
 
     const [mId, setMId] = useState('');
-    // const [mPw, setMPw] = useState('');
     const [mName, setMName] = useState('');
     const [mMail, setMMail] = useState('');
     const [mPhone, setMPhone] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [mGender, setGender] = useState('M');
-
-    // const [curMId, setCurMId] = useState('');
-    // const [curMPw, setCurMPw] = useState('');
-    // const [curMName, setCurMName] = useState('');
-    // const [curMMail, setCurMMail] = useState('');
-    // const [curMPhone, setCurMPhone] = useState('');
-    // const [curMSelfIntroduction, setCurMSelfIntroduction] = useState('');
-    // const [curMProfileThumbnail, setCurMProfileThumbnail] = useState('');
-    // const [curMgender, setCurMgender] = useState('M');
 
     useEffect(() => {
         console.log('modify useEffect()');
@@ -93,14 +83,14 @@ const Modify = () => {
         }
     }   
 
-    const axios_get_member = (sessionID) => {
+    const axios_get_member = () => {
         console.log('axios_get_member()')
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_member`, 
             method: 'get',
             params: {
-                sessionID : sessionID
+                member : sessionID
             }
         })
         .then(response => {
@@ -194,7 +184,7 @@ const Modify = () => {
                 <form name='modify_form'>
                     <h3>정보수정</h3>
                     <img id="preview" src="/imgs/profile_default.png" alt="" onClick={getUploadClickHandler}/>
-                    <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" onChange={(e) => setMId(e.target.value)}/><br />
+                    <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" readOnly disabled/><br />
                     {/* <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" readOnly disabled/><br /> */}
                     <input type="text" name="m_name" value={mName} placeholder="이름" onChange={(e) => setMName(e.target.value)}/><br />
                     <input type="email" name="m_mail" value={mMail} placeholder="이메일" onChange={(e) => setMMail(e.target.value)}/><br />

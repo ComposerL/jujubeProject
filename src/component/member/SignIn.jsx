@@ -46,14 +46,8 @@ const SignIn = () => {
         const token = credentialResponse?.credential; // 로그인 성공 시 받은 토큰
         const decoded = jwtDecode(token); // 받은 토큰을 디코딩하여 사용자 정보 추출
         console.log(decoded); // 디코딩된 정보 콘솔에 출력
-        
-        const userInfo = {
-            email: decoded.email,
-            sub: decoded.sub
-        };
-        console.log(userInfo);
 
-        ajax_google_sign_in(userInfo);
+        ajax_google_sign_in(token);
         
     };
 
@@ -61,12 +55,12 @@ const SignIn = () => {
         console.log('Login Failed');
     };
 
-    const ajax_google_sign_in = (userInfo) => {
+    const ajax_google_sign_in = (token) => {
 
         $.ajax({
             url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
             type: 'post',
-            data: JSON.stringify(userInfo),
+            data: JSON.stringify({token}),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             xhrFields: { 
@@ -85,8 +79,8 @@ const SignIn = () => {
             },
             complete: function(data) {
                 console.log('ajax member_join communication copmlete()');
-            
-                console.log('userInfo: ', userInfo);
+                console.log('token: ', data);
+                
             }
         });
         
