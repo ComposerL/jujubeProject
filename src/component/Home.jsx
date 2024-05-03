@@ -21,7 +21,12 @@ const Home = () => {
             m_id:'gildong',
             m_name:'홍길동',
             m_profile_thumbnail:'https://picsum.photos/100/100', 
-            s_pictures: 'https://picsum.photos/400/400',
+            s_pictures: [
+                'https://picsum.photos/500/500',
+                'https://picsum.photos/400/400',
+                'https://picsum.photos/600/600',
+                'https://picsum.photos/700/700'
+            ],
             s_text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore',
             s_like_count: 12000,
             s_reply_count: 1200,
@@ -31,7 +36,12 @@ const Home = () => {
             m_id:'chanho',
             m_name:'박찬호',
             m_profile_thumbnail:'https://picsum.photos/50/50', 
-            s_pictures: 'https://picsum.photos/300/300',
+            s_pictures: [
+                'https://picsum.photos/500/500',
+                'https://picsum.photos/400/400',
+                'https://picsum.photos/600/600',
+                'https://picsum.photos/700/700'
+            ],
             s_text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore',
             s_like_count: 1318,
             s_reply_count: 127,
@@ -41,7 +51,12 @@ const Home = () => {
             m_id:'rkdtmdgh3',
             m_name:'강승호',
             m_profile_thumbnail:'https://picsum.photos/210/210', 
-            s_pictures: 'https://picsum.photos/500/500',
+            s_pictures: [
+                'https://picsum.photos/500/500',
+                'https://picsum.photos/400/400',
+                'https://picsum.photos/600/600',
+                'https://picsum.photos/700/700'
+            ],
             s_text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore',
             s_like_count: 8045,
             s_reply_count: 842,

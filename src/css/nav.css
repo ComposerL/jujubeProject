@@ -2,8 +2,16 @@
     width: 200px;
     height: 610px;
 }
+#nav_symbol_wrap {
+    width: 70px;
+    margin:0 auto;
+    margin-top: 30px;
+}
+#nav_symbol_wrap img{
+    width: 100%;
+}
 #nav_wrap ul.nav_menu {
-    margin-top: 100px;
+    margin-top: 30px;
     padding:0 10px;
 }
 
