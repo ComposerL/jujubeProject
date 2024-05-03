@@ -1,0 +1,7 @@
+#home_wrap{
+    height: 620px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+}
