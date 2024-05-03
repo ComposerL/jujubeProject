@@ -230,6 +230,7 @@ const Modify = () => {
                         <input type="file" id="file" name="m_profile_thumbnail" value={mModifyProfileThumbnail} onChange={ProfileThumbnailChagneHandler}/>
                     </div>
                     <input type="button" value="수정하기" onClick={modifyClickHandler}/><br />
+                    <p>탈퇴하기</p>
                 </form>
             </div>
         </div>

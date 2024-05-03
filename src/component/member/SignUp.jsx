@@ -46,7 +46,14 @@ const SignUp = () => {
         };
         // 파일을 읽어옴
         setMProfileThumbnail(e.target.value);
-        reader.readAsDataURL(file);
+        
+        if (file) {
+            // 파일이 선택된 경우에만 읽어옴
+            reader.readAsDataURL(file);
+        } else {
+            // 파일이 선택되지 않은 경우에는 기존의 이미지를 유지함
+            setMProfileThumbnail(file);
+        }
     }
     
 
