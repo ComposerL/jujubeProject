@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import '../../css/member/sign_in_form.css';
 import '../../css/common.css'
@@ -13,9 +14,11 @@ axios.defaults.withCredentials = true;
 
 const SignIn = () => {
     
+    const navigate = useNavigate();
+
     //dipatch
     const dispatch = useDispatch();
-
+    
     //hook
     const [mId, setMId] = useState('');
     const [mPw, setMPw] = useState('');
@@ -47,7 +50,8 @@ const SignIn = () => {
         const decoded = jwtDecode(token); // 받은 토큰을 디코딩하여 사용자 정보 추출
         console.log(decoded); // 디코딩된 정보 콘솔에 출력
         
-        ajax_google_sign_in(token);
+        // ajax_google_sign_in(token);
+        axios_google_sign_in(token);
         
     };
 
@@ -84,7 +88,32 @@ const SignIn = () => {
             }
         });
         
-    }   
+    }  
+
+    const axios_google_sign_in = (token) => {
+        console.log('axios_google_sign_in()');
+
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/google_sign_in_confirm`,
+            type: 'post',
+            data: JSON.stringify({token}),
+            headers: {
+                'Content-Type':'application/json;charset=UTF-8',
+            }
+        })
+        .then(response => {
+            console.log('axios_google_sign_in communication success', response.data);
+    
+        })
+        .catch(error => {
+            console.log('axios_google_sign_in communication error', error);
+            
+        })
+        .finally((data) => {
+            console.log('axios_google_sign_in communication complete', data);
+            
+        });
+    }
 
     const axios_member_login = () => {
         console.log('axios_member_login()');
@@ -106,24 +135,47 @@ const SignIn = () => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
             
-            if (response.data !== null) {
-                alert('회원 로그인 처리 성공!!');
-                sessionStorage.setItem('sessionID', response.data.sessionID);
-                dispatch({
-                    type: 'sign_in_success',
-                    sessionID: response.data.sessionID,
-                    loginedMember: response.data.loginedMember,
-                });
-            } else {
-                alert('회원 로그인 처리 실패!!');
-                dispatch({
-                    type: 'session_out',
-                    sessionID: null,
-                    loginedMember: '',
-                });
-                setMId('');
-                setMPw('');
+            switch(response.data) {
+                case null:
+                    alert('회원 로그인 처리 실패!!');
+                    dispatch({
+                        type: 'session_out',
+                        sessionID: null,
+                        loginedMember: '',
+                    });
+                    setMId('');
+                    setMPw('');
+                    break;
+                case -2:
+                    alert('존재하지 않는 아이디입니다.');
+                    dispatch({
+                        type: 'session_out',
+                        sessionID: null,
+                        loginedMember: '',
+                    });
+                    setMId('');
+                    setMPw('');    
+                    break;
+                case -3:
+                    alert('비밀번호가 틀렸습니다.');
+                    dispatch({
+                        type: 'session_out',
+                        sessionID: null,
+                        loginedMember: '',
+                    });
+                    setMId('');
+                    setMPw('');
+                    break;
+                default: 
+                    alert('로그인 성공');
+                    sessionStorage.setItem('sessionID', response.data.sessionID);
+                    dispatch({
+                        type: 'sign_in_success',
+                        sessionID: response.data.sessionID,
+                        loginedMember: response.data.loginedMember,
+                    });
             }
+            
         })
         .catch(error => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR');
