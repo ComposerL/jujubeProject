@@ -9,6 +9,7 @@
 #story_wrap li {
     width: 100%;
     background-color: #000;
+    margin-bottom: 10px;
 }
 
 #story_wrap li div.story_header {

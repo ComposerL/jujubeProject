@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/home.css';
-import $ from 'jquery';
+
 
 import '../css/story/story.css';
+import StoryUi from './story/StoryUi';
 
 const Home = () => {
 
@@ -13,9 +14,45 @@ const Home = () => {
     const sessionID = useSelector(store => store.sessionID);
     const loginedMember = useSelector(store => store.loginedMember);
 
+    const [allStorys,setAllStorys] = useState([]);
+
+    let testInitStoy = [
+        {   
+            m_id:'gildong',
+            m_name:'홍길동',
+            m_profile_thumbnail:'https://picsum.photos/100/100', 
+            s_pictures: 'https://picsum.photos/400/400',
+            s_text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore',
+            s_like_count: 12000,
+            s_reply_count: 1200,
+            s_mod_date:'5월 3일',
+        },
+        {   
+            m_id:'chanho',
+            m_name:'박찬호',
+            m_profile_thumbnail:'https://picsum.photos/50/50', 
+            s_pictures: 'https://picsum.photos/300/300',
+            s_text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore',
+            s_like_count: 1318,
+            s_reply_count: 127,
+            s_mod_date:'5월 3일',
+        },
+        {   
+            m_id:'rkdtmdgh3',
+            m_name:'강승호',
+            m_profile_thumbnail:'https://picsum.photos/210/210', 
+            s_pictures: 'https://picsum.photos/500/500',
+            s_text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore',
+            s_like_count: 8045,
+            s_reply_count: 842,
+            s_mod_date:'5월 3일',
+        },
+    ]
+
     useEffect(() => {
         console.log("Home useEffect()");
         axios_get_member();
+        setAllStorys(testInitStoy);
     },[]);
 
     const axios_get_member = () => {
@@ -60,69 +97,29 @@ const Home = () => {
         });
     }
 
-    const storyTextBtnClickHandler = () => {
-        console.log("storyTextBtnClickHandler()");
-        $('p.story_text_btn ').css({'width': '100%','white-space': 'initial', 'cursor':'inherit'});
-    }
+    
    
 
     return (
         <div id='home_wrap'>
             <ul id='story_wrap'>
-                <li>
-                    <div className='story_header'>
-                        <div className='story_header_img'>
-                            <img src="/imgs/profile_default.png" alt="" />
-                        </div>
-                        <div className='story_header_member_info_wrap'>
-                            <h4>gildong</h4>
-                            <p>홍길동</p>
-                        </div>
-                        <div className='story_header_menu_btn'>
-                            <a href="#none">&#183; &#183; &#183;</a>
-                        </div>
-                    </div>
-                    <div className='story_pictures_wrap'>
-                        <img src="https://picsum.photos/400/400" alt="" />
-                    </div>
-                    <div className='story_contents_Wrap'>
-                        <div className='story_content_icon_wrap'>
-                            <a href="#none">
-                                <img src="/imgs/story_like_r_icon.png" alt="" />
-                            </a>
-                            <a href="#none">
-                                <img src="/imgs/story_reply_icon.png" alt="" />
-                            </a>
-                            <a href="#none">
-                                <img src="/imgs/story_messege_icon.png" alt="" />
-                            </a>
-                        </div>
-                        <div className="like_count_wrap">
-                            <p>좋아요<span>12,000</span>개</p>
-                        </div>
-                        <div className='story_contents_text_wrap'>
-                            <p className='story_text_btn' onClick={storyTextBtnClickHandler}>
-                                <span className='s_id'>gildong</span>
-                                <span className='s_text'>
-                                    Lorem ipsum dolor sit amet, 
-                                    consectetur adipiscing elit, 
-                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                                    Ut enim ad minim veniam, 
-                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                                    Excepteur sint occaecat cupidatat non proident, 
-                                    sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                </span>
-                            </p>
-                            <div className='story_reply_wrap'>
-                                <p>댓글 <span>1,200</span>개 모두 보기</p>
-                            </div>
-                            <div className='story_date'>
-                                <p>5월 3일</p>
-                            </div>
-                        </div>
-                    </div>                    
-                </li>
+                {
+                    allStorys.map((story,idx) => {
+                        return (
+                            <StoryUi 
+                                m_id = {story.m_id}
+                                m_name = {story.m_name}
+                                m_profile_thumbnail = {story.m_profile_thumbnail}
+                                s_pictures = {story.s_pictures}
+                                s_text = {story.s_text} 
+                                s_like_count = {story.s_like_count}
+                                s_reply_count = {story.s_reply_count}
+                                s_mod_date = {story.s_mod_date}
+                                storyIdx = {idx}
+                            />
+                        )
+                    })
+                }
             </ul>
         </div>
     )
