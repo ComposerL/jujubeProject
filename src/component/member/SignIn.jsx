@@ -135,47 +135,24 @@ const SignIn = () => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
             
-            switch(response.data) {
-                case null:
-                    alert('회원 로그인 처리 실패!!');
-                    dispatch({
-                        type: 'session_out',
-                        sessionID: null,
-                        loginedMember: '',
-                    });
-                    setMId('');
-                    setMPw('');
-                    break;
-                case -2:
-                    alert('존재하지 않는 아이디입니다.');
-                    dispatch({
-                        type: 'session_out',
-                        sessionID: null,
-                        loginedMember: '',
-                    });
-                    setMId('');
-                    setMPw('');    
-                    break;
-                case -3:
-                    alert('비밀번호가 틀렸습니다.');
-                    dispatch({
-                        type: 'session_out',
-                        sessionID: null,
-                        loginedMember: '',
-                    });
-                    setMId('');
-                    setMPw('');
-                    break;
-                default: 
-                    alert('로그인 성공');
-                    sessionStorage.setItem('sessionID', response.data.sessionID);
-                    dispatch({
-                        type: 'sign_in_success',
-                        sessionID: response.data.sessionID,
-                        loginedMember: response.data.loginedMember,
-                    });
+            if (response.data !== null) {
+                alert('회원 로그인 처리 성공!!');
+                sessionStorage.setItem('sessionID', response.data.sessionID);
+                dispatch({
+                    type: 'sign_in_success',
+                    sessionID: response.data.sessionID,
+                    loginedMember: response.data.loginedMember,
+                });
+            } else {
+                alert('회원 로그인 처리 실패!!');
+                dispatch({
+                    type: 'session_out',
+                    sessionID: null,
+                    loginedMember: '',
+                });
+                setMId('');
+                setMPw('');
             }
-            
         })
         .catch(error => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR');

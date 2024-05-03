@@ -131,8 +131,6 @@ const Modify = () => {
                 }else{
                     const memberData = response.data.member;
 
-                    // let files = memberData.M_PROFILE_THUMBNAIL[0].files;
-
                     setMId(memberData.M_ID);
                     setMMail(memberData.M_MAIL);
                     setMName(memberData.M_NAME);
@@ -208,7 +206,7 @@ const Modify = () => {
             alert('modify member modify process fail');
         })
         .finally((data) => {
-            console.log('axios_member_modify communication complete', data);
+            console.log('axios_member_modify communication complete');
             
         });
     }
