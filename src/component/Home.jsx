@@ -7,6 +7,7 @@ import '../css/home.css';
 
 import '../css/story/story.css';
 import StoryUi from './story/StoryUi';
+import StoryReplyUI from './story/StoryReplyUI';
 
 const Home = () => {
 
@@ -15,8 +16,9 @@ const Home = () => {
     const loginedMember = useSelector(store => store.loginedMember);
 
     const [allStorys,setAllStorys] = useState([]);
+    const [testAllStorys,setTestAllStorys] = useState([]);
 
-    let testInitStoy = [
+    let testInitStory = [
         {   
             m_id:'gildong',
             m_name:'홍길동',
@@ -67,7 +69,7 @@ const Home = () => {
     useEffect(() => {
         console.log("Home useEffect()");
         axios_get_member();
-        setAllStorys(testInitStoy);
+        setAllStorys(testInitStory);
     },[]);
 
     const axios_get_member = () => {
@@ -98,6 +100,8 @@ const Home = () => {
                         type:'session_enter',
                         loginedMember: respones.data.member.M_ID,
                     });
+                    axios_get_all_storys(respones.data.member.M_ID);
+                    
                 }
     
             }
@@ -111,9 +115,32 @@ const Home = () => {
              
         });
     }
-
     
-   
+    //axios get all storys
+    const axios_get_all_storys = (m_id) => {
+        console.log("axios_get_all_storys()");
+        axios({
+			url: `${process.env.REACT_APP_HOST}/story/story/get_all_storys`,
+			method: 'get',
+			params:{
+				"m_id" : m_id,
+			}
+		})
+		.then(response => {	
+			console.log("axios get all storys success!!");
+			console.log("data: ",response.data);
+            setTestAllStorys(response.data);
+            console.log("testAllStorys: ",testAllStorys);
+		})
+		.catch(err => {
+            console.log("axios get all storys error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios get all storys finally!!");
+		});	
+    }
+
 
     return (
         <div id='home_wrap'>
@@ -135,7 +162,7 @@ const Home = () => {
                         )
                     })
                 }
-            </ul>
+            </ul> 
         </div>
     )
 }

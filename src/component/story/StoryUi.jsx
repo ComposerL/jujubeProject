@@ -6,10 +6,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { useDispatch } from 'react-redux';
 
 const StoryUi = (props) => {
 	
-
+	const dispatch = useDispatch();
 	const [pictures,setPictures] = useState([]);
 
 	useEffect(() => {
@@ -22,6 +23,13 @@ const StoryUi = (props) => {
 		let story_text_btn = e.target;
         $(story_text_btn).css({'width': '100%','white-space': 'initial', 'cursor':'inherit'});
     }
+
+	const storyReplyBtnClickHandler = (e) => {
+		console.log("storyReplyBtnClickHandler()");
+		dispatch({
+			type:'story_btn_click',
+		});
+	}
 
 	return (
 		<li className={`story_li_${props.storyIdx}`}>
@@ -57,7 +65,7 @@ const StoryUi = (props) => {
 						pictures.map((picture, index) => {
                             return (
                                 <SwiperSlide key={index}><img src={picture} alt="" /></SwiperSlide>
-                                // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${props.m_id}/${picture}`} alt="" /></SwiperSlide>
+                                // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${}/${picture}`} alt="" /></SwiperSlide>
                             )
                         })
 					}
@@ -84,7 +92,7 @@ const StoryUi = (props) => {
 						<span className='s_text'>{props.s_text}</span>
 					</p>
 					<div className='story_reply_wrap'>
-						<p>댓글 <span>{props.s_reply_count.toLocaleString("ko-KR")}</span>개 모두 보기</p>
+						<p onClick={(e) => storyReplyBtnClickHandler(e)}>댓글 <span>{props.s_reply_count.toLocaleString("ko-KR")}</span>개 모두 보기</p>
 					</div>
 					<div className='story_date'>
 						<p>{props.s_mod_date}</p>
@@ -95,4 +103,4 @@ const StoryUi = (props) => {
 	)
 }
 
-export default StoryUi
+export default StoryUi;

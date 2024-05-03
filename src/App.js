@@ -15,6 +15,8 @@ const reducer = (currentState = initial_state , action) => {
     console.log("App reducer()");
 
     switch(action.type){
+        case'story_btn_click':
+            return {...currentState,};
         case 'session_out':
             return {...currentState, sessionID: sessionStorage.getItem('sessionID')};
         case 'session_enter':
