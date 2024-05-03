@@ -46,7 +46,7 @@ const SignIn = () => {
         const token = credentialResponse?.credential; // 로그인 성공 시 받은 토큰
         const decoded = jwtDecode(token); // 받은 토큰을 디코딩하여 사용자 정보 추출
         console.log(decoded); // 디코딩된 정보 콘솔에 출력
-
+        
         ajax_google_sign_in(token);
         
     };
