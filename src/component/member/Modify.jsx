@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import $, { data } from 'jquery';
+import $  from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../css/member/modify_form.css'
-
 
 axios.defaults.withCredentials = true
 
@@ -13,6 +12,7 @@ const Modify = () => {
     const navigate = useNavigate();
     const sessionID = useSelector(store => store.sessionID);
     const dispatch = useDispatch();
+    
     
     const [mId, setMId] = useState('');
     const [mName, setMName] = useState('');
@@ -91,6 +91,25 @@ const Modify = () => {
         }
     }   
 
+    const deleteBtnClickHandler = () => {
+        console.log("deleteClickHandler()");
+       
+        const isConfirmed = window.confirm("정말로 계정을 삭제하시겠습니까?");
+
+        if (isConfirmed) {
+            console.log("delete()");
+            axios_delete_member();
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+                sessionID: null,
+                loginedMember: '',
+            });
+            navigate('/');
+        }
+
+    }
+
     const modify_get_member = () => {
         console.log('modify_get_member()')
 
@@ -106,6 +125,8 @@ const Modify = () => {
                 sessionStorage.removeItem('sessionID');
                 dispatch({
                     type: 'session_out',
+                    sessionID: null,
+                    loginedMember: '',
                 });
                 navigate('/');
             }else{
@@ -115,8 +136,6 @@ const Modify = () => {
                     
                 }else{
                     const memberData = response.data.member;
-
-                    // let files = memberData.M_PROFILE_THUMBNAIL[0].files;
 
                     setMId(memberData.M_ID);
                     setMMail(memberData.M_MAIL);
@@ -173,6 +192,8 @@ const Modify = () => {
                 sessionStorage.removeItem('sessionID');
                 dispatch({
                     type: 'session_out',
+                    sessionID: null,
+                    loginedMember: '',
                 });
                 navigate('/');
             } else {
@@ -191,24 +212,75 @@ const Modify = () => {
             alert('modify member modify process fail');
         })
         .finally((data) => {
-            console.log('axios_member_modify communication complete', data);
+            console.log('axios_member_modify communication complete');
             
         });
     }
+
+    const axios_delete_member = () => {
+        console.log('axios_delete_member()');
     
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/delete_confirm`, 
+            method: 'get',
+            params: {
+                'm_id': mId
+
+            }
+        })
+        .then(response => {
+            console.log('axios_member_delete communication success', response.data);
+
+            if(response.data === -1) {
+                console.log('Session timed out');
+                sessionStorage.removeItem('sessionID');
+                dispatch({
+                    type: 'session_out',
+                    sessionID: null,
+                    loginedMember: '',
+                });
+                navigate('/');
+
+            } else {
+            
+            if (response.data.result === null) {
+                alert('회원탈퇴에 실패했습니다. 다시 시도해주세요.');
+                
+                } else {
+                    alert('회원탈퇴가 완료되었습니다.');
+                    sessionStorage.removeItem('sessionID');
+                    dispatch({
+                        type: 'session_out',
+                        sessionID: null,
+                        loginedMember: '',
+                    });
+                    navigate('/');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('axios_member_delete communication error', error);
+            alert('err');
+        })
+        .finally(() => {
+            console.log('axios_member_delete communication complete');
+            alert('comp');
+        });
+    }
+    
+    
+    const image = mProfileThumbnail && mProfileThumbnail.trim() !== ''
+    ? `${process.env.REACT_APP_HOST}/${mId}/${mProfileThumbnail}`
+    : mModifyProfileThumbnail && mModifyProfileThumbnail.trim() !== ''
+    ? `${process.env.REACT_APP_HOST}/${mId}/${mModifyProfileThumbnail}`
+    : "/imgs/profile_default.png";
 
     return (
         <div id='modify_container'>
             <div className='modify_box'>
                 <form name='modify_form'>
                     <h3>정보수정</h3>
-                    <img id="preview" src={
-                        mProfileThumbnail !== undefined
-                        ? `${process.env.REACT_APP_HOST}/${mId}/${mProfileThumbnail}`  // 기존 이미지 URL
-                        : mModifyProfileThumbnail !== undefined
-                        ? `${process.env.REACT_APP_HOST}/${mId}/${mModifyProfileThumbnail}`  // 수정된 새 이미지 URL
-                        : "/imgs/profile_default.png"  // 기본 이미지
-                    }
+                    <img id="preview" src={image}
                     alt="" onClick={getUploadClickHandler}/>
                     
                     <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" readOnly disabled/><br />
@@ -230,6 +302,7 @@ const Modify = () => {
                         <input type="file" id="file" name="m_profile_thumbnail" value={mModifyProfileThumbnail} onChange={ProfileThumbnailChagneHandler}/>
                     </div>
                     <input type="button" value="수정하기" onClick={modifyClickHandler}/><br />
+                    <p onClick={deleteBtnClickHandler}><a href="">탈퇴하기</a></p>
                 </form>
             </div>
         </div>
