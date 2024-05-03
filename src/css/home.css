@@ -1,0 +1,8 @@
+#home_wrap {
+    overflow: hidden;
+    width: 100%;
+}
+
+#home_wrap div {
+    width: 100%;
+}
