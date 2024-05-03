@@ -145,7 +145,7 @@ const SignUp = () => {
                     
                 } else {
                     alert('member join process fail!!');
-                    setMId(''); setMPw(''); setMMail(''); setMPhone(''); setMName(''); setMSelfIntroduction(''); setMProfileThumbnail(''); 
+                    
                 }
             }, 
             error: function(data) {

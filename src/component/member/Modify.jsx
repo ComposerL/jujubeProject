@@ -13,6 +13,7 @@ const Modify = () => {
     const sessionID = useSelector(store => store.sessionID);
     const dispatch = useDispatch();
     
+    
     const [mId, setMId] = useState('');
     const [mName, setMName] = useState('');
     const [mMail, setMMail] = useState('');
@@ -96,12 +97,17 @@ const Modify = () => {
         const isConfirmed = window.confirm("정말로 계정을 삭제하시겠습니까?");
 
         if (isConfirmed) {
-
+            console.log("delete()");
             axios_delete_member();
-           
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+                sessionID: null,
+                loginedMember: '',
+            });
+            navigate('/');
         }
 
-        
     }
 
     const modify_get_member = () => {
@@ -217,11 +223,14 @@ const Modify = () => {
         axios({
             url: `${process.env.REACT_APP_HOST}/member/delete_confirm`, 
             method: 'get',
-            params: { accessToken: sessionID }
+            params: {
+                'm_id': mId
+
+            }
         })
         .then(response => {
             console.log('axios_member_delete communication success', response.data);
-            
+
             if(response.data === -1) {
                 console.log('Session timed out');
                 sessionStorage.removeItem('sessionID');
@@ -234,8 +243,8 @@ const Modify = () => {
 
             } else {
             
-                if (response.data.result === null) {
-                    alert('회원탈퇴에 실패했습니다. 다시 시도해주세요.');
+            if (response.data.result === null) {
+                alert('회원탈퇴에 실패했습니다. 다시 시도해주세요.');
                 
                 } else {
                     alert('회원탈퇴가 완료되었습니다.');
@@ -251,10 +260,11 @@ const Modify = () => {
         })
         .catch(error => {
             console.error('axios_member_delete communication error', error);
-            
+            alert('err');
         })
         .finally(() => {
             console.log('axios_member_delete communication complete');
+            alert('comp');
         });
     }
     

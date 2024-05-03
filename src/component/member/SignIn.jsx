@@ -59,46 +59,46 @@ const SignIn = () => {
         console.log('Login Failed');
     };
 
-    const ajax_google_sign_in = (token) => {
+    // const ajax_google_sign_in = (token) => {
 
-        $.ajax({
-            url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
-            type: 'post',
-            data: JSON.stringify({token}),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            xhrFields: { 
-                withCredentials: true   
-            },
+    //     $.ajax({
+    //         url: `${process.env.REACT_APP_HOST}/member/google_sign_in_confirm`,
+    //         type: 'post',
+    //         data: JSON.stringify({token}),
+    //         contentType: 'application/json; charset=utf-8',
+    //         dataType: 'json',
+    //         xhrFields: { 
+    //             withCredentials: true   
+    //         },
             
-            success: function(data) {
-                alert('google signIn process success');
-                console.log('Authentication successful!', data);
+    //         success: function(data) {
+    //             alert('google signIn process success');
+    //             console.log('Authentication successful!', data);
 
-            },
-            error: function(status, error) {
-                alert('google signIn process fail!!');
-                console.log('Authentication failed', status, error);
+    //         },
+    //         error: function(status, error) {
+    //             alert('google signIn process fail!!');
+    //             console.log('Authentication failed', status, error);
 
-            },
-            complete: function(data) {
-                console.log('ajax member_join communication copmlete()');
-                console.log('token: ', data);
+    //         },
+    //         complete: function(data) {
+    //             console.log('ajax member_join communication copmlete()');
+    //             console.log('token: ', data);
                 
-            }
-        });
+    //         }
+    //     });
         
-    }  
+    // }  
 
     const axios_google_sign_in = (token) => {
         console.log('axios_google_sign_in()');
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/google_sign_in_confirm`,
-            type: 'post',
-            data: JSON.stringify({token}),
+            method: 'post',
+            data: JSON.stringify({ token }),
             headers: {
-                'Content-Type':'application/json;charset=UTF-8',
+                'Content-Type': 'application/json;charset=UTF-8',
             }
         })
         .then(response => {
@@ -135,24 +135,26 @@ const SignIn = () => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
             
-            if (response.data !== null) {
-                alert('회원 로그인 처리 성공!!');
-                sessionStorage.setItem('sessionID', response.data.sessionID);
-                dispatch({
-                    type: 'sign_in_success',
-                    sessionID: response.data.sessionID,
-                    loginedMember: response.data.loginedMember,
-                });
-            } else {
-                alert('회원 로그인 처리 실패!!');
-                dispatch({
-                    type: 'session_out',
-                    sessionID: null,
-                    loginedMember: '',
-                });
-                setMId('');
-                setMPw('');
+            switch(response.data.result) {
+                case -2:
+                    alert('존재하지 않는 아이디입니다.');
+                    break;
+                case -3:
+                    alert('계정이 정지되었습니다.');
+                    break;
+                case -4:
+                    alert('비밀번호가 틀렸습니다.');
+                    break;
+                default: 
+                    alert('로그인 성공');
+                    sessionStorage.setItem('sessionID', response.data.sessionID);
+                    dispatch({
+                        type: 'sign_in_success',
+                        sessionID: response.data.sessionID,
+                        loginedMember: response.data.loginedMember,
+                    });
             }
+        
         })
         .catch(error => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR');
