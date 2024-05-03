@@ -9,9 +9,6 @@ div.App {
 }
 
 div.App nav {  
-  border-right: 1px solid #000;
-  
-}
-div.App section {
+  border-right: 1px solid #ddd;
   
 }

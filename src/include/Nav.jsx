@@ -57,6 +57,9 @@ const Nav = () => {
     
     return (
         <div id='nav_wrap'>
+            <div id="nav_symbol_wrap">
+                <img src="/imgs/symbol_1.png" alt="" />
+            </div>
             <ul className='nav_menu'>
                 <NavLi command="/" img_src="/imgs/nav_home_icon.png" text="HOME"/>
                 <NavLi command="/member/search_member_form" img_src="/imgs/nav_search_icon.png" text="SEARCH"/>
