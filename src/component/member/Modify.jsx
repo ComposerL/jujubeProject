@@ -222,14 +222,15 @@ const Modify = () => {
     
         axios({
             url: `${process.env.REACT_APP_HOST}/member/delete_confirm`, 
-            method: 'GET',
+            method: 'get',
             params: {
-                'm_id': sessionID.mId
+                'm_id': mId
+
             }
         })
         .then(response => {
             console.log('axios_member_delete communication success', response.data);
-            
+
             if(response.data === -1) {
                 console.log('Session timed out');
                 sessionStorage.removeItem('sessionID');
@@ -247,7 +248,13 @@ const Modify = () => {
                 
                 } else {
                     alert('회원탈퇴가 완료되었습니다.');
-                
+                    sessionStorage.removeItem('sessionID');
+                    dispatch({
+                        type: 'session_out',
+                        sessionID: null,
+                        loginedMember: '',
+                    });
+                    navigate('/');
                 }
             }
         })

@@ -59,36 +59,36 @@ const SignIn = () => {
         console.log('Login Failed');
     };
 
-    const ajax_google_sign_in = (token) => {
+    // const ajax_google_sign_in = (token) => {
 
-        $.ajax({
-            url: `${process.env.REACT_APP_HOST}/member/sign_in_confirm`,
-            type: 'post',
-            data: JSON.stringify({token}),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            xhrFields: { 
-                withCredentials: true   
-            },
+    //     $.ajax({
+    //         url: `${process.env.REACT_APP_HOST}/member/google_sign_in_confirm`,
+    //         type: 'post',
+    //         data: JSON.stringify({token}),
+    //         contentType: 'application/json; charset=utf-8',
+    //         dataType: 'json',
+    //         xhrFields: { 
+    //             withCredentials: true   
+    //         },
             
-            success: function(data) {
-                alert('google signIn process success');
-                console.log('Authentication successful!', data);
+    //         success: function(data) {
+    //             alert('google signIn process success');
+    //             console.log('Authentication successful!', data);
 
-            },
-            error: function(status, error) {
-                alert('google signIn process fail!!');
-                console.log('Authentication failed', status, error);
+    //         },
+    //         error: function(status, error) {
+    //             alert('google signIn process fail!!');
+    //             console.log('Authentication failed', status, error);
 
-            },
-            complete: function(data) {
-                console.log('ajax member_join communication copmlete()');
-                console.log('token: ', data);
+    //         },
+    //         complete: function(data) {
+    //             console.log('ajax member_join communication copmlete()');
+    //             console.log('token: ', data);
                 
-            }
-        });
+    //         }
+    //     });
         
-    }  
+    // }  
 
     const axios_google_sign_in = (token) => {
         console.log('axios_google_sign_in()');
@@ -96,9 +96,9 @@ const SignIn = () => {
         axios({
             url: `${process.env.REACT_APP_HOST}/member/google_sign_in_confirm`,
             method: 'post',
-            data: { token },
+            data: JSON.stringify({ token }),
             headers: {
-                'Content-Type':'application/json;charset=UTF-8',
+                'Content-Type': 'application/json;charset=UTF-8',
             }
         })
         .then(response => {
