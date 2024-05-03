@@ -20,6 +20,7 @@ const Modify = () => {
     const [mPhone, setMPhone] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
+    const [mModifyProfileThumBnail, setModifyMProfileThumbnail] = useState('');
     const [mGender, setGender] = useState('M');
     
     useEffect(() => {
@@ -56,9 +57,13 @@ const Modify = () => {
             document.getElementById('preview').src = previewUrl;
         };
 
-        setMProfileThumbnail(e.target.value);
-        // 파일을 읽어옴
-        reader.readAsDataURL(file);
+        if (file) {
+            // 파일이 선택된 경우에만 읽어옴
+            reader.readAsDataURL(file);
+        } else {
+            // 파일이 선택되지 않은 경우에는 기존의 이미지를 유지함
+            setModifyMProfileThumbnail(e.target.value);
+        }
     }
 
     const modifyClickHandler = () => {
