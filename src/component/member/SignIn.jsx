@@ -95,8 +95,8 @@ const SignIn = () => {
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/google_sign_in_confirm`,
-            type: 'post',
-            data: JSON.stringify({token}),
+            method: 'post',
+            data: { token },
             headers: {
                 'Content-Type':'application/json;charset=UTF-8',
             }
@@ -135,24 +135,26 @@ const SignIn = () => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
             
-            if (response.data !== null) {
-                alert('회원 로그인 처리 성공!!');
-                sessionStorage.setItem('sessionID', response.data.sessionID);
-                dispatch({
-                    type: 'sign_in_success',
-                    sessionID: response.data.sessionID,
-                    loginedMember: response.data.loginedMember,
-                });
-            } else {
-                alert('회원 로그인 처리 실패!!');
-                dispatch({
-                    type: 'session_out',
-                    sessionID: null,
-                    loginedMember: '',
-                });
-                setMId('');
-                setMPw('');
+            switch(response.data.result) {
+                case -2:
+                    alert('존재하지 않는 아이디입니다.');
+                    break;
+                case -3:
+                    alert('계정이 정지되었습니다.');
+                    break;
+                case -4:
+                    alert('비밀번호가 틀렸습니다.');
+                    break;
+                default: 
+                    alert('로그인 성공');
+                    sessionStorage.setItem('sessionID', response.data.sessionID);
+                    dispatch({
+                        type: 'sign_in_success',
+                        sessionID: response.data.sessionID,
+                        loginedMember: response.data.loginedMember,
+                    });
             }
+        
         })
         .catch(error => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION ERROR');
