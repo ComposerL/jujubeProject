@@ -20,7 +20,7 @@ const Modify = () => {
     const [mPhone, setMPhone] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
-    const [mModifyProfileThumBnail, setModifyMProfileThumbnail] = useState('');
+    const [mModifyProfileThumbnail, setModifyMProfileThumbnail] = useState('');
     const [mGender, setGender] = useState('M');
     
     useEffect(() => {
@@ -57,12 +57,14 @@ const Modify = () => {
             document.getElementById('preview').src = previewUrl;
         };
 
+        setModifyMProfileThumbnail(e.target.value);
+
         if (file) {
             // 파일이 선택된 경우에만 읽어옴
             reader.readAsDataURL(file);
         } else {
             // 파일이 선택되지 않은 경우에는 기존의 이미지를 유지함
-            setModifyMProfileThumbnail(e.target.value);
+            setMProfileThumbnail(file);
         }
     }
 
@@ -122,7 +124,7 @@ const Modify = () => {
                     setMPhone(memberData.M_PHONE);
                     setGender(memberData.M_GENDER);
                     setMSelfIntroduction(memberData.M_SELF_INTRODUCTION);
-                    setMProfileThumbnail(response.data.member.M_PROFILE_THUMBNAIL);
+                    setMProfileThumbnail(memberData.M_PROFILE_THUMBNAIL);
                 }
 
             }
@@ -200,13 +202,14 @@ const Modify = () => {
             <div className='modify_box'>
                 <form name='modify_form'>
                     <h3>정보수정</h3>
-                    <img id="preview" src= {
-                        mProfileThumbnail !== null
-                        ?
-                        `${process.env.REACT_APP_HOST}/${mId}/${mProfileThumbnail}`
-                        :
-                        "/imgs/profile_default.png"
-                    } alt="" onClick={getUploadClickHandler}/>
+                    <img id="preview" src={
+                        mProfileThumbnail !== undefined
+                        ? `${process.env.REACT_APP_HOST}/${mId}/${mProfileThumbnail}`  // 기존 이미지 URL
+                        : mModifyProfileThumbnail !== undefined
+                        ? `${process.env.REACT_APP_HOST}/${mId}/${mModifyProfileThumbnail}`  // 수정된 새 이미지 URL
+                        : "/imgs/profile_default.png"  // 기본 이미지
+                    }
+                    alt="" onClick={getUploadClickHandler}/>
                     
                     <input type="text" name="m_id" value={mId} placeholder="사용자 아이디" readOnly disabled/><br />
                     {/* <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" readOnly disabled/><br /> */}
@@ -224,7 +227,7 @@ const Modify = () => {
                     <div className="filebox">
                         <input className="upload-name" placeholder="첨부파일"/>
                         <label htmlFor="file">파일찾기</label>
-                        <input type="file" id="file" name="m_profile_thumbnail" onChange={ProfileThumbnailChagneHandler}/>
+                        <input type="file" id="file" name="m_profile_thumbnail" value={mModifyProfileThumbnail} onChange={ProfileThumbnailChagneHandler}/>
                     </div>
                     <input type="button" value="수정하기" onClick={modifyClickHandler}/><br />
                 </form>
