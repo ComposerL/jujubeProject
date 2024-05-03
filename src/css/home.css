@@ -1,8 +1,7 @@
-#home_wrap {
-    overflow: hidden;
-    width: 100%;
-}
-
-#home_wrap div {
-    width: 100%;
+#home_wrap{
+    height: 620px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }
 }

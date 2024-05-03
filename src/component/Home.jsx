@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/home.css';
+import $ from 'jquery';
 
 import '../css/story/story.css';
 
@@ -58,6 +59,11 @@ const Home = () => {
              
         });
     }
+
+    const storyTextBtnClickHandler = () => {
+        console.log("storyTextBtnClickHandler()");
+        $('p.story_text_btn ').css({'width': '100%','white-space': 'initial', 'cursor':'inherit'});
+    }
    
 
     return (
@@ -95,10 +101,25 @@ const Home = () => {
                             <p>좋아요<span>12,000</span>개</p>
                         </div>
                         <div className='story_contents_text_wrap'>
-                            <p>
+                            <p className='story_text_btn' onClick={storyTextBtnClickHandler}>
                                 <span className='s_id'>gildong</span>
-                                <span className='s_text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+                                <span className='s_text'>
+                                    Lorem ipsum dolor sit amet, 
+                                    consectetur adipiscing elit, 
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                                    Ut enim ad minim veniam, 
+                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                                    Excepteur sint occaecat cupidatat non proident, 
+                                    sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </span>
                             </p>
+                            <div className='story_reply_wrap'>
+                                <p>댓글 <span>1,200</span>개 모두 보기</p>
+                            </div>
+                            <div className='story_date'>
+                                <p>5월 3일</p>
+                            </div>
                         </div>
                     </div>                    
                 </li>
