@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const StoryUi = () => {
   return (
     <li>
-        StoryUi
+      StoryUi
     </li>
   )
 }
 
-export default StoryUi
+export default StoryUi;
