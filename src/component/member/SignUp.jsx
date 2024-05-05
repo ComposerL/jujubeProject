@@ -44,9 +44,25 @@ const SignUp = () => {
             // 이미지를 보여줄 img 요소를 선택하여 소스를 설정
             document.getElementById('preview').src = previewUrl;
         };
+
+        if (file) {
+            // 파일이 선택된 경우에만 읽어옴
+            reader.readAsDataURL(file);
+        } else {
+            // 파일이 선택되지 않은 경우에는 기존의 이미지를 유지함
+            setMProfileThumbnail(file);
+        }
+        
         // 파일을 읽어옴
         setMProfileThumbnail(e.target.value);
-        reader.readAsDataURL(file);
+        
+        if (file) {
+            // 파일이 선택된 경우에만 읽어옴
+            reader.readAsDataURL(file);
+        } else {
+            // 파일이 선택되지 않은 경우에는 기존의 이미지를 유지함
+            setMProfileThumbnail(file);
+        }
     }
     
 
@@ -129,7 +145,7 @@ const SignUp = () => {
                     
                 } else {
                     alert('member join process fail!!');
-                    setMId(''); setMPw(''); setMMail(''); setMPhone(''); setMName(''); setMSelfIntroduction(''); setMProfileThumbnail(''); 
+                    
                 }
             }, 
             error: function(data) {

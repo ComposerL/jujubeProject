@@ -14,6 +14,8 @@ import Error from './Error';
 import Nav from '../include/Nav';
 import { useSelector } from 'react-redux';
 
+import '../css/section.css';
+
 const Wrap = () => {
     const session = useSelector(store => store.sessionID);
 
