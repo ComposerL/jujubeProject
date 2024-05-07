@@ -1,28 +1,17 @@
 import React from 'react';
 
-const MyProfile = () => {
-
-    let testProfile = [
-
-        {
-            m_id: 'gildong',
-            s_no: '',
-            fr_no: '',
-            m_self_introduction:'안녕하세요',
-            sp_no: '',
-        }
-    ]
+const MyProfile = ({loginedMember}) => {
 
     return (
         <div id='my_profile_wrap'>
         <div className='profile_member_name'>
-            <p>{testProfile.m_id}</p>
+            <p>{loginedMember}</p>
         </div>
         
         <div className='profile_header'>
             <img src="/imgs/profile_default.png" alt="" />
             <div className='post'>
-                <div>{testProfile.s_no}</div>
+                <div>100</div>
                 <div>post</div>
             </div>
             <div className='followers'>
