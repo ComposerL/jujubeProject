@@ -18,17 +18,17 @@ const StoryReplyUI = () => {
         <>
           <div id='story_replys_wrap'>
             {
-              replys.map((reply,idx) => {
-                return (
-                  <div className={idx}>
-                    {reply.r_id}: {reply.r_text}
-                  </div>
-                )
-              })
+				replys.map((reply,idx) => {					
+					return (
+						<div className={idx}>
+							{reply.R_M_ID}: {reply.R_TXT}
+						</div>
+					)
+				})
             }
-              <div className='story_reply_input'>
-                <input type="text" name='r_txt' />
-              </div>
+				<div className='story_reply_input'>
+					<input type="text" name='r_txt' />
+				</div>
             </div>
         </>
   )

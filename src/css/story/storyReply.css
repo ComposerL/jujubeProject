@@ -1,6 +1,7 @@
 #story_replys_wrap {
-    width: 300px;
+    width: 400px;
     margin: auto;
     margin-top: 20px;
     color: #fff;
+    background-color:#000;
 }

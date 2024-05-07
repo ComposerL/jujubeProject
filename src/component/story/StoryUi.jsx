@@ -15,7 +15,7 @@ const StoryUi = (props) => {
 
 	useEffect(() => {
         console.log("StoryUi useEffect()");
-        setPictures(props.s_pictures);
+        setPictures(props.pictures);
     },[]);
 
 	const storyTextBtnClickHandler = (e) => {
@@ -28,17 +28,17 @@ const StoryUi = (props) => {
 		console.log("storyReplyBtnClickHandler()");
 		dispatch({
 			type:'story_btn_click',
-      modal: true,
-      s_replys: props.s_replys,
+			modal: true,
+			s_replys: props.s_replys,
 		});
 	}
 
 	return (
-		<li className={`story_li_${props.storyIdx}`}>
+		<li className={`story_li_${props.s_no}`}>
 			<div className='story_header'>
 				<div className='story_header_img'>
-					{/* <img src="/imgs/profile_default.png" alt="" /> */}
-					<img src={props.m_profile_thumbnail} alt="" />
+					<img src="/imgs/profile_default.png" alt="" />
+					{/* <img src={props.m_profile_thumbnail} alt="" /> */}
 				</div>
 				<div className='story_header_member_info_wrap'>
 					<h4>{props.m_id}</h4>
@@ -65,9 +65,14 @@ const StoryUi = (props) => {
 					>
 					{
 						pictures.map((picture, index) => {
+							let randomNum = Math.floor((Math.random() * 10)+3);
                             return (
-                                <SwiperSlide key={index}><img src={picture} alt="" /></SwiperSlide>
-                                // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${}/${picture}`} alt="" /></SwiperSlide>
+                                // <SwiperSlide key={index}>
+								// // 	<p style={{'color':'#fff'}}>{picture.SP_NO}</p>
+								// // 	<p style={{'color':'#fff'}}>{picture.SP_PICTURE_NAME}</p>
+								// </SwiperSlide>
+                                <SwiperSlide key={index}><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
+                                // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${props.m_id}/${props.s_no}/${picture.SP_PICTURE_NAME}`} alt="" /></SwiperSlide>
                             )
                         })
 					}
@@ -86,15 +91,15 @@ const StoryUi = (props) => {
 					</a>
 				</div>
 				<div className="like_count_wrap">
-					<p>좋아요<span>{props.s_like_count.toLocaleString("ko-KR")}</span>개</p>
+					<p>좋아요<span>{props.storyLikeCnt.toLocaleString("ko-KR")}</span>개</p>
 				</div>
 				<div className='story_contents_text_wrap'>
 					<p className='story_text_btn' onClick={(e)=>storyTextBtnClickHandler(e)}>
 						<span className='s_id'>{props.m_id}</span>
-						<span className='s_text'>{props.s_text}</span>
+						<span className='s_text'>{props.s_txt}</span>
 					</p>
 					<div className='story_reply_wrap'>
-						<p onClick={(e) => storyReplyBtnClickHandler(e)}>댓글 <span>{props.s_reply_count.toLocaleString("ko-KR")}</span>개 모두 보기</p>
+						<p onClick={(e) => storyReplyBtnClickHandler(e)}>댓글 <span>{props.replysCnt.toLocaleString("ko-KR")}</span>개 모두 보기</p>
 					</div>
 					<div className='story_date'>
 						<p>{props.s_mod_date}</p>
