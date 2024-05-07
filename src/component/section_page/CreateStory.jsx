@@ -11,6 +11,7 @@ axios.defaults.withCredentials = true;
 
 const CreateStory = () => {
 
+    const [imagePrevies, setImagePrevies] = useState([]);
     const [uploadImage, setUploadImage] = useState([]);
     const [isPublic, setIsPublic] = useState('0');
     const [sTxt, setSTxt] = useState('')
@@ -43,7 +44,7 @@ const CreateStory = () => {
             }
         }
         
-        setUploadImage(compressedFiles);
+        setImagePrevies(compressedFiles);
         console.log('compressedFiles---', compressedFiles);
 
     }
@@ -54,7 +55,7 @@ const CreateStory = () => {
                 file,
                 file.width,    // 이미지 너비
                 file.height,    // 이미지 높이
-                "SVG",  // 파일 형식
+                "jpeg",  // 파일 형식
                 80,    // 이미지 퀄리티
                 0,
                 (uri) => {
@@ -86,8 +87,10 @@ const CreateStory = () => {
         formData.append("s_is_public", isPublic);
 
         uploadImage.forEach((file) => {
-            formData.append("files", file);
+            formData.append("images", file);
         })
+
+        console.log('formData---', ...formData);
 
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/write_confirm`,
