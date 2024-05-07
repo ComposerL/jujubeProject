@@ -90,20 +90,38 @@ const SignIn = () => {
         
     // }  
 
-    const axios_google_sign_in = (token) => {
+    const axios_google_sign_in = (decoded) => {
         console.log('axios_google_sign_in()');
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/google_sign_in_confirm`,
             method: 'post',
-            data: JSON.stringify({ token }),
+            data: JSON.stringify({ decoded }),
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
             }
         })
         .then(response => {
             console.log('axios_google_sign_in communication success', response.data);
-    
+            switch(response.data.result) {
+                case -2:
+                    alert('존재하지 않는 아이디입니다.');
+                    break;
+                case -3:
+                    alert('계정이 정지되었습니다.');
+                    break;
+                case -4:
+                    alert('비밀번호가 틀렸습니다.');
+                    break;
+                default: 
+                    alert('로그인 성공');
+                    sessionStorage.setItem('sessionID', response.data.sessionID);
+                    dispatch({
+                        type: 'sign_in_success',
+                        sessionID: response.data.sessionID,
+                        loginedMember: response.data.loginedMember,
+                    });
+            }
         })
         .catch(error => {
             console.log('axios_google_sign_in communication error', error);
