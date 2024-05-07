@@ -16,18 +16,41 @@ const StoryReplyUI = () => {
 
   return (
         <>
-          <div id='story_replys_wrap'>
-            {
-				replys.map((reply,idx) => {					
-					return (
-						<div className={idx}>
-							{reply.R_M_ID}: {reply.R_TXT}
-						</div>
-					)
-				})
-            }
+          	<div id='story_replys_wrap'>
+				<h1 className='story_replys_header'>
+					댓글
+				</h1>
+				<div id="story_replys_overflow">
+				{	
+					replys.length === 0
+					?
+					<div className='story_reply_empty'>
+                        댓글이 없습니다.
+                    </div>
+					:
+					replys.map((reply,idx) => {				
+						return (
+							<div idx={idx} className={`story_reply`}>
+								<div className="story_reply_writer_profile">
+									<img src="/imgs/profile_default.png" alt="" />
+								</div>
+								<div className="story_reply_writer_info">
+									<div className='story_reply_writer_id'>{reply.R_M_ID}</div>
+									<div className='story_reply_writer_txt'>{reply.R_TXT}</div>
+								</div>
+							</div>
+						)
+					})
+				}
+				</div>
 				<div className='story_reply_input'>
-					<input type="text" name='r_txt' />
+					<div className='story_reply_input_profile_thum'>
+						<img src="/imgs/profile_default.png" alt="" />
+					</div>
+					<div className='story_reply_input_txt'>
+						<input type="text" name='r_txt' />
+						<button><img src="/imgs/send_arrow.png" alt="" /></button>
+					</div>
 				</div>
             </div>
         </>

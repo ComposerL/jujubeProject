@@ -119,6 +119,7 @@ const Home = () => {
                                 pictures = {allStory.pictures}
                                 s_txt = {allStory.S_TXT}
                                 storyLikeCnt = {allStory.storyLikeCnt}
+                                storyIsLike = {allStory.storyIsLike}
                                 replysCnt = {allStory.replysCnt}
                                 s_replys = {allStory.replys}
                                 s_mod_date = {allStory.S_MOD_DATE}

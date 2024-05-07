@@ -81,7 +81,14 @@ const StoryUi = (props) => {
 			<div className='story_contents_Wrap'>
 				<div className='story_content_icon_wrap'>
 					<a href="#none">
-						<img src="/imgs/story_like_r_icon.png" alt="like button" />
+						{
+							props.storyIsLike !== 0
+							?
+							<img src="/imgs/story_like_r_icon.png" alt="like button" />
+							:
+							<img src="/imgs/story_like_w_icon.png" alt="like button" />
+						}
+						
 					</a>
 					<a href="#none">
 						<img src="/imgs/story_reply_icon.png" alt="reply button" />

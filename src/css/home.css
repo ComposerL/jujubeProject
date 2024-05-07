@@ -9,22 +9,26 @@
 }
 
 #reply_show_modal {
-    width: 753px;
+    width: 750px;
     height: 620px;
     position: absolute;
     bottom: 0px;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.6);
     z-index: 999;
     transition: 0.5s;
+    box-sizing: border-box;
+    padding-top: 60px;
 }
 #reply_hide_modal {
-    width: 753px;
+    width: 750px;
     height: 620px;
     position: absolute;
     bottom: -620px;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.6);
     z-index: 999;
     transition: 0.5s;
+    box-sizing: border-box;
+    padding-top: 60px;
 }
 div.reply_modal_close_btn {
     width: 50px;
