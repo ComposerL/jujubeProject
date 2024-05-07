@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import $ from 'jquery';
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import '../../css/member/sign_in_form.css';
-import '../../css/common.css'
 import { useDispatch } from 'react-redux';
+import '../../css/common.css';
+import '../../css/member/sign_in_form.css';
 
 axios.defaults.withCredentials = true;
 
@@ -74,14 +72,17 @@ const SignIn = () => {
         .then(response => {
             console.log('axios_google_sign_in communication success', response.data);
             switch(response.data.result) {
-                case -2:
-                    alert('존재하지 않는 아이디입니다.');
+                case null:
+                    alert('서버 통신에 문제가 있습니다. 다시 시도해주세요.');
                     break;
                 case -3:
                     alert('계정이 정지되었습니다.');
                     break;
                 case -4:
                     alert('비밀번호가 틀렸습니다.');
+                    break;
+                case -5:
+                    alert('탈퇴한 계정입니다. 관리자에게 문의하세요.');
                     break;
                 default: 
                     alert('로그인 성공');
@@ -124,6 +125,9 @@ const SignIn = () => {
             console.log('data ---> ', response.data);
             
             switch(response.data.result) {
+                case null:
+                    alert('서버 통신에 문제가 있습니다. 다시 시도해주세요.');
+                    break;
                 case -2:
                     alert('존재하지 않는 아이디입니다.');
                     break;

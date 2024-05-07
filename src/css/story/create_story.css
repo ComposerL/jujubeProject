@@ -1,0 +1,87 @@
+
+.preview_img_wrap {
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    text-align: center;
+    border: solid 1px #dadada;
+}
+
+
+.input_file_img {
+    height: 400px;
+    display: flex;
+    align-items: center;
+}
+
+.input_file_img label {
+    display: inline-block;
+    padding: 5px;
+    color: #fff;
+    background-color: #999999;
+    cursor: pointer;
+    height: 40px;
+    margin: 0 auto;
+    line-height: 40px;
+}
+
+.input_file_img input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    vertical-align: middle;
+}
+
+.select_is_public {
+    width: 400px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 auto;
+}
+
+.select_is_public .public_p {
+    font-weight: bold;
+}
+
+.select_is_public .public_p,
+.select_is_public .select_public,
+.select_is_public .select_friend_public {
+    float: left;
+    margin-right: 5px;
+}
+
+.select_is_public .select_private {
+    margin-left: 10px;
+}
+
+.write_s_txt {
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+textarea {
+    resize: none;
+}
+
+textarea::placeholder {
+    line-height: 150px;
+    text-align: center;
+}
+
+.story_btns {
+    width: 80px;
+    margin: 0 auto;
+}
+
+.story_btns button {
+    width: 80px;
+    padding: 5px;
+    background-color: #e8e8e8;
+    &:hover {
+        cursor: pointer;
+    }
+}
