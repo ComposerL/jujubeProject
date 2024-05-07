@@ -50,8 +50,9 @@ const MyHome = () => {
                         type:'session_enter',
                         loginedMember: respones.data.member.M_ID,
                     });
+                    axios_get_profile();
                 }
-    
+            
             }
        })
        .catch(error => {
@@ -64,10 +65,25 @@ const MyHome = () => {
         });
     }
 
+    const axios_get_profile = () => {
+        console.log('axios_get_profile()');
+
+        // axios({
+        //     url: `${process.env.REACT_APP_HOST}/member/get_my_storys`,
+        //     method: 'get',
+        //     params: {
+                
+        //     }
+        // })
+        // .then(response => {
+
+        // })
+    }
+
   return (
     <div id='my_profile_wrap'>
         <div className='profile_member_name'>
-            <p>gildong</p>
+            <p>{}</p>
         </div>
         
         <div className='profile_header'>

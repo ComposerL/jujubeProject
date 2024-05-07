@@ -32,7 +32,7 @@ const StoryUi = (props) => {
       s_replys: props.s_replys,
 		});
 	}
-
+	
 	return (
 		<li className={`story_li_${props.storyIdx}`}>
 			<div className='story_header'>
