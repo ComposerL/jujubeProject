@@ -1,30 +1,36 @@
 import React from 'react';
 import { legacy_createStore as createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter} from 'react-router-dom';
 import './css/common.css';
-import Header from './include/Header';
-import Footer from './include/Footer';
-import Home from './component/Home';
-import SignUp from './component/member/SignUp';
-import SignIn from './component/member/SignIn';
-import Modify from './component/member/Modify';
-import Error from './component/Error';
-import Nav from './include/Nav';
+import './App.css';
+import Wrap from './component/Wrap';
 
 //reducer setting
-const initial_state = { //state 초기값
-    isLogin: false,
-    sessionID: '',
+const initial_state = {
+    sessionID: sessionStorage.getItem('sessionID'),
+    modal: false,
+    s_replys: [],
 }
+
 const reducer = (currentState = initial_state , action) => {
-    console.log("Home reducer()");
+    console.log("App reducer()");
 
     switch(action.type){
+        //story 관련
+        case'story_btn_click': //reply_modal_open
+            console.log("reply_modal_open: " ,action.s_replys);
+            return {...currentState, modal: action.modal , s_replys: action.s_replys}; //modal: true
+        case 'reply_modal_close': //reply_modal_close
+            return {...currentState, modal: action.modal}; //modal: false
+        //session 관련
+        case 'session_out':
+            return {...currentState, sessionID: sessionStorage.getItem('sessionID')};
+        case 'session_enter':
+            console.log("session_enter loginedMember: ", action.loginedMember);
+            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};
         case 'sign_in_success':
-            return {...currentState, isLogin: true, sessionID: action.sessionID};
-        case 'sign_out_success':
-            return {...currentState, isLogin: false, sessionID: ''};
+            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};
         default:
             return currentState;
     }
@@ -33,27 +39,18 @@ const reducer = (currentState = initial_state , action) => {
 function App() {
 
 	//store
-    const store = createStore(reducer);
-
+    const store = createStore(reducer);  
+    
 	return (
 		<div className="App">
-			<Provider store={store}>
+            <Provider store={store}>                
                 <BrowserRouter>
-                    <Header/>
-					<Nav/>
-                    <Routes>{/* views */}
-                        <Route path='/' element={<Home/>}></Route>
-                        <Route path='/member/sing_up_form' element={<SignUp/>}></Route>    
-                        <Route path='/member/sign_in_form' element={<SignIn/>}></Route>
-                        <Route path='/member/modify_form' element={<Modify/>}></Route>
-                        <Route path='/*' element={<Error/>}></Route>
-                    </Routes>
-
-                    <Footer/>
+                    <Wrap/>  
                 </BrowserRouter>
-            </Provider>
+            </Provider>			
 		</div>
 	);
 }
 
 export default App;
+
