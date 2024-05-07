@@ -30,7 +30,7 @@ const reducer = (currentState = initial_state , action) => {
             console.log("session_enter loginedMember: ", action.loginedMember);
             return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};
         case 'sign_in_success':
-            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};
+            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};    
         default:
             return currentState;
     }
