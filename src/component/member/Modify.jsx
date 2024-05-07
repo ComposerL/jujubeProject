@@ -225,7 +225,6 @@ const Modify = () => {
             method: 'get',
             params: {
                 'm_id': mId
-
             }
         })
         .then(response => {
@@ -260,11 +259,11 @@ const Modify = () => {
         })
         .catch(error => {
             console.error('axios_member_delete communication error', error);
-            alert('err');
+            
         })
         .finally(() => {
             console.log('axios_member_delete communication complete');
-            alert('comp');
+            
         });
     }
     
