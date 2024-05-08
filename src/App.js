@@ -19,18 +19,35 @@ const reducer = (currentState = initial_state , action) => {
     switch(action.type){
         //story 관련
         case'story_btn_click': //reply_modal_open
-            console.log("reply_modal_open: " ,action.s_replys);
-            return {...currentState, modal: action.modal , s_replys: action.s_replys}; //modal: true
+            return {...currentState, 
+                modal: action.modal , //modal: true
+                s_no: action.s_no, //스토리 번호
+            }; 
+
         case 'reply_modal_close': //reply_modal_close
-            return {...currentState, modal: action.modal}; //modal: false
+            return {...currentState, 
+                modal: action.modal, //modal: false
+            }; 
+
         //session 관련
-        case 'session_out':
-            return {...currentState, sessionID: sessionStorage.getItem('sessionID')};
-        case 'session_enter':
+        case 'session_out': //서버 세션토큰 만료
+            return {...currentState, 
+                sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
+            };
+
+        case 'session_enter': //서버 세션토큰 유지
             console.log("session_enter loginedMember: ", action.loginedMember);
-            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};
+            return {...currentState, 
+                sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
+                loginedMember: action.loginedMember, //loginedMember 로그인한 멤버 ID
+            };
+
         case 'sign_in_success':
-            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};    
+            return {...currentState, 
+                sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
+                loginedMember: action.loginedMember //loginedMember 로그인한 멤버 ID
+            };  
+
         default:
             return currentState;
     }

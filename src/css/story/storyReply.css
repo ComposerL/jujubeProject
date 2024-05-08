@@ -19,6 +19,8 @@
     /* height: 429px; */
     height: 489px;
     overflow-y: scroll;
+    padding-bottom: 60px;
+    box-sizing: border-box;
     &::-webkit-scrollbar{
         display: none;
     }  
@@ -36,7 +38,7 @@
 }
 #story_replys_overflow .story_reply .story_reply_writer_profile {
     width: 40px;
-    height: 40px;
+    height: 40px;      
     border-radius: 40px;
     background-color: #fff;
     margin-right: 10px;
@@ -96,7 +98,7 @@
     vertical-align: top;
 }
 
-#story_replys_wrap .story_reply_input .story_reply_input_txt button {
+#story_replys_wrap .story_reply_input .story_reply_input_txt button.send_btn_activ {
     margin-top: 4px;
     width: 40px;
     height: 30px;
@@ -105,4 +107,54 @@
     border: none;
     line-height: 30px;
     cursor: pointer;
+}
+
+#story_replys_wrap .story_reply_input .story_reply_input_txt button.send_btn_disabled {
+    margin-top: 4px;
+    width: 40px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: #666;
+    border: none;
+    line-height: 30px;
+    cursor: pointer;
+}
+div.story_reply_writer_info div.re_reply_write_btn {
+    font-size: 0.8em;
+    color: #aaa;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+/* 대댓글 CSS*/
+div.story_reply_writer_info p.re_reply_list_btn {
+    font-size: 0.8em;
+    color: #aaa;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+#re_reply_list_wrap {
+    display: flex;
+    padding: 5px 5px;
+}
+
+#re_reply_list_wrap .re_reply_writer_profile {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    overflow: hidden;
+    margin-right: 10px;
+    img {
+        width: 100%;
+    }
+}
+
+#re_reply_list_wrap .re_reply_writer_id {
+    line-height: 16px;
+    font-size: 0.8em;
+}
+#re_reply_list_wrap .re_reply_writer_txt {
+    line-height: 16px;
+    font-size: 0.8em;
 }

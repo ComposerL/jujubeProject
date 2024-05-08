@@ -29,7 +29,8 @@ const StoryUi = (props) => {
 		dispatch({
 			type:'story_btn_click',
 			modal: true,
-			s_replys: props.s_replys,
+			s_no: props.s_no,
+			// s_replys: props.s_replys,
 		});
 	}
 	
@@ -37,8 +38,13 @@ const StoryUi = (props) => {
 		<li className={`story_li_${props.s_no}`}>
 			<div className='story_header'>
 				<div className='story_header_img'>
-					<img src="/imgs/profile_default.png" alt="" />
-					{/* <img src={props.m_profile_thumbnail} alt="" /> */}
+					{
+						props.memberInfors.M_PROFILE_THUMBNAIL !== null
+						?
+						<img src={`${process.env.REACT_APP_HOST}/${props.memberInfors.M_ID}/${props.memberInfors.M_PROFILE_THUMBNAIL}`} />
+						:
+						<img src="/imgs/profile_default.png" alt="" />
+					}
 				</div>
 				<div className='story_header_member_info_wrap'>
 					<h4>{props.m_id}</h4>
@@ -64,15 +70,15 @@ const StoryUi = (props) => {
 					  }}
 					>
 					{
-						pictures.map((picture, index) => {
+						pictures.map((picture) => {
 							let randomNum = Math.floor((Math.random() * 10)+3);
                             return (
                                 // <SwiperSlide key={index}>
 								// // 	<p style={{'color':'#fff'}}>{picture.SP_NO}</p>
 								// // 	<p style={{'color':'#fff'}}>{picture.SP_PICTURE_NAME}</p>
 								// </SwiperSlide>
-                                <SwiperSlide key={index}><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
-                                // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${props.m_id}/${props.s_no}/${picture.SP_PICTURE_NAME}`} alt="" /></SwiperSlide>
+                                <SwiperSlide ><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
+                                // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" /></SwiperSlide>
                             )
                         })
 					}
@@ -90,7 +96,7 @@ const StoryUi = (props) => {
 						}
 						
 					</a>
-					<a href="#none">
+					<a href="#none" onClick={(e) => storyReplyBtnClickHandler(e)}>
 						<img src="/imgs/story_reply_icon.png" alt="reply button" />
 					</a>
 					<a href="#none">
@@ -106,7 +112,13 @@ const StoryUi = (props) => {
 						<span className='s_text'>{props.s_txt}</span>
 					</p>
 					<div className='story_reply_wrap'>
-						<p onClick={(e) => storyReplyBtnClickHandler(e)}>댓글 <span>{props.replysCnt.toLocaleString("ko-KR")}</span>개 모두 보기</p>
+						{
+							props.replysCnt === 0
+							?
+							null
+							:
+							<p onClick={(e) => storyReplyBtnClickHandler(e)}>댓글 <span>{props.replysCnt.toLocaleString("ko-KR")}</span>개 모두 보기</p>
+						}
 					</div>
 					<div className='story_date'>
 						<p>{props.s_mod_date}</p>

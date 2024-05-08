@@ -51,7 +51,7 @@ const Home = () => {
                     console.log("member_id: " + respones.data.member.M_ID);
                     dispatch({
                         type:'session_enter',
-                        loginedMember: respones.data.member.M_ID,
+                        loginedMember: respones.data.member,
                     });
                     axios_get_all_storys(respones.data.member.M_ID);
                     
@@ -121,10 +121,10 @@ const Home = () => {
                                 storyLikeCnt = {allStory.storyLikeCnt}
                                 storyIsLike = {allStory.storyIsLike}
                                 replysCnt = {allStory.replysCnt}
-                                s_replys = {allStory.replys}
+                                // s_replys = {allStory.replys}
                                 s_mod_date = {allStory.S_MOD_DATE}
                                 storyIdx = {idx}
-
+                                memberInfors = {allStory.memberInfors[0]}
                             />
                         )
                     })
