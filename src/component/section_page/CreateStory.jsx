@@ -1,8 +1,8 @@
 import axios from 'axios';
 import $ from 'jquery';
 import React, { useState } from 'react';
-import Resizer from 'react-image-file-resizer';
 
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/story/create_story.css';
 import ImageSwiper from './ImageSwiper';
@@ -11,65 +11,36 @@ axios.defaults.withCredentials = true;
 
 const CreateStory = () => {
 
-    const [imagePrevies, setImagePrevies] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
     const [uploadImage, setUploadImage] = useState([]);
+    const loginedMember = useSelector(store => store.loginedMember);
     const [isPublic, setIsPublic] = useState('0');
     const [sTxt, setSTxt] = useState('')
 
     const navigate = useNavigate();
 
-    // multiple resizing
-    const onImageHandler = async (e) => {
+    const onImageHandler = (e) => {
 
-        const files = e.target.files;
-        console.log('files---', files);
-        const supportedFormats = ["image/jpeg", "image/png", "image/svg+xml"];
-        const compressedFiles = [];
 
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
 
-            if (!supportedFormats.includes(file.type)) {
-                alert(`${file.name}은 지원되지 않는 이미지 형식입니다. JPEG, PNG, SVG형식의 이미지를 업로드해주세요.`);
-                continue;
-            }
+        const imageArr = e.target.files;
+        let imageURLs = [];
+        setUploadImage(imageArr);
 
-            try {
-
-                const compressedFile = await resizeFile(file);
-                compressedFiles.push(compressedFile);
-
-            } catch (error) {
-                console.log("file resizing failed:", error);
-            }
+        for(let i = 0; i < imageArr.length; i++) {
+            const curImgURL = URL.createObjectURL(imageArr[i]);
+            imageURLs.push(curImgURL);
+            console.log('imageURLs---', imageURLs);
         }
-        
-        setImagePrevies(compressedFiles);
-        console.log('compressedFiles---', compressedFiles);
+
+        setImagePreviews(imageURLs);
 
     }
-
-    const resizeFile = (file) =>
-        new Promise((resolve) => {          //비동기 작업을 위해서 "Promise"를 통한 비동기 작업 정의 
-            Resizer.imageFileResizer(       //Resizer의 "imageFileResize"메서드를 통해서 이미지 리사이징 및 인코딩
-                file,
-                file.width,    // 이미지 너비
-                file.height,    // 이미지 높이
-                "jpeg",  // 파일 형식
-                80,    // 이미지 퀄리티
-                0,
-                (uri) => {
-                resolve(uri); 
-                },
-                "base64"        // output format. base64 or blob
-            );
-        }
-    );
 
     const writeStoryClickBtn = () => {
         console.log('writeStoryClickBtn()')
 
-        if (uploadImage <= 0) {
+        if (uploadImage.length <= 0) {
             alert('스토리에 업로드 할 이미지가 없습니다. 이미지를 선택하세요.')
         } else if (sTxt === '') {
             alert('스토리에 업로드 할 내용을 작성해주세요..')
@@ -85,10 +56,11 @@ const CreateStory = () => {
         let formData = new FormData();
         formData.append("s_txt", sTxt);
         formData.append("s_is_public", isPublic);
-
-        uploadImage.forEach((file) => {
-            formData.append("images", file);
-        })
+        formData.append("m_id", loginedMember);
+        for(let i = 0; i < uploadImage.length; i++) {
+            
+            formData.append("files", uploadImage[i]);
+        }
 
         console.log('formData---', ...formData);
 
@@ -119,7 +91,6 @@ const CreateStory = () => {
         })
 
     }
-
 
     /*
     // 1개 파일 resizing
@@ -173,6 +144,56 @@ const CreateStory = () => {
         })
     */
 
+    /*
+    // multiple resizing
+    const onImageHandler = async (e) => {
+
+        const files = e.target.files;
+        console.log('files---', files);
+        const supportedFormats = ["image/jpeg", "image/png", "image/svg+xml"];
+        const compressedFiles = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            if (!supportedFormats.includes(file.type)) {
+                alert(`${file.name}은 지원되지 않는 이미지 형식입니다. JPEG, PNG, SVG형식의 이미지를 업로드해주세요.`);
+                continue;
+            }
+
+            try {
+
+                const compressedFile = await resizeFile(file);
+                compressedFiles.push(compressedFile);
+
+            } catch (error) {
+                console.log("file resizing failed:", error);
+            }
+        }
+        setUploadImage(compressedFiles);
+        setImagePreviews(compressedFiles);
+        console.log('compressedFiles---', compressedFiles);
+
+    }
+
+    const resizeFile = (file) =>
+        new Promise((resolve) => {          //비동기 작업을 위해서 "Promise"를 통한 비동기 작업 정의 
+            Resizer.imageFileResizer(       //Resizer의 "imageFileResize"메서드를 통해서 이미지 리사이징 및 인코딩
+                file,
+                file.width,    // 이미지 너비
+                file.height,    // 이미지 높이
+                "jpeg",  // 파일 형식
+                80,    // 이미지 퀄리티
+                0,
+                (uri) => {
+                resolve(uri); 
+                },
+                "base64"        // output format. base64 or blob
+            );
+        }
+    );
+    */
+
     return (
         <div id='create_story_wrap'>
 
@@ -180,9 +201,9 @@ const CreateStory = () => {
                 <div className='preview_img_wrap'>
 
                     {
-                        uploadImage.length > 0
+                        imagePreviews.length > 0
                         ?
-                        <ImageSwiper imagePreview={uploadImage} />
+                        <ImageSwiper imagePreviews={imagePreviews} />
                         :
                         <div className='input_file_img'>
                             <label for="file">사진첨부</label> 
@@ -192,7 +213,7 @@ const CreateStory = () => {
                                 className="input_image"
                                 accept="image/*"    // 이미지 파일만 업로드 가능.
                                 multiple
-                                onChange={onImageHandler}
+                                onChange={e => onImageHandler(e)}
                             />
                         </div>
                     }
