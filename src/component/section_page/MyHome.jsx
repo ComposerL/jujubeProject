@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate} from 'react-router-dom';
 import '../../css/myHome.css';
-// import MyProfile from './MyProfile';
+import MyProfile from './myprofile';
 
 axios.defaults.withCredentials = true;
 
@@ -12,11 +12,20 @@ const MyHome = () => {
     //hook
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const otherUserId = useSelector(store => store.otherUser);
 
     useEffect(() => {
         console.log("MyHome useEffect()");
-        axios_get_member();
-    }, []);
+        if(otherUserId) {
+            
+            axios_get_profile(otherUserId);
+
+        } else {
+
+            axios_get_member();
+
+        }
+    }, [otherUserId]);
 
     const axios_get_member = () => {
         console.log("axios_get_member()");
@@ -94,12 +103,20 @@ const MyHome = () => {
                     navigate('/');
                 } else {
                     console.log('member: ', response.data);
-                    dispatch({
-                        type: 'set_my_stories',
-                        story: response.data,
-                        button: true,
-                    });
-
+                    if (m_id === "") {
+                        dispatch({
+                            type: 'set_my_stories',
+                            story: response.data,
+                            button: true,
+                        });
+                    } else {
+                       
+                        dispatch({
+                            type: 'set_other_user_stories',
+                            otherUserId: m_id,
+                            story: response.data,
+                        });
+                    }
                 }
             }
             
@@ -115,7 +132,13 @@ const MyHome = () => {
     
     return (
         <div>
-            {/* <MyProfile /> */}
+            
+                {otherUserId ? (
+                    <otherUserProfile />
+                ) : (
+                    <MyProfile />
+                )}
+          
         </div>
         
     )

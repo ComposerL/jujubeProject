@@ -13,6 +13,9 @@ const initial_state = {
     s_replys: [],
     button: true,
     story: [],
+    otherUser: {
+        userId: null
+    }
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -50,7 +53,10 @@ const reducer = (currentState = initial_state , action) => {
                 loginedMember: action.loginedMember //loginedMember 로그인한 멤버 ID
             };  
         case 'set_my_stories':
-                return {...currentState, button:action.button, story:action.story}  
+                return {...currentState, button:action.button, story:action.story};
+
+        case 'set_other_user_id':
+            return {...currentState, otherUser: {...currentState.otherUser, userId: action.userId}};
         default:
             return currentState; 
     }
