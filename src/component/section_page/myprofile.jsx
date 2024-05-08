@@ -6,10 +6,11 @@ const MyProfile = () => {
 
         {
             m_id: 'gildong',
-            s_no: '',
-            fr_no: '',
+            s_no: '100',
+            fr_no: '100',
+            '팔로워는 없엉': '',
             m_self_introduction:'안녕하세요',
-            sp_no: '',
+            sp_no: 'https://picsum.photos',
         }
     ]
 

@@ -4,9 +4,11 @@ import axios from 'axios';
 import $ from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import MyProfile from './MyProfile';
+// import MyProfile from './MyProfile';
 
 axios.defaults.withCredentials = true;
+
+
 
 const MyHome = () => {
 
@@ -117,7 +119,7 @@ const MyHome = () => {
 
   return (
     <div>
-        <MyProfile />
+        {/* <MyProfile /> */}
     </div>
   )
 }
