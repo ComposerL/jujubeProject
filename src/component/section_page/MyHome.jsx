@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
-import '../../css/myHome.css';
 import axios from 'axios';
-import $ from 'jquery';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import '../../css/myHome.css';
 // import MyProfile from './MyProfile';
 
 axios.defaults.withCredentials = true;

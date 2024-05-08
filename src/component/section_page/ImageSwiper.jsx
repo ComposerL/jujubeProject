@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { Navigation, Pagination } from 'swiper/modules';
 import '../../css/story/img_swiper.css';
 
-const ImageSwiper = ({ imagePreview  }) => {
+const ImageSwiper = ({ imagePreviews  }) => {
+
+    useEffect(() => {
+        console.log('imagePreviews---', imagePreviews);
+    }, [])
+
     return (
         <Swiper
             spaceBetween={10}
@@ -18,7 +23,7 @@ const ImageSwiper = ({ imagePreview  }) => {
             onSwiper={(swiper) => console.log('swiper')}
         >
             {
-                imagePreview.map((image, index) =>
+                imagePreviews.map((image, index) =>
                     <SwiperSlide key={index}>
                         <div className='img_wrap'>
                             <img src={image} alt={`Slide ${index}`} />
