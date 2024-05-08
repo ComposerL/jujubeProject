@@ -57,6 +57,8 @@ const StoryReplyUI = () => {
 	const storyReplySendBtnClickHandler = () => {
 		console.log("storyReplySendBtnClickHandler()");		
 		if(r_txt !== '') {
+			console.log("m_id: " , loginedMember.M_ID);
+			console.log("s_no: ",s_no);
 			console.log("r_txt: ",r_txt);
 			// axios_story_reply_send();
 		}
