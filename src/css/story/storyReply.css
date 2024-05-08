@@ -74,6 +74,7 @@
     height: 40px;
     border-radius: 40px;
     overflow: hidden;
+    background-color: #fff;
     margin-right: 10px;
     img {
         width: 100%;
@@ -145,6 +146,7 @@ div.story_reply_writer_info p.re_reply_list_btn {
     border-radius: 30px;
     overflow: hidden;
     margin-right: 10px;
+    background-color: #fff;
     img {
         width: 100%;
     }

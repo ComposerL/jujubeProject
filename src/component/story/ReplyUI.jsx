@@ -8,7 +8,6 @@ const ReplyUI = (props) => {
 
     useEffect(() => {
         console.log("ReplyUI useEffect()");
-        console.log("[ReplyUI] no: " +props.reply.R_ORIGIN_NO);
     },[props.reply]);
 
     const axios_get_story_re_reply_list = (r_no) => {

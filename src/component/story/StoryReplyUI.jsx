@@ -17,13 +17,12 @@ const StoryReplyUI = () => {
 
 	useEffect(() => {
 		console.log("StoryReplyUI useEffect()");
-		console.log("StoryReplyUI useEffect() s_no: " + s_no);
 		axios_get_story_reply_list(s_no);
   	},[s_no]);
 
 	const axios_get_story_reply_list = (s_no) => {
 		console.log("axios_get_story_reply_list()");
-
+		console.log("get story reply S_NO: ",s_no)
 		axios({
 			url: `${process.env.REACT_APP_HOST}/story/reply/get_replys`,
 			method: 'get',
@@ -33,9 +32,8 @@ const StoryReplyUI = () => {
 		})
 		.then(response => {	
 			console.log("axios get story reply list success!!");
-			console.log("data: ",response.data);
-            setResplys(response.data);
-			
+            setResplys(response.data);		
+			console.log("get story reply: " + response.data);
 		})
 		.catch(err => {
             console.log("axios get story reply list error!!");
@@ -81,8 +79,7 @@ const StoryReplyUI = () => {
                         댓글이 없습니다.
                     </div>
 					:
-					replys.map((reply,idx) => {	
-						console.log("reply=>>>>>>>>",reply);			
+					replys.map((reply,idx) => {				
 						return (
 							<ReplyUI reply={reply} idx={idx}/>
 						)

@@ -12,7 +12,7 @@ const ReReplyUI = (props) => {
             <div>
                 <div className="re_reply_writer_profile">
                     {
-                        props.reReply.M_PROFILE_THUMBNAIL !== undefined && props.reReply.M_PROFILE_THUMBNAIL!== null
+                        props.reReply.M_PROFILE_THUMBNAIL !== undefined && props.reReply.M_PROFILE_THUMBNAIL !== null
                         ?
                         <img src={`${process.env.REACT_APP_HOST}/${props.reReply.R_M_ID}/${props.reReply.M_PROFILE_THUMBNAIL}`} alt="" />
                         :
