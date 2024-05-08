@@ -11,6 +11,8 @@ const initial_state = {
     sessionID: sessionStorage.getItem('sessionID'),
     modal: false,
     s_replys: [],
+    button: true,
+    story: [],
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -28,14 +30,14 @@ const reducer = (currentState = initial_state , action) => {
             return {...currentState, sessionID: sessionStorage.getItem('sessionID')};
         case 'session_enter':
             console.log("session_enter loginedMember: ", action.loginedMember);
-            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};
+            return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember, member: action.member};
         case 'sign_in_success':
             return {...currentState, sessionID: sessionStorage.getItem('sessionID'), loginedMember: action.loginedMember};   
         //profile 관련
         case 'set_my_stories':
-            return {...currentState, }     
+            return {...currentState, button:action.button, story:action.story}     
         default:
-            return currentState;
+            return currentState; 
     }
 }
 

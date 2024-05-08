@@ -124,7 +124,6 @@ const Home = () => {
                                 s_replys = {allStory.replys}
                                 s_mod_date = {allStory.S_MOD_DATE}
                                 storyIdx = {idx}
-
                             />
                         )
                     })

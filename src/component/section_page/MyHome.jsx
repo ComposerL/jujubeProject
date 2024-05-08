@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react'
 import '../../css/myHome.css';
 import axios from 'axios';
-import $ from 'jquery';
+// import $ from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import MyProfile from './MyProfile';
 
-
 axios.defaults.withCredentials = true;
-
-
 
 const MyHome = () => {
     
@@ -27,7 +24,7 @@ const MyHome = () => {
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
             
         })
-       .then(respones => {
+        .then(respones => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
             console.log(respones.data);
             if(respones.data === -1){
@@ -38,7 +35,7 @@ const MyHome = () => {
                 });
                 navigate('/');
             }else{
-    
+                
                 if(respones.data === null){
                     console.log("undefined member");
                     console.log("Home session out!!");
@@ -52,31 +49,30 @@ const MyHome = () => {
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member.M_ID,
+                        member:respones.data,
                     });
                     axios_get_profile(respones.data.member.M_ID);
                 }
-            
             }
-       })
-       .catch(error => {
+        })
+        .catch(error => {
             console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
-        
+            
         })
         .finally(() => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-             
+            
         });
     }
 
     const axios_get_profile = (m_id) => {
         console.log('axios_get_profile()');
-    
         axios({
-            url: `${process.env.REACT_APP_HOST}/member/get_my_storys`,
+            url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
             params: {
                 'm_id': m_id,
-            }
+            }  
         })
         .then(response => {
             console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
@@ -98,13 +94,16 @@ const MyHome = () => {
                 });
                     navigate('/');
                 } else {
-                    console.log("member_id: " + response.data.member.M_ID);
+                    console.log('member: ', response.data);
                     dispatch({
-                        type: 'set_my_stories', 
-                        
+                        type: 'set_my_stories',
+                        story: response.data,
+                        button: true,
                     });
+
                 }
             }
+            
         })
         .catch(error => {
             console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
@@ -115,12 +114,12 @@ const MyHome = () => {
     }
     
     
-
-  return (
-    <div>
-      <MyProfile/>
-    </div>
-  )
+    return (
+        <div>
+            <MyProfile />
+        </div>
+        
+    )
 }
 
 export default MyHome;

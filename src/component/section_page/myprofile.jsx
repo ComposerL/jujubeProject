@@ -1,50 +1,50 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import {useSelector } from 'react-redux';
 
-const MyProfile = ({loginedMember}) => {
+
+const MyProfile = () => {
+
+    const story = useSelector(store => store.story);
+    const member = useSelector(store => store.member);
+    const button = useSelector(store => store.button);
 
     return (
         <div id='my_profile_wrap'>
-        <div className='profile_member_name'>
-            <p>{loginedMember}</p>
-        </div>
-        
-        <div className='profile_header'>
-            <img src="/imgs/profile_default.png" alt="" />
-            <div className='post'>
-                <div>100</div>
-                <div>post</div>
+            <div className='profile_member_name'>
+                <p>{}</p>
             </div>
-            <div className='followers'>
-                <div>200</div>
-                <div>follower</div>
-            </div>    
-            <div className='following'>
-                <div>200</div>
-                <div>following</div>
-            </div>
-        </div>
-        <div className='profile_self_intro'>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis perferendis praesentium deserunt consequuntur in alias asperiores earum accusantium. Enim minus impedit quaerat eligendi ullam fuga eos odit ad ratione veritatis?</p>
-        </div>
-        <div className='profile_follow_btn'>
-            <input type="button" value='팔로우' />
-        </div>
-        <div className='profile_img'>
-            <div>게시물</div>
+            <div className='profile_header'>
+            <img src="" alt="" />
 
-            <div className='profile_item'>
-                <div>a</div>
-                <div>b</div>
-                <div>c</div>
-                <div>d</div>
-                <div>e</div>
-                <div>f</div>
-                <div>g</div>
-                <div>h</div>
-                <div>g</div>
+                <div className='post'>
+                    <div>{story && story.length > 0 ? story.length : 0}</div>
+                    <div>post</div>
+                </div>
+                <div className='followers'>
+                    <div>{0}</div>
+                    <div>friend</div>
+                </div>
+                
+            </div>
+            <div className='profile_self_intro'>
+                <p>{member ? member.member.M_SELF_INTRODUCTION : '자기소개가 없습니다.'}</p>
+            </div>
+            <div className='profile_follow_btn'>
+                {button ? <input type="button" value='프로필 수정' /> : <input type="button" value='팔로우' />}
+            </div>
+            <div className='profile_img'>
+                <div>게시물</div>
+                story.length === 0 ? {}
+                <div className='profile_item'>
+                    {story.map((story, idx) => (
+                    <div key={idx}>
+                        S_NO: {story.S_NO}
+                    </div>
+                    ))}
+                </div>
             </div>
         </div>
-    </div>
     );
 };
 
