@@ -41,7 +41,7 @@ const StoryUi = (props) => {
 					{
 						props.memberInfors.M_PROFILE_THUMBNAIL !== null
 						?
-						<img src={`${process.env.REACT_APP_HOST}/${props.memberInfors.M_ID}/${props.memberInfors.M_PROFILE_THUMBNAIL}`} />
+						<img src={`${process.env.REACT_APP_HOST}/${props.memberInfors.M_ID}/${props.memberInfors.M_PROFILE_THUMBNAIL}`} alt=''/>
 						:
 						<img src="/imgs/profile_default.png" alt="" />
 					}
@@ -70,14 +70,10 @@ const StoryUi = (props) => {
 					  }}
 					>
 					{
-						pictures.map((picture) => {
+						pictures.map((picture,idx) => {
 							let randomNum = Math.floor((Math.random() * 10)+3);
                             return (
-                                // <SwiperSlide key={index}>
-								// // 	<p style={{'color':'#fff'}}>{picture.SP_NO}</p>
-								// // 	<p style={{'color':'#fff'}}>{picture.SP_PICTURE_NAME}</p>
-								// </SwiperSlide>
-                                <SwiperSlide ><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
+                                <SwiperSlide key={idx}><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
                                 // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" /></SwiperSlide>
                             )
                         })

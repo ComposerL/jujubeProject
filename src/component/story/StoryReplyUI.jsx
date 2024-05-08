@@ -75,7 +75,7 @@ const StoryReplyUI = () => {
 				</h1>
 				<div id="story_replys_overflow">
 				{	
-					replys.length === 0 && replys === null
+					replys.length === 0
 					?
 					<div className='story_reply_empty'>
                         댓글이 없습니다.

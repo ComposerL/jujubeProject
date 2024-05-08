@@ -8,7 +8,7 @@ const ReplyUI = (props) => {
 
     useEffect(() => {
         console.log("ReplyUI useEffect()");
-        console.log("[ReplyUI] no: " +props.reply.R_ORGIN_NO);
+        console.log("[ReplyUI] no: " +props.reply.R_ORIGIN_NO);
     },[props.reply]);
 
     const axios_get_story_re_reply_list = (r_no) => {
@@ -64,9 +64,6 @@ const ReplyUI = (props) => {
                         reReplys.length !== 0
                         ?
                         reReplys.map((reReply,idx) => {
-                            if(reReply.R_ORGIN_NO !== props.reply.R_NO){
-                                return null;
-                            }
                             return (
                                 <ReReplyUI idx={idx} reReply={reReply}/>
                             )
