@@ -4,10 +4,12 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import ReplyUI from './ReplyUI';
 
+axios.defaults.withCredentials = true
+
 const StoryReplyUI = () => {
 
 	const [replys,setResplys] = useState([]);
-	
+	const [replyFlag,setReplyFlag] = useState(false);
 	const [r_txt,setR_txt] = useState('');
 
 	// const s_replys = useSelector((store) => store.s_replys );
@@ -18,7 +20,7 @@ const StoryReplyUI = () => {
 	useEffect(() => {
 		console.log("StoryReplyUI useEffect()");
 		axios_get_story_reply_list(s_no);
-  	},[s_no]);
+  	},[s_no,replyFlag]);
 
 	const axios_get_story_reply_list = (s_no) => {
 		console.log("axios_get_story_reply_list()");
@@ -45,7 +47,45 @@ const StoryReplyUI = () => {
 
 	}
 
-	
+	const axios_reply_write_confirm = (m_id,s_no,r_txt) => {
+		console.log("axios_reply_write_confirm()");
+
+		let requestData = {
+			"m_id": m_id,
+            "s_no": s_no,
+            "r_txt": r_txt,
+		};
+
+		axios({
+			url: `${process.env.REACT_APP_HOST}/story/reply/reply_write_confirm`,
+			method: 'post',
+			data: requestData,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+		})
+		.then(response => {	
+			console.log("axios reply write confirm success!!");
+			console.log("response: ",response.data);
+			if(response.data === null){
+				console.log("database error!!");
+			}else if(response.data === 0){
+				console.log("database insert fail!!")
+			}else if(response.data === 1){
+				alert("댓글 등록 성공!!");
+				setReplyFlag(pv => !pv);
+			}
+
+		})
+		.catch(err => {
+            console.log("axios reply write confirm error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios reply write confirm finally!!");
+		});
+
+	}
 
   	const handleKeyDown = (e = React.KeyboardEvent) => {
 		// 키가 눌렸을 때 수행될 작업
@@ -57,10 +97,9 @@ const StoryReplyUI = () => {
 	const storyReplySendBtnClickHandler = () => {
 		console.log("storyReplySendBtnClickHandler()");		
 		if(r_txt !== '') {
-			console.log("m_id: " , loginedMember.M_ID);
-			console.log("s_no: ",s_no);
-			console.log("r_txt: ",r_txt);
-			// axios_story_reply_send();
+
+			axios_reply_write_confirm(loginedMember.M_ID,s_no,r_txt);
+			
 		}
 		setR_txt('');
 	}
