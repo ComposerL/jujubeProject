@@ -11,6 +11,8 @@ const initial_state = {
     sessionID: sessionStorage.getItem('sessionID'),
     modal: false,
     s_replys: [],
+    button: true,
+    story: [],
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -47,9 +49,10 @@ const reducer = (currentState = initial_state , action) => {
                 sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
                 loginedMember: action.loginedMember //loginedMember 로그인한 멤버 ID
             };  
-
+        case 'set_my_stories':
+                return {...currentState, button:action.button, story:action.story}  
         default:
-            return currentState;
+            return currentState; 
     }
 }
 
