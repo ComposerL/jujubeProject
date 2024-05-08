@@ -16,6 +16,8 @@
 }
 
 #story_replys_overflow {
+    /* height: 429px; */
+    height: 489px;
     overflow-y: scroll;
     &::-webkit-scrollbar{
         display: none;
@@ -61,6 +63,8 @@
     padding: 20px 10px;
     position: absolute; bottom: 0;
     border-top: 1px solid #aaa;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
 }
 
 #story_replys_wrap .story_reply_input .story_reply_input_profile_thum {
