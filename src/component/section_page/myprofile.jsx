@@ -44,7 +44,7 @@ const MyProfile = () => {
                 <p>{info.M_SELF_INTRODUCTION ? info.M_SELF_INTRODUCTION : '자기소개가 없습니다.'}</p>
             </div>
             <div className='profile_follow_btn'>
-                {button ? "" : <input type="button" value='친구추가' />}
+                {button ? "" : <input type="button" value='친구추가' /> } <input type="button" value='친구삭제' />
             </div>
             <div className='profile_img'>
                 <div>게시물</div>

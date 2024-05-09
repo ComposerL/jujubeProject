@@ -12,6 +12,7 @@ const initial_state = {
     modal: false,
     s_replys: [],
     button: true,
+    btn_friend: true,
     story: [],
     user: null,
     info: [],
@@ -51,6 +52,7 @@ const reducer = (currentState = initial_state , action) => {
                 sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
                 loginedMember: action.loginedMember //loginedMember 로그인한 멤버 ID
             };  
+
         // 프로필 관련    
         case 'set_my_stories':
             console.log("set_my_stories: ", action.story);
@@ -67,7 +69,7 @@ const reducer = (currentState = initial_state , action) => {
         case 'set_other_user':
             console.log("set_other_user: ", action.info);
             return {...currentState, user:action.user, info:action.info};
-
+            
         default:
             return currentState; 
     }
