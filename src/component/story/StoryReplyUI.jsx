@@ -12,7 +12,6 @@ const StoryReplyUI = () => {
 	const [replyFlag,setReplyFlag] = useState(false);
 	const [r_txt,setR_txt] = useState('');
 
-	// const s_replys = useSelector((store) => store.s_replys );
 	const loginedMember = useSelector(store => store.loginedMember);
 	const s_no = useSelector(store => store.s_no);
 	const modal = useSelector(store => store.modal);
@@ -98,7 +97,6 @@ const StoryReplyUI = () => {
 	const storyReplySendBtnClickHandler = () => {
 		console.log("storyReplySendBtnClickHandler()");		
 		if(r_txt !== '') {
-
 			axios_reply_write_confirm(loginedMember.M_ID,s_no,r_txt);
 			
 		}
@@ -123,7 +121,7 @@ const StoryReplyUI = () => {
 					:
 					replys.map((reply,idx) => {				
 						return (
-							<ReplyUI reply={reply} idx={idx}/>
+							<ReplyUI reply={reply} s_no={s_no} setReplyFlag={setReplyFlag} idx={idx}/>
 						)
 					})
 				}

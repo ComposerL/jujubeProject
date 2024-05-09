@@ -121,7 +121,6 @@ const Home = () => {
                                 storyLikeCnt = {allStory.storyLikeCnt}
                                 storyIsLike = {allStory.storyIsLike}
                                 replysCnt = {allStory.replysCnt}
-                                // s_replys = {allStory.replys}
                                 s_mod_date = {allStory.S_MOD_DATE}
                                 storyIdx = {idx}
                                 memberInfors = {allStory.memberInfors[0]}
