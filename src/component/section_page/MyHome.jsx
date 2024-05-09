@@ -132,13 +132,7 @@ const MyHome = () => {
     
     return (
         <div>
-            
-                {otherUserId ? (
-                    <otherUserProfile />
-                ) : (
-                    <MyProfile />
-                )}
-          
+            <MyProfile />      
         </div>
         
     )
