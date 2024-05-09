@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -14,10 +14,13 @@ const StoryUi = (props) => {
 	const dispatch = useDispatch();
 	const [pictures,setPictures] = useState([]);
 
+	
+	const modal = useSelector(store => store.modal);
+
 	useEffect(() => {
         console.log("StoryUi useEffect()");
         setPictures(props.pictures);
-    },[]);
+    },[modal]);
 
 	const storyTextBtnClickHandler = (e) => {
         console.log("storyTextBtnClickHandler()");
@@ -96,12 +99,12 @@ const StoryUi = (props) => {
 						pictures.map((picture,idx) => {
 							let randomNum = Math.floor((Math.random() * 10)+3);
                             return (
-                                // <SwiperSlide key={idx}><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
-                                <SwiperSlide key={idx}>
-									<div id='swiper_img'>
-									<img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" />
-									</div>
-								</SwiperSlide>
+                                <SwiperSlide key={idx}><div id='swiper_img'><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></div></SwiperSlide>
+                                // <SwiperSlide key={idx}>
+								// 	<div id='swiper_img'>
+								// 	<img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" />
+								// 	</div>
+								// </SwiperSlide>
                             )
                         })
 					}
