@@ -12,10 +12,9 @@ const initial_state = {
     modal: false,
     s_replys: [],
     button: true,
-    btn_friend: true,
     story: [],
-    user: null,
-    info: [],
+    user: '',
+    info: null,
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -56,15 +55,11 @@ const reducer = (currentState = initial_state , action) => {
         // 프로필 관련    
         case 'set_my_stories':
             console.log("set_my_stories: ", action.story);
-            return {...currentState, button:action.button, story:action.story};
+            return {...currentState, button:action.button, story:action.story, info:action.info, user:action.user};
             
         case 'set_other_stories':
             console.log("set_other_stories: ", action.story);
             return {...currentState, button:action.button, story:action.story};
-
-        case 'set_my_user':
-            console.log('set_my_user:', action.info);
-            return{...currentState, user:action.user ,info:action.info};
 
         case 'set_other_user':
             console.log("set_other_user: ", action.info);
