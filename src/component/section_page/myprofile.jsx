@@ -13,6 +13,7 @@ const MyProfile = () => {
     const info = useSelector(store => store.info);
 
     useEffect(() => {
+        
         const dummyData = {
             user: 'gildong',
             info: {
@@ -46,6 +47,10 @@ const MyProfile = () => {
             });
         },[]);
         
+        if (!user || !info || !story.length) {
+            return <div>Loading...</div>;
+        }
+
     console.log('user: ', user);
     console.log('info: ', info);
     console.log('story: ', story);
@@ -54,8 +59,8 @@ const MyProfile = () => {
     return (
         <div id='my_profile_wrap'>
             SDFGSAG
-            {/* <div className='profile_header'> */}
-            {/* {
+            <div className='profile_header'> 
+             {
                 info.M_PROFILE_THUMBNAIL === null
                 ?
                 <img src={`${process.env.REACT_APP_HOST}/${info.M_ID}/${info.M_PROFILE_THUMBNAIL}`} />
@@ -93,7 +98,7 @@ const MyProfile = () => {
                     ))}
                 </div> }
                 
-            </div> */}
+            </div>
         </div>
     );
 };
