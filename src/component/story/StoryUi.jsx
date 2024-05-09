@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -36,6 +37,12 @@ const StoryUi = (props) => {
 	const storyModifyBtnClickHandler = () => {
 		console.log("storyModifyBtnClickHandler()");
 		console.log(`${props.s_no}.no story Modify confirm!!`);
+
+		dispatch({
+			type:'story_modify_btn_click',
+			s_no: props.s_no,
+		});
+
 	}
 	const storyDeleteBtnClickHandler = () => {
 		console.log("storyDeleteBtnClickHandler()");
@@ -63,7 +70,7 @@ const StoryUi = (props) => {
 					<a href="#none" >&#183; &#183; &#183;</a>
 					<div className="story_header_menu_modal">
 						<ul>
-							<li onClick={(e) => storyModifyBtnClickHandler(e)}>게시물수정</li>
+							<li onClick={(e) => storyModifyBtnClickHandler(e)}><Link to="/story/modify_story">게시물수정</Link></li>
 							<li onClick={(e) => storyDeleteBtnClickHandler(e)}>게시물삭제</li>
 						</ul>
 					</div>
