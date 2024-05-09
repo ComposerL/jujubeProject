@@ -4,11 +4,31 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import '../../css/story/img_swiper.css';
 
-const ImageSwiper = ({ imagePreviews  }) => {
+const ImageSwiper = ({ imagePreviews, setUploadImage, setImagePreviews }) => {
 
     useEffect(() => {
         console.log('imagePreviews---', imagePreviews);
     }, [])
+
+    const picDeleteClickBtn = (e) => {
+        console.log('picDeleteClickBtn()');
+
+        let idx = parseInt(e.currentTarget.dataset.idx);
+        console.log('idx---', idx);
+
+        setImagePreviews((prevPreviews) => {
+            const newPreviews = [...prevPreviews];
+            newPreviews.splice(idx, 1);
+            return newPreviews;
+        });
+
+        setUploadImage((prevPreviews) => {
+            const newPreviews = [...prevPreviews];
+            newPreviews.splice(idx, 1);
+            return newPreviews;
+        });
+
+    };
 
     return (
         <Swiper
@@ -27,6 +47,18 @@ const ImageSwiper = ({ imagePreviews  }) => {
                     <SwiperSlide key={index}>
                         <div className='img_wrap'>
                             <img src={image} alt={`Slide ${index}`} />
+                        </div>
+                        <div className='delete_box' data-idx={`${index}`}
+                            style={{
+                                position : 'absolute',
+                                top : '10px',
+                                right : '15px',
+                                cursor : 'pointer',
+                                zIndex : '1000'
+                            }}
+                            onClick={(e) => picDeleteClickBtn(e)}
+                        >
+                            <span>X</span>
                         </div>
                     </SwiperSlide>
                 )
