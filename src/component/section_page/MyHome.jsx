@@ -16,23 +16,22 @@ const MyHome = () => {
     const user = useSelector(store => store.user);
         
 
-    console.log('user MyHome: ', user);
+    console.log('user MyHome:');
 
     useEffect(() => {
-        console.log("MyHome useEffect()", user);
-        if (user || loginedMember) {
-            const User = user || loginedMember;
-            axios_get_member(User);
-        }
-    }, [user, loginedMember]);
+        console.log("MyHome useEffect()");
+        
+            axios_get_member();
+        
+    },[]);
 
-    const axios_get_member = (User) => {
+    const axios_get_member = () => {
         console.log("axios_get_member()");
         
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
             method:'get',
             params: {
-                'm_id' :User
+                
             }
         })
         .then(respones => {
@@ -57,8 +56,7 @@ const MyHome = () => {
                     navigate('/');
                 }else{                    
                     console.log("member_id: " + respones.data.member.M_ID);
-                    
-                    if (respones.data.member.M_ID === User) {
+
                         dispatch({
                             type:'set_my_user',
                             user:respones.data.member.M_ID,
@@ -68,21 +66,12 @@ const MyHome = () => {
                                 M_PROFILE_THUMBNAIL: respones.data.member.M_PROFILE_THUMBNAIL,
                             },
                         });
+
                         dispatch({
                             type:'session_enter',
                             loginedMember: respones.data.member.M_ID,
                         });
-                    } else {
-                        dispatch({
-                            type:'set_other_user',
-                            user: respones.data.member.M_ID,
-                            info: {
-                                M_ID: respones.data.member.M_ID,
-                                selfIntroduction: respones.data.member.M_SELF_INTRODUCTION,
-                                profileThumbnail: respones.data.member.M_PROFILE_THUMBNAIL
-                            },
-                        })
-                    } 
+                        
                     axios_get_profile(respones.data.member.M_ID);
                 }
             }
@@ -96,7 +85,7 @@ const MyHome = () => {
             
         });
     }
-
+    
     const axios_get_profile = (m_id) => {
         console.log('axios_get_profile()');
         axios({
@@ -104,7 +93,7 @@ const MyHome = () => {
             method: 'get',
             params: {
                 'm_id': m_id,
-            }  
+            } 
         })
         .then(response => {
             console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
@@ -127,7 +116,7 @@ const MyHome = () => {
                 } else {
                     const ownID = response.data.map(item => item.S_OWNER_ID);
                     const firstOwner = ownID[0];
-                    console.log('firstOwner: ', firstOwner);    //근데 이거 이렇게 하면 안됨
+                    console.log('firstOwner: ', firstOwner); 
                     if (firstOwner === loginedMember) {
                         dispatch({
                             type: 'set_my_stories',
@@ -142,7 +131,7 @@ const MyHome = () => {
                         });
                     }
                     
-                    axios_get_friend();
+                    
                 }
             }
             
@@ -155,10 +144,6 @@ const MyHome = () => {
         });
     }
 
-    const axios_get_friend = () => {
-        console.log('axios_get_friend()');
-
-    }
     
     return (
         <div>

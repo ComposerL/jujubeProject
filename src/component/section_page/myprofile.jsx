@@ -16,6 +16,36 @@ const MyProfile = () => {
     console.log('story', story);
     console.log('button', button);
 
+    useEffect(() => {
+        console.log("[MyProfile] useEffect()");
+    },[info]);
+
+    // const dummyData = {
+    //     user: 'gildong',
+    //     info: {
+    //         M_ID: 'gildong',
+    //         M_SELF_INTRODUCTION: '나는 홍길동이다.',
+    //         M_PROFILE_THUMBNAIL: 'profile_thumbnail.jpg', 
+    //     },
+    //     story: [
+    //         {
+    //             id: 1,
+    //             picture: 'picture1.jpg', 
+    //         },
+    //         {
+    //             id: 2,
+    //             picture: 'picture2.jpg',
+    //         },
+    //         {
+    //             id: 3,
+    //             picture: 'picture3.jpg',
+    //         },
+    //     ],
+    //     button: true, 
+    //     };
+
+    //     const { user, info, story, button } = dummyData;
+
     return (
         <div id='my_profile_wrap'>
             <div className='profile_header'>

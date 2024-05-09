@@ -1,7 +1,10 @@
 #my_profile_wrap {
     padding: 15px;
     max-height: 597px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }   
 }
 
 #my_profile_wrap div.profile_member_name {
