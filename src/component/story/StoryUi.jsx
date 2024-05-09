@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
 import $ from 'jquery';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { useDispatch } from 'react-redux';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const StoryUi = (props) => {
 	
@@ -73,8 +73,8 @@ const StoryUi = (props) => {
 						pictures.map((picture,idx) => {
 							let randomNum = Math.floor((Math.random() * 10)+3);
                             return (
-                                <SwiperSlide key={idx}><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
-                                // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" /></SwiperSlide>
+                                // <SwiperSlide key={idx}><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
+                                <SwiperSlide key={idx}><img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" /></SwiperSlide>
                             )
                         })
 					}
