@@ -74,7 +74,7 @@ const StoryUi = (props) => {
 							let randomNum = Math.floor((Math.random() * 10)+3);
                             return (
                                 <SwiperSlide key={idx}><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
-                                // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" /></SwiperSlide>
+                                // <SwiperSlide key={idx}><img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" /></SwiperSlide>
                             )
                         })
 					}

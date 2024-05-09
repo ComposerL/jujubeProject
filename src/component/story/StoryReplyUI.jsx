@@ -15,12 +15,14 @@ const StoryReplyUI = () => {
 	// const s_replys = useSelector((store) => store.s_replys );
 	const loginedMember = useSelector(store => store.loginedMember);
 	const s_no = useSelector(store => store.s_no);
+	const modal = useSelector(store => store.modal);
 	
 
 	useEffect(() => {
 		console.log("StoryReplyUI useEffect()");
 		axios_get_story_reply_list(s_no);
-  	},[s_no,replyFlag]);
+		setR_txt('');
+  	},[s_no,replyFlag,modal]);
 
 	const axios_get_story_reply_list = (s_no) => {
 		console.log("axios_get_story_reply_list()");
@@ -35,7 +37,6 @@ const StoryReplyUI = () => {
 		.then(response => {	
 			console.log("axios get story reply list success!!");
             setResplys(response.data);		
-			console.log("get story reply: " + response.data);
 		})
 		.catch(err => {
             console.log("axios get story reply list error!!");

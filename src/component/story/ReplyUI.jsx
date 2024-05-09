@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReReplyUI from './ReReplyUI';
+import $ from 'jquery';
+import { useSelector } from 'react-redux';
 
 const ReplyUI = (props) => {
     
     const [reReplys,setReResplys] = useState([]);
 
+    const [reReplyForMId,setReReplyForMId] = useState('');
+
+    const [reReplyWriteView,setReReplyWriteView] = useState(false);
+
+    const modal = useSelector(store => store.modal);
+
     useEffect(() => {
         console.log("ReplyUI useEffect()");
-    },[props.reply]);
+        setReReplyWriteView(!modal);
+    },[props.reply,modal]);
 
     const axios_get_story_re_reply_list = (r_no) => {
 		console.log("axios_get_story_re_reply_list()");
@@ -40,6 +49,19 @@ const ReplyUI = (props) => {
 		axios_get_story_re_reply_list(r_no);
 	}
 
+    const reReplyWriteViewBtnClickHandler = (e) => {
+        console.log("reReplyWriteViewBtnClickHandler()");
+        // let target = e.target;
+        setReReplyWriteView(true);
+        setReReplyForMId(`${props.reply.R_NO}.${props.reply.R_M_ID}`);
+    }
+
+    const reReplyWriteViewCloseBtnClickHandler = () => {
+        console.log("reReplyWriteViewCloseBtnClickHandler()");
+        setReReplyWriteView(false);
+        setReReplyForMId('');
+    }
+
     return (
         <div idx={props.idx} className={`story_reply`}>
             <div>
@@ -56,7 +78,27 @@ const ReplyUI = (props) => {
             <div className="story_reply_writer_info">
                 <div className='story_reply_writer_id'>{props.reply.R_M_ID}</div>
                 <div className='story_reply_writer_txt'>{props.reply.R_TXT}</div>
-                <div className='re_reply_write_btn'>답글 달기</div>
+                {
+                    !reReplyWriteView
+                    ?
+                    <div className='re_reply_write_btn' onClick={(e) => reReplyWriteViewBtnClickHandler(e)}>답글 달기</div>               
+                    :
+                    <div id={reReplyWriteView ? `re_reply_write_form_wrap_show` : `re_reply_write_form_wrap_hide`}>
+                        <div className='re_reply_write_form_Profile'>
+                            <img src="" alt="" />
+                        </div>
+                        <div className='re_reply_write_form_input'>
+                            <input type="text" value={reReplyForMId} onChange={(e) => setReReplyForMId(e.target.value)}/>
+                            <button><img src="/imgs/send_arrow.png" alt="" /></button>
+                        </div> 
+                        <div className='re_reply_write_close_btn' onClick={reReplyWriteViewCloseBtnClickHandler}>
+                            <div></div>    
+                            <div></div>    
+                        </div>   
+                    </div>
+                }
+                
+                
                 {
                     props.reply.re_replysCnt !== 0
                     ?	

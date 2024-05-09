@@ -126,6 +126,78 @@ div.story_reply_writer_info div.re_reply_write_btn {
     font-weight: bold;
     margin: 5px 0;
 }
+#re_reply_write_form_wrap_show {
+    display: flex;
+    margin-top: 5px;
+}
+#re_reply_write_form_wrap_hide {
+    display: none;
+    margin-top: 5px;
+}
+#re_reply_write_form_wrap_show div.re_reply_write_form_Profile {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #fff;
+    overflow: hidden;
+}
+#re_reply_write_form_wrap_show div.re_reply_write_form_input {
+    width: 202px;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 10px;
+    height: 20px;
+    margin-left: 5px;
+    input[type="text"] {
+        color: #fff;        
+        border: none;
+        background-color: inherit;
+        height: 20px;  
+        box-sizing: border-box; 
+        vertical-align: top;
+        padding-left: 5px;
+        outline: none;
+        margin-right: 2px;
+    }
+    button {
+        margin-top: 2px;
+        width: 24px;
+        height: 16px;
+        border-radius: 20px;
+        background-color: #3897f0;
+        border: none;
+        line-height: 20px;
+        cursor: pointer;
+        overflow: hidden;
+        img {
+            height: 18px;
+        }
+    }
+}
+#re_reply_write_form_wrap_show div.re_reply_write_close_btn {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    position: relative;
+    cursor: pointer;
+    div:nth-child(1) {
+        position: absolute;
+        width: 15px;
+        height: 2px;
+        top: 0; bottom: 0; left: 0; right: 0;
+        margin: auto;
+        background-color: #fff;
+        transform: rotate(45deg);
+    }
+    div:nth-child(2) {
+        position: absolute;
+        width: 15px;
+        height: 2px;
+        top: 0; bottom: 0; left: 0; right: 0;
+        margin: auto;
+        background-color: #fff;
+        transform: rotate(-45deg);
+    }
+}
 
 /* 대댓글 CSS*/
 div.story_reply_writer_info p.re_reply_list_btn {
