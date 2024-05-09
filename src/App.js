@@ -13,9 +13,8 @@ const initial_state = {
     s_replys: [],
     button: true,
     story: [],
-    otherUser: {
-        userId: null
-    }
+    user: null,
+    info: [],
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -52,11 +51,23 @@ const reducer = (currentState = initial_state , action) => {
                 sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
                 loginedMember: action.loginedMember //loginedMember 로그인한 멤버 ID
             };  
+        // 프로필 관련    
         case 'set_my_stories':
-                return {...currentState, button:action.button, story:action.story};
+            console.log("set_my_stories: ", action.story);
+            return {...currentState, button:action.button, story:action.story};
+            
+        case 'set_other_stories':
+            console.log("set_other_stories: ", action.story);
+            return {...currentState, button:action.button, story:action.story};
 
-        case 'set_other_user_id':
-            return {...currentState, otherUser: {...currentState.otherUser, userId: action.userId}};
+        case 'set_my_user':
+            console.log('set_my_user:', action.info);
+            return{...currentState, user:action.user ,info:action.info};
+
+        case 'set_other_user':
+            console.log("set_other_user: ", action.info);
+            return {...currentState, user:action.user, info:action.info};
+
         default:
             return currentState; 
     }
