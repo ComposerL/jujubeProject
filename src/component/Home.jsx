@@ -22,7 +22,7 @@ const Home = () => {
     useEffect(() => {
         console.log("Home useEffect()");
         axios_get_member();
-    },[]);
+    },[modal]);
 
     //비동기 통신
     const axios_get_member = () => {
