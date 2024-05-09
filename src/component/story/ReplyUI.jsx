@@ -4,12 +4,12 @@ import ReReplyUI from './ReReplyUI';
 import $ from 'jquery';
 import { useSelector } from 'react-redux';
 
+axios.defaults.withCredentials = true
+
 const ReplyUI = (props) => {
     
     const [reReplys,setReResplys] = useState([]);
-
-    const [reReplyForMId,setReReplyForMId] = useState('');
-
+    const [rTxt,setRTxt] = useState('');
     const [reReplyWriteView,setReReplyWriteView] = useState(false);
 
     const modal = useSelector(store => store.modal);
@@ -17,6 +17,7 @@ const ReplyUI = (props) => {
     useEffect(() => {
         console.log("ReplyUI useEffect()");
         setReReplyWriteView(!modal);
+        setReResplys([]);
     },[props.reply,modal]);
 
     const axios_get_story_re_reply_list = (r_no) => {
@@ -43,6 +44,49 @@ const ReplyUI = (props) => {
 
 	}
 
+    const axios_re_reply_write_confirm = () => {
+		console.log("axios_re_reply_write_confirm()");
+
+		let requestData = {
+            's_no' : props.s_no,
+            'r_origin_no' : props.reply.R_NO,
+            'r_txt' : rTxt,
+            'm_id' : props.reply.R_M_ID,
+        }
+
+		axios({
+			url: `${process.env.REACT_APP_HOST}/story/reply/re_reply_write_confirm`,
+			method: 'post',
+			data: requestData,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+		})
+		.then(response => {	
+			console.log("axios re_reply write confirm success!!");
+			console.log("response: ",response.data);
+			if(response.data === null){
+				console.log("database error!!");
+			}else if(response.data === 0){
+				console.log("database insert fail!!")
+			}else if(response.data === 1){
+				alert("댓글 등록 성공!!");
+				props.setReplyFlag(pv => !pv);               
+                
+			}
+
+		})
+		.catch(err => {
+            console.log("axios re_reply write confirm error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios re_reply write confirm finally!!");
+            setReReplyWriteView(false);
+		});
+
+	}
+
     const reReplyListBtnClickHandler = (e) => {
 		console.log("reReplyListBtnClickHandler()");
 		let r_no = e.target.dataset.r_no;
@@ -53,13 +97,21 @@ const ReplyUI = (props) => {
         console.log("reReplyWriteViewBtnClickHandler()");
         // let target = e.target;
         setReReplyWriteView(true);
-        setReReplyForMId(`${props.reply.R_NO}.${props.reply.R_M_ID}`);
+        setRTxt('');
+        
     }
 
     const reReplyWriteViewCloseBtnClickHandler = () => {
         console.log("reReplyWriteViewCloseBtnClickHandler()");
         setReReplyWriteView(false);
-        setReReplyForMId('');
+        setRTxt('');
+    }
+
+    const reReplyWriteSendBtnClickHandler = () => {
+        console.log("reReplyWriteSendBtnClickHandler"); 
+        console.log(`${props.s_no}게시물 ${props.reply.R_M_ID}님의 ${props.reply.R_NO}번 댓글에 ${rTxt}라고 대댓글 남김`);   
+        axios_re_reply_write_confirm();
+        setRTxt('');    
     }
 
     return (
@@ -88,8 +140,8 @@ const ReplyUI = (props) => {
                             <img src="" alt="" />
                         </div>
                         <div className='re_reply_write_form_input'>
-                            <input type="text" value={reReplyForMId} onChange={(e) => setReReplyForMId(e.target.value)}/>
-                            <button><img src="/imgs/send_arrow.png" alt="" /></button>
+                            <input type="text" value={rTxt} onChange={(e) => setRTxt(e.target.value)}/>
+                            <button onClick={reReplyWriteSendBtnClickHandler}><img src="/imgs/send_arrow.png" alt="" /></button>
                         </div> 
                         <div className='re_reply_write_close_btn' onClick={reReplyWriteViewCloseBtnClickHandler}>
                             <div></div>    

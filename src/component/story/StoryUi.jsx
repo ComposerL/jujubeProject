@@ -30,9 +30,18 @@ const StoryUi = (props) => {
 			type:'story_btn_click',
 			modal: true,
 			s_no: props.s_no,
-			// s_replys: props.s_replys,
 		});
 	}
+
+	const storyModifyBtnClickHandler = () => {
+		console.log("storyModifyBtnClickHandler()");
+		console.log(`${props.s_no}.no story Modify confirm!!`);
+	}
+	const storyDeleteBtnClickHandler = () => {
+		console.log("storyDeleteBtnClickHandler()");
+		console.log(`${props.s_no}.no story Delete confirm!!`);
+	}
+
 	
 	return (
 		<li className={`story_li_${props.s_no}`}>
@@ -51,8 +60,15 @@ const StoryUi = (props) => {
 					<p>{props.m_name}</p>
 				</div>
 				<div className='story_header_menu_btn'>
-					<a href="#none">&#183; &#183; &#183;</a>
+					<a href="#none" >&#183; &#183; &#183;</a>
+					<div className="story_header_menu_modal">
+						<ul>
+							<li onClick={(e) => storyModifyBtnClickHandler(e)}>게시물수정</li>
+							<li onClick={(e) => storyDeleteBtnClickHandler(e)}>게시물삭제</li>
+						</ul>
+					</div>
 				</div>
+				
 			</div>
 			<div className='story_pictures_wrap'>
 				

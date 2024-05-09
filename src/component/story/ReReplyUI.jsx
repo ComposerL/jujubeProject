@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 const ReReplyUI = (props) => {
 
@@ -9,7 +9,7 @@ const ReReplyUI = (props) => {
     return (
         
         <div id='re_reply_list_wrap'>
-            <div>
+            <div>            
                 <div className="re_reply_writer_profile">
                     {
                         props.reReply.M_PROFILE_THUMBNAIL !== undefined && props.reReply.M_PROFILE_THUMBNAIL !== null
@@ -21,7 +21,7 @@ const ReReplyUI = (props) => {
                 </div>
             </div>
             <div className="re_reply_writer_info">
-                <div className='re_reply_writer_id'>{props.reReply.R_M_ID}</div>
+                <div className='re_reply_writer_id'>{`${props.reReply.R_M_ID}`}</div>
                 <div className='re_reply_writer_txt'>{props.reReply.R_TXT}</div>
             </div>										
         </div>
