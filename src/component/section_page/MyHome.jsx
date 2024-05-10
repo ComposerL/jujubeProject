@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
-import MyProfile from './MyProfile';
+// import MyProfile from './MyProfile';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
@@ -176,7 +176,7 @@ const MyHome = () => {
 
     return (
         <div>
-            <MyProfile />      
+            {/* <MyProfile /> */}
         </div>
         
     )
