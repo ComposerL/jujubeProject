@@ -1,10 +1,10 @@
 import React from 'react';
-import { legacy_createStore as createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { BrowserRouter} from 'react-router-dom';
-import './css/common.css';
+import { BrowserRouter } from 'react-router-dom';
+import { legacy_createStore as createStore } from 'redux';
 import './App.css';
 import Wrap from './component/Wrap';
+import './css/common.css';
 
 //reducer setting
 const initial_state = {
@@ -33,6 +33,11 @@ const reducer = (currentState = initial_state , action) => {
             return {...currentState, 
                 modal: action.modal, //modal: false
             }; 
+        
+        case 'story_modify_btn_click':  // story modify
+            return {...currentState, 
+                s_no: action.s_no, //스토리 번호
+            };
 
         //session 관련
         case 'session_out': //서버 세션토큰 만료
