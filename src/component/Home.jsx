@@ -1,12 +1,12 @@
+import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import '../css/home.css';
 
 import '../css/story/story.css';
-import StoryUi from './story/StoryUi';
 import StoryReplyUI from './story/StoryReplyUI';
+import StoryUi from './story/StoryUi';
 
 const Home = () => {
 
@@ -23,6 +23,12 @@ const Home = () => {
     useEffect(() => {
         console.log("Home useEffect()");
         axios_get_member();
+
+        let token = sessionStorage.getItem('sessionID');
+        console.log('token----', jwtDecode(token)) ;
+        // let date = (new Date().getTime() + 1) / 1000;
+
+
     },[modal,storyFlag]);
 
     //비동기 통신

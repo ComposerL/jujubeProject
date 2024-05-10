@@ -188,7 +188,7 @@ const Modify = () => {
             headers: {
                 'Authorization': `${accessToken}`
             }
-            
+
         })
         .then(response => {
             console.log('axios_member_modify communication success', response.data);
