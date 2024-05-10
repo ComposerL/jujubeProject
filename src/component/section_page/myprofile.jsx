@@ -94,10 +94,10 @@ const MyProfile = () => {
 
     }
 
-    const openStoryClickHandler = (clickedStory) => {
-        console.log('addFriendClickHandler()', clickedStory);
+    const openStoryClickHandler = (story) => {
+        console.log('addFriendClickHandler()', story);
 
-        setMystory([clickedStory]);
+        setMystory([story]);
 
     }
 
@@ -138,36 +138,37 @@ const MyProfile = () => {
                 <div>게시물</div>
                 {story.length === 0 ? '내용이 없습니다.' : <div className='profile_item'>
                     {story.map((story, idx) => (
-                    <div key={idx} onClick={(e) => openStoryClickHandler(e)}>
+                    <div key={idx} onClick={() => openStoryClickHandler(story)}>
 
                         {story.pictures && story.pictures[0] && story.pictures[0].SP_PICTURE_NAME && 
                             <img src={`${process.env.REACT_APP_HOST}/${info.M_ID}/${story.pictures[0].SP_PICTURE_NAME[0]}`} alt="" />
                         }
-
+            
                     </div>
                     ))}
                 </div> }
 
-                {   
-                    mystory.map((story, idx) => {
-                        return (
+                <div className='my_story_ui'>
+                    {mystory.length > 0 && 
+                        mystory.map((story, idx) => (
                             <StoryUi
-                                s_no = {story.S_NO} 
-                                m_id = {story.memberInfors[0].M_ID}
-                                m_name = {story.memberInfors[0].M_NAME}
-                                m_profile_thumbnail = {story.memberInfors[0].M_PROFILE_THUMBNAIL}
-                                pictures = {story.pictures}
-                                s_txt = {story.S_TXT}
-                                storyLikeCnt = {story.storyLikeCnt}
-                                storyIsLike = {story.storyIsLike}
-                                replysCnt = {story.replysCnt}
-                                s_mod_date = {story.S_MOD_DATE}
-                                storyIdx = {idx}
-                                memberInfors = {story.memberInfors[0]}
+                                key={idx}
+                                s_no={story.S_NO}
+                                m_id={story.memberInfors[0].M_ID}
+                                m_name={story.memberInfors[0].M_NAME}
+                                m_profile_thumbnail={story.memberInfors[0].M_PROFILE_THUMBNAIL}
+                                pictures={story.pictures}
+                                s_txt={story.S_TXT}
+                                storyLikeCnt={story.storyLikeCnt}
+                                storyIsLike={story.storyIsLike}
+                                replysCnt={story.replysCnt}
+                                s_mod_date={story.S_MOD_DATE}
+                                memberInfors={story.memberInfors[0]}
                             />
-                        )
-                    })
-                }
+                        ))
+                    }
+                </div>    
+
             </div>
 
         </div>
