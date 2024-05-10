@@ -16,6 +16,7 @@ const StoryUi = (props) => {
 
 	
 	const modal = useSelector(store => store.modal);
+	const loginedMember = useSelector(store => store.loginedMember);
 
 	useEffect(() => {
         console.log("StoryUi useEffect()");
@@ -72,10 +73,19 @@ const StoryUi = (props) => {
 				<div className='story_header_menu_btn'>
 					<a href="#none" >&#183; &#183; &#183;</a>
 					<div className="story_header_menu_modal">
-						<ul>
-							<li onClick={(e) => storyModifyBtnClickHandler(e)}><Link to="/story/modify_story">게시물수정</Link></li>
-							<li onClick={(e) => storyDeleteBtnClickHandler(e)}>게시물삭제</li>
-						</ul>
+						{
+							props.m_id === loginedMember.M_ID
+							?
+							<ul>
+								<li onClick={(e) => storyModifyBtnClickHandler(e)}><Link to="/story/modify_story">게시물수정</Link></li>
+								<li onClick={(e) => storyDeleteBtnClickHandler(e)}>게시물삭제</li>
+							</ul>
+							:
+							<ul>
+								<li>신고하기</li>
+								<li>절교하기</li>
+							</ul>
+						}
 					</div>
 				</div>
 				
@@ -114,7 +124,7 @@ const StoryUi = (props) => {
 				<div className='story_content_icon_wrap'>
 					<a href="#none">
 						{
-							props.storyIsLike !== 0
+							props.storyIsLike > 0
 							?
 							<img src="/imgs/story_like_r_icon.png" alt="like button" />
 							:
