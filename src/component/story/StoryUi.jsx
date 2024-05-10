@@ -99,12 +99,12 @@ const StoryUi = (props) => {
 						pictures.map((picture,idx) => {
 							let randomNum = Math.floor((Math.random() * 10)+3);
                             return (
-                                <SwiperSlide key={idx}><div id='swiper_img'><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></div></SwiperSlide>
-                                // <SwiperSlide key={idx}>
-								// 	<div id='swiper_img'>
-								// 	<img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" />
-								// 	</div>
-								// </SwiperSlide>
+                                // <SwiperSlide key={idx}><div id='swiper_img'><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></div></SwiperSlide>
+                                <SwiperSlide key={idx}>
+									<div id='swiper_img'>
+									<img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" />
+									</div>
+								</SwiperSlide>
                             )
                         })
 					}
