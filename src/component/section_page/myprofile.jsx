@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import '../../css/myHome.css';
 import StoryUi from '../story/StoryUi';
 import StoryReplyUI from '../story/StoryReplyUI';
 
@@ -31,10 +30,12 @@ const MyProfile = () => {
 
     },[loginedMember]);
         
-        if (!loginedMember || !story.length) {
+        if (!loginedMember) {
             return <div>Loading...</div>;
         }   
         
+        console.log('story: ', story);
+
 
     //버튼 분기
     const btn = () => {
@@ -124,22 +125,44 @@ const MyProfile = () => {
                 {btn()}
             
             </div>
-            <div className='profile_img'>
-                <div>게시물</div>
-                {story.length === 0 ? '내용이 없습니다.' : <div className='profile_item'>
-                    {story.map((story, idx) => (
-                    <div key={idx} onClick={() => openStoryClickHandler(story)}>
 
-                        {story.pictures && story.pictures[0] && story.pictures[0].SP_PICTURE_NAME && 
-                            <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME[0]}`} alt="" />
-                        }
-            
-                    </div>
-                    ))}
-                </div> }
+            <div className='profile_img_name'>게시물</div>
+
+            <div id='profile_img' >
+                
+                    {
+                        story.length === 0 
+                        ? 
+                        '내용이 없습니다.' 
+                        : 
+                        <div className='profile_item'>
+                            {
+                                story.map((story, idx) => {
+                                    return (
+
+                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>
+                                            
+                                            {
+                                                story.pictures.length === 0
+                                                ?
+                                                <img src="" alt="" />
+                                                :
+                                                <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
+
+                                            }
+                                            
+                                        </div>
+                                    )
+                                })
+                            }  
+                        </div> 
+                    }
+
+                </div>
+                
 
                 <ul id='story_wrap'>
-                    {mystory.length > 0 && 
+                    {
                         mystory.map((story, idx) => (
                             <StoryUi
                                 key={idx}
@@ -158,7 +181,7 @@ const MyProfile = () => {
                         ))
                     }
                 </ul>   
-            </div>
+            
             <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
             <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
                 <div></div>
