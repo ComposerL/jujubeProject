@@ -238,10 +238,17 @@ div.story_reply_writer_info p.re_reply_list_btn {
 }
 
 #re_reply_list_wrap .re_reply_writer_id {
+    height: 16px;
     line-height: 16px;
     font-size: 0.8em;
 }
 #re_reply_list_wrap .re_reply_writer_txt {
     line-height: 16px;
     font-size: 0.8em;
+}
+#re_reply_delete_btn {
+    font-size: 0.9em;
+    margin-left: 10px;
+    color: #aaa;
+    cursor: pointer;
 }

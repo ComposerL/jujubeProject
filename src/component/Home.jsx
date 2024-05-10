@@ -14,6 +14,7 @@ const Home = () => {
     const sessionID = useSelector(store => store.sessionID);
     const loginedMember = useSelector(store => store.loginedMember);
     const modal = useSelector(store => store.modal);
+    const [storyFlag,setStoryFlag] = useState(false);
 
     const [allStorys,setAllStorys] = useState([]);
 
@@ -22,7 +23,7 @@ const Home = () => {
     useEffect(() => {
         console.log("Home useEffect()");
         axios_get_member();
-    },[modal]);
+    },[modal,storyFlag]);
 
     //비동기 통신
     const axios_get_member = () => {
@@ -124,6 +125,7 @@ const Home = () => {
                                 s_mod_date = {allStory.S_MOD_DATE}
                                 storyIdx = {idx}
                                 memberInfors = {allStory.memberInfors[0]}
+                                setStoryFlag = {setStoryFlag}
                             />
                         )
                     })
