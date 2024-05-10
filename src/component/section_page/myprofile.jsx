@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
+import StoryUi from '../story/StoryUi';
 
 const MyProfile = () => {
 
@@ -12,6 +13,8 @@ const MyProfile = () => {
     const user = useSelector(store => store.user);
     const info = useSelector(store => store.info);
     const friend = useSelector(store => store.friend);
+
+    const [mystory, setMystory] = useState([]);
 
     useEffect(() => {
 
@@ -89,6 +92,12 @@ const MyProfile = () => {
     const addFriendClickHandler = () => {
         console.log('addFriendClickHandler()');
 
+    }
+
+    const openStoryClickHandler = (clickedStory) => {
+        console.log('addFriendClickHandler()', clickedStory);
+
+        setMystory([clickedStory]);
 
     }
 
@@ -129,13 +138,38 @@ const MyProfile = () => {
                 <div>게시물</div>
                 {story.length === 0 ? '내용이 없습니다.' : <div className='profile_item'>
                     {story.map((story, idx) => (
-                    <div key={idx}>
-                    <img src={story.picture} alt="" />    
+                    <div key={idx} onClick={(e) => openStoryClickHandler(e)}>
+
+                        {story.pictures && story.pictures[0] && story.pictures[0].SP_PICTURE_NAME && 
+                            <img src={`${process.env.REACT_APP_HOST}/${info.M_ID}/${story.pictures[0].SP_PICTURE_NAME[0]}`} alt="" />
+                        }
+
                     </div>
                     ))}
                 </div> }
-                
+
+                {   
+                    mystory.map((story, idx) => {
+                        return (
+                            <StoryUi
+                                s_no = {story.S_NO} 
+                                m_id = {story.memberInfors[0].M_ID}
+                                m_name = {story.memberInfors[0].M_NAME}
+                                m_profile_thumbnail = {story.memberInfors[0].M_PROFILE_THUMBNAIL}
+                                pictures = {story.pictures}
+                                s_txt = {story.S_TXT}
+                                storyLikeCnt = {story.storyLikeCnt}
+                                storyIsLike = {story.storyIsLike}
+                                replysCnt = {story.replysCnt}
+                                s_mod_date = {story.S_MOD_DATE}
+                                storyIdx = {idx}
+                                memberInfors = {story.memberInfors[0]}
+                            />
+                        )
+                    })
+                }
             </div>
+
         </div>
     );
 };
