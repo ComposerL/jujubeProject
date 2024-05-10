@@ -8,12 +8,14 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true
 
 const StoryUi = (props) => {
 	
 	const dispatch = useDispatch();
 	const [pictures,setPictures] = useState([]);
-
 	
 	const modal = useSelector(store => store.modal);
 	const loginedMember = useSelector(store => store.loginedMember);
@@ -48,11 +50,99 @@ const StoryUi = (props) => {
 		});
 
 	}
+
 	const storyDeleteBtnClickHandler = () => {
 		console.log("storyDeleteBtnClickHandler()");
-		console.log(`${props.s_no}.no story Delete confirm!!`);
+		
+		if(window.confirm("게시물을 삭제하시겠습니까?")){
+			console.log(`${props.s_no}.no story Delete confirm!!`);
+			axios_story_delete_confirm();
+		}
 	}
 
+	const storyLikeBtnClickHandler = () => {
+		console.log("storyLikeBtnClickHandler()");
+		console.log("s_no: " + props.s_no);
+		console.log("m_id: " + loginedMember.M_ID);
+		console.log("sl_is_like: " + props.storyIsLike);
+		axios_story_like_update();
+	}
+
+	const axios_story_delete_confirm = () => {
+		console.log("axios_story_delete_confirm()");
+
+		let requestData = {
+			's_no': props.s_no
+		};
+
+		axios({
+			url: `${process.env.REACT_APP_HOST}/story/story/delete_confirm`,
+			method: 'delete',
+			data: requestData,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+		})
+		.then(response => {	
+			console.log("axios story delete confirm success!!");
+			console.log("response: ",response.data);
+			if(response.data === null){
+				console.log("database error!!");
+			}else if(response.data > 0){
+				props.setStoryFlag(pv => !pv);
+			}else{
+				console.log("database delete fail!!");
+			}
+
+		})
+		.catch(err => {
+            console.log("axios story delete confirm error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios story delete confirm finally!!");
+		});
+
+	}
+
+	const axios_story_like_update = () => {
+		console.log("axios_story_like_update()");
+
+		let requestData = {
+			s_no: props.s_no,
+			m_id: loginedMember.M_ID,
+			sl_is_like: props.storyIsLike,
+		};
+
+		axios({
+			url: `${process.env.REACT_APP_HOST}/story/story/story_like_update`,
+			method: 'post',
+			data: requestData,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+		})
+		.then(response => {	
+			console.log("axios story like update success!!");
+			console.log("response: ",response.data);
+			if(response.data === null){
+				console.log("database error!!");
+			}else if(response.data > 0){
+				props.setStoryFlag(pv => !pv);
+			}else{
+				console.log("database delete fail!!");
+			}
+
+		})
+		.catch(err => {
+            console.log("axios story like update error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios story like update finally!!");
+		});
+
+	}
 	
 	return (
 		<li className={`story_li_${props.s_no}`}>
@@ -122,7 +212,7 @@ const StoryUi = (props) => {
 			</div>
 			<div className='story_contents_Wrap'>
 				<div className='story_content_icon_wrap'>
-					<a href="#none">
+					<a href="#none" onClick={storyLikeBtnClickHandler}>
 						{
 							props.storyIsLike > 0
 							?

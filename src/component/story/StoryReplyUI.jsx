@@ -47,11 +47,11 @@ const StoryReplyUI = () => {
 
 	}
 
-	const axios_reply_write_confirm = (m_id,s_no,r_txt) => {
+	const axios_reply_write_confirm = (s_no,r_txt) => {
 		console.log("axios_reply_write_confirm()");
 
 		let requestData = {
-			"m_id": m_id,
+			"m_id": loginedMember.M_ID,
             "s_no": s_no,
             "r_txt": r_txt,
 		};
@@ -97,7 +97,7 @@ const StoryReplyUI = () => {
 	const storyReplySendBtnClickHandler = () => {
 		console.log("storyReplySendBtnClickHandler()");		
 		if(r_txt !== '') {
-			axios_reply_write_confirm(loginedMember.M_ID,s_no,r_txt);
+			axios_reply_write_confirm(s_no,r_txt);
 			
 		}
 		setR_txt('');
