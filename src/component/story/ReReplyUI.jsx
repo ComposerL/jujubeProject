@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;
 
 const ReReplyUI = (props) => {
 
-    const loginedMember = useSelector(store => store.loginedMember)
+    const loginedMember = useSelector(store => store.loginedMember);
 
     useEffect(() => {
         console.log('ReReplyUI useEffect()');
@@ -17,6 +17,7 @@ const ReReplyUI = (props) => {
 
 		let requestData = {
             'r_no' : props.reReply.R_NO,
+            'r_class' : props.reReply.R_CLASS,
         }
 
 		axios({

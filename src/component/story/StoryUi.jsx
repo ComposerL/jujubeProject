@@ -8,12 +8,14 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true
 
 const StoryUi = (props) => {
 	
 	const dispatch = useDispatch();
 	const [pictures,setPictures] = useState([]);
-
 	
 	const modal = useSelector(store => store.modal);
 	const loginedMember = useSelector(store => store.loginedMember);
@@ -48,9 +50,52 @@ const StoryUi = (props) => {
 		});
 
 	}
+
 	const storyDeleteBtnClickHandler = () => {
 		console.log("storyDeleteBtnClickHandler()");
-		console.log(`${props.s_no}.no story Delete confirm!!`);
+		
+		if(window.confirm("게시물을 삭제하시겠습니까?")){
+			console.log(`${props.s_no}.no story Delete confirm!!`);
+			axios_story_delete_confirm();
+		}
+	}
+
+	const axios_story_delete_confirm = () => {
+		console.log("axios_story_delete_confirm()");
+
+		let requestData = {
+			's_no': props.s_no
+		};
+
+		axios({
+			url: `${process.env.REACT_APP_HOST}/story/story/delete_confirm`,
+			method: 'delete',
+			data: requestData,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+		})
+		.then(response => {	
+			console.log("axios story delete confirm success!!");
+			console.log("response: ",response.data);
+			if(response.data === null){
+				console.log("database error!!");
+			}else if(response.data > 0){
+				alert("게시물 삭제 성공!!");
+				props.setStoryFlag(pv => !pv);
+			}else{
+				console.log("database delete fail!!");
+			}
+
+		})
+		.catch(err => {
+            console.log("axios story delete confirm error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios story delete confirm finally!!");
+		});
+
 	}
 
 	

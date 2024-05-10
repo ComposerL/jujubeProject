@@ -93,6 +93,7 @@ const ReplyUI = (props) => {
 
 		let requestData = {
             'r_no' : props.reply.R_NO,
+            'r_class' : props.reply.R_CLASS,
         }
 
 		axios({
