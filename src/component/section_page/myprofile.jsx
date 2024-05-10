@@ -6,50 +6,61 @@ import { useNavigate } from 'react-router-dom';
 
 const MyProfile = () => {
 
+    const dispatch = useDispatch();
     const story = useSelector(store => store.story);
     const button = useSelector(store => store.button);
     const user = useSelector(store => store.user);
     const info = useSelector(store => store.info);
 
-    console.log('user', user);
-    console.log('info', info.M_PROFILE_THUMBNAIL);
-    console.log('story', story);
-    console.log('button', button);
-
     useEffect(() => {
-        console.log("[MyProfile] useEffect()");
-    },[info]);
+        
+        const dummyData = {
+            user: 'gildong',
+            info: {
+                M_ID: 'gildong',
+                M_SELF_INTRODUCTION: '나는 홍길동이다.',
+                M_PROFILE_THUMBNAIL: 'profile_thumbnail.jpg', 
+            },
+            story: [
+                {
+                    id: 1,
+                    picture: 'picture1.jpg', 
+                },
+                {
+                    id: 2,
+                    picture: 'picture2.jpg',
+                },
+                {
+                    id: 3,
+                    picture: 'picture3.jpg',
+                },
+            ],
+                button: true, 
+            };
 
-    // const dummyData = {
-    //     user: 'gildong',
-    //     info: {
-    //         M_ID: 'gildong',
-    //         M_SELF_INTRODUCTION: '나는 홍길동이다.',
-    //         M_PROFILE_THUMBNAIL: 'profile_thumbnail.jpg', 
-    //     },
-    //     story: [
-    //         {
-    //             id: 1,
-    //             picture: 'picture1.jpg', 
-    //         },
-    //         {
-    //             id: 2,
-    //             picture: 'picture2.jpg',
-    //         },
-    //         {
-    //             id: 3,
-    //             picture: 'picture3.jpg',
-    //         },
-    //     ],
-    //     button: true, 
-    //     };
+            dispatch({
+                type:'set_my_stories',
+                user:dummyData.user,
+                info:dummyData.info,
+                story:dummyData.story,
+                button:dummyData.button,
+            });
+        },[]);
+        
+        if (!user || !info || !story.length) {
+            return <div>Loading...</div>;
+        }
 
-    //     const { user, info, story, button } = dummyData;
+    console.log('user: ', user);                    
+    console.log('info: ', info);
+    console.log('story: ', story);
+    console.log('button: ', button);
 
     return (
         <div id='my_profile_wrap'>
-            <div className='profile_header'>
-            {
+            SDFGSAG
+            <div className='profile_header'> 
+             {
                 info.M_PROFILE_THUMBNAIL === null
                 ?
                 <img src={`${process.env.REACT_APP_HOST}/${info.M_ID}/${info.M_PROFILE_THUMBNAIL}`} />

@@ -14,19 +14,16 @@ const MyHome = () => {
     const navigate = useNavigate();
     const loginedMember = useSelector(store => store.loginedMember);
     const user = useSelector(store => store.user);
-        
-
-    console.log('user MyHome:');
 
     useEffect(() => {
-        console.log("MyHome useEffect()");
+        //console.log("MyHome useEffect()");
         
             axios_get_member();
         
     },[]);
 
     const axios_get_member = () => {
-        console.log("axios_get_member()");
+        //console.log("axios_get_member()");
         
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
             method:'get',
@@ -35,10 +32,10 @@ const MyHome = () => {
             }
         })
         .then(respones => {
-            console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(respones.data);
+            // console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
+            // console.log(respones.data);
             if(respones.data === -1){
-                console.log("Home session out!!");
+                // console.log("Home session out!!");
                 sessionStorage.removeItem('sessionID');
                 dispatch({
                     type:'session_out',
@@ -47,15 +44,15 @@ const MyHome = () => {
             }else{
                 
                 if(respones.data === null){
-                    console.log("undefined member");
-                    console.log("Home session out!!");
+                    // console.log("undefined member");
+                    // console.log("Home session out!!");
                     sessionStorage.removeItem('sessionID');
                     dispatch({
                         type:'session_out',
                     });
                     navigate('/');
                 }else{                    
-                    console.log("member_id: " + respones.data.member.M_ID);
+                    // console.log("member_id: " + respones.data.member.M_ID);
 
                         dispatch({
                             type:'set_my_user',
@@ -77,17 +74,17 @@ const MyHome = () => {
             }
         })
         .catch(error => {
-            console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
+            // console.log('AXIOS GET MEMBER COMMUNICATION ERROR');S
             
         })
         .finally(() => {
-            console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
+            // console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
             
         });
     }
     
     const axios_get_profile = (m_id) => {
-        console.log('axios_get_profile()');
+        // console.log('axios_get_profile()');
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
@@ -96,10 +93,10 @@ const MyHome = () => {
             } 
         })
         .then(response => {
-            console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
-            console.log(response.data);
+            // console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
+            // console.log(response.data);
             if (response.data === -1) {
-                console.log("Home session out!!");
+                // console.log("Home session out!!");
                 sessionStorage.removeItem('sessionID');
                 dispatch({
                     type: 'session_out',
@@ -107,7 +104,7 @@ const MyHome = () => {
                 navigate('/');
             } else {
                 if (response.data === null) {
-                    console.log("undefined member");
+                    // console.log("undefined member");
                     sessionStorage.removeItem('sessionID');
                     dispatch({
                         type: 'session_out',
@@ -116,7 +113,7 @@ const MyHome = () => {
                 } else {
                     const ownID = response.data.map(item => item.S_OWNER_ID);
                     const firstOwner = ownID[0];
-                    console.log('firstOwner: ', firstOwner); 
+                    // console.log('firstOwner: ', firstOwner); 
                     if (firstOwner === loginedMember) {
                         dispatch({
                             type: 'set_my_stories',
@@ -137,10 +134,10 @@ const MyHome = () => {
             
         })
         .catch(error => {
-            console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
+            // console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
         })
         .finally(() => {
-            console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+            // console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
         });
     }
 
