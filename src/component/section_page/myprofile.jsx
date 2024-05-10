@@ -78,12 +78,18 @@ const MyProfile = () => {
             case 0:
                 return null; 
             case -1:
-                return <input type="button" value="친구 추가" />;
+                return <input type="button" value="친구 추가" onClick={(e) => addFriendClickHandler(e)} />;
             case -2:
                 return <input type="button" value="이미 친구임" />;
             default:
                 return null; 
         }
+    }
+
+    const addFriendClickHandler = () => {
+        console.log('addFriendClickHandler()');
+
+
     }
 
     return (
