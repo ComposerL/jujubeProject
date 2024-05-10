@@ -51,19 +51,8 @@ const MyHome = () => {
                     console.log("member_id: " + respones.data.member.M_ID);
 
                         dispatch({
-                            type:'set_my_info',
-                            user:respones.data.member.M_ID,
-                            info: {
-                                M_ID: respones.data.member.M_ID,
-                                M_SELF_INTRODUCTION: respones.data.member.M_SELF_INTRODUCTION,
-                                M_PROFILE_THUMBNAIL: respones.data.member.M_PROFILE_THUMBNAIL,
-                            },
-                            button: 0,
-                        });
-
-                        dispatch({
                             type:'session_enter',
-                            loginedMember: respones.data.member.M_ID,
+                            loginedMember: respones.data.member,
                         });
                         
                     axios_get_profile(respones.data.member.M_ID);

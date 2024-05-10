@@ -1,6 +1,5 @@
 #my_profile_wrap {
-    padding: 15px;
-    max-height: 597px;
+    height: 620px;
     overflow-y: scroll;
     &::-webkit-scrollbar{
         display: none;
@@ -20,6 +19,7 @@
     /* justify-content: space-between; */
     flex-direction: row;
     align-items: center;
+    margin: 10px;
 }
 
 #my_profile_wrap div.post, div.friend {
@@ -60,24 +60,27 @@
     background-color: #357ae8;
 }
 
-#my_profile_wrap div.profile_img {
-    text-align: center;
+#my_profile_wrap #profile_imgs {
+    /* text-align: center;
     padding: 10px;
     font-size: 1.2em;
+    font-weight: bold; */
+}
+
+#my_profile_wrap div.profile_img_name {
+    margin: 10px;
+    text-align: center;
     font-weight: bold;
+    font-size: 1.3em;
 }
 
 #my_profile_wrap div.profile_item {
-    display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3px; /* 간격을 조절 */
- 
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+
 }
 
 #my_profile_wrap div.profile_item img {
-    /* background-color: #ccc; */
     border: 1px solid #000; 
-    width: 150px;
-    height: 150px;
- 
 } 
