@@ -4,76 +4,38 @@ import {useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import StoryUi from '../story/StoryUi';
+import StoryReplyUI from '../story/StoryReplyUI';
 
 const MyProfile = () => {
 
     const dispatch = useDispatch();
+    const loginedMember = useSelector(store => store.loginedMember);
     const story = useSelector(store => store.story);
     const button = useSelector(store => store.button);
-    const user = useSelector(store => store.user);
-    const info = useSelector(store => store.info);
     const friend = useSelector(store => store.friend);
+    const modal = useSelector(store => store.modal);
 
+    const [mId, setMId] = useState('');
+    const [mSelfIntroduction, setMSelfIntroduction] = useState('');
+    const [mProfileThumbnail, setMProfileThumbnail] = useState('');
+    
     const [mystory, setMystory] = useState([]);
 
     useEffect(() => {
-
-        console.log('useEffect()');
-        // const dummyData = {
-        //     user: 'gildong',
-        //     info: {
-        //         M_ID: 'gildong',
-        //         M_SELF_INTRODUCTION: '나는 홍길동이다.',
-        //         M_PROFILE_THUMBNAIL: 'profile_thumbnail.jpg', 
-        //     },
-        //     friend: [
-        //         {
-        //             F_OWNER_ID:'hihi',
-        //         },
-        //         {
-        //             F_OWNER_ID:'chanho',
-        //         },
-        //         {
-        //             F_OWNER_ID:'seari',
-        //         }
-        //     ],
-        //     story: [
-        //         {
-        //             SP_OWNER_NO: 1,
-        //             SP_PICTURE_NAME: 'picture1.jpg', 
-        //         },
-        //         {
-        //             SP_OWNER_NO: 2,
-        //             picSP_PICTURE_NAMEture: 'picture2.jpg',
-        //         },
-        //         {
-        //             SP_OWNER_NO: 3,
-        //             SP_PICTURE_NAME: 'picture3.jpg',
-        //         },
-        //     ],
-        //         button: true, 
-        //     };
-
-        //     dispatch({
-        //         type:'test',
-        //         user:dummyData.user,
-        //         info:dummyData.info,
-        //         story:dummyData.story,
-        //         button:dummyData.button,
-        //         friend:dummyData.friend,
-        //     });
-        },[]);
-        
-        if (!user || !info || !story.length) {
-            return <div>Loading...</div>;
+       
+        if (loginedMember) {
+            setMId(loginedMember.M_ID);
+            setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
+            setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
         }
 
-    console.log('user: ', user);                    
-    console.log('info: ', info);
-    console.log('story: ', story);
-    console.log('button: ', button);
-    console.log('friend: ', friend);
+    },[loginedMember]);
         
+        if (!loginedMember || !story.length) {
+            return <div>Loading...</div>;
+        }   
+        
+
     //버튼 분기
     const btn = () => {
 
@@ -81,9 +43,9 @@ const MyProfile = () => {
             case 0:
                 return null; 
             case -1:
-                return <input type="button" value="친구 추가" onClick={(e) => addFriendClickHandler(e)} />;
+                return <input type="button" value="친구 추가" onClick={addFriendClickHandler} />;
             case -2:
-                return <input type="button" value="이미 친구임" />;
+                return <input type="button" value="친구 삭제" onClick={deleteFriendClickHandler} />;
             default:
                 return null; 
         }
@@ -92,6 +54,21 @@ const MyProfile = () => {
     const addFriendClickHandler = () => {
         console.log('addFriendClickHandler()');
 
+        
+    }
+
+    const deleteFriendClickHandler = () => {
+        console.log('deleteFriendClickHandler()');
+
+        const isDeleteFriend = window.confirm("정말로 친구 삭제하시겠습니까?");
+
+        if (isDeleteFriend) {
+            axios_delete_friend();
+            dispatch({
+                type:'set_my_friend',
+                button: -1,
+            });
+        }
     }
 
     const openStoryClickHandler = (story) => {
@@ -101,14 +78,27 @@ const MyProfile = () => {
 
     }
 
+
+    const replyModalCloseBtnClickHandler = () => {
+        console.log('replyModalCloseBtnClickHandler()');
+        dispatch({
+            type:'reply_modal_close',
+            modal: false,
+        });
+    }
+
+    const axios_delete_friend = () => {
+       
+    }
+
     return (
         <div id='my_profile_wrap'>
 
             <div className='profile_header'> 
             {
-                info.M_PROFILE_THUMBNAIL !== null
+                mProfileThumbnail !== null
                 ?
-                <img src={`${process.env.REACT_APP_HOST}/${info.M_ID}/${info.M_PROFILE_THUMBNAIL}`} />
+                <img src={`${process.env.REACT_APP_HOST}/${mId}/${mProfileThumbnail}`} />
                 :
                 <img src="/imgs/profile_default.png" />
             }
@@ -124,10 +114,10 @@ const MyProfile = () => {
                 
             </div>
             <div className='profile_member_name'>
-                <p>{user}</p>
+                <p>{mId}</p>
             </div>
             <div className='profile_self_intro'>
-                <p>{info.M_SELF_INTRODUCTION ? info.M_SELF_INTRODUCTION : '자기소개가 없습니다.'}</p>
+                <p>{mSelfIntroduction ? mSelfIntroduction : '자기소개가 없습니다.'}</p>
             </div>
             <div className='profile_follow_btn'>
             
@@ -141,14 +131,14 @@ const MyProfile = () => {
                     <div key={idx} onClick={() => openStoryClickHandler(story)}>
 
                         {story.pictures && story.pictures[0] && story.pictures[0].SP_PICTURE_NAME && 
-                            <img src={`${process.env.REACT_APP_HOST}/${info.M_ID}/${story.pictures[0].SP_PICTURE_NAME[0]}`} alt="" />
+                            <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME[0]}`} alt="" />
                         }
             
                     </div>
                     ))}
                 </div> }
 
-                <div className='my_story_ui'>
+                <ul id='story_wrap'>
                     {mystory.length > 0 && 
                         mystory.map((story, idx) => (
                             <StoryUi
@@ -167,9 +157,15 @@ const MyProfile = () => {
                             />
                         ))
                     }
-                </div>    
-
+                </ul>   
             </div>
+            <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
+            <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
+                <div></div>
+                <div></div>
+            </div>
+            <StoryReplyUI/>
+        </div>
 
         </div>
     );

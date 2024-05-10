@@ -59,13 +59,13 @@ const reducer = (currentState = initial_state , action) => {
             return {...currentState, button:action.button, story:action.story, info:action.info, user:action.user, friend:action.friend};
             
         case 'set_my_info'://내 정보 가져오기
-            console.log("set_my_info: ", action.user, action.info, action.button);
-            return {...currentState, user:action.user, info:action.info, button:action.button};
+            console.log("set_my_info: ");
+            return {...currentState, button:action.button};
 
         case 'set_my_stories'://내 스토리 가져오기
             console.log("set_my_stories: ", action.story);
             return {...currentState, story:action.story};
-            
+
         case 'set_my_friend':
             console.log('set_my_friend', action.friend);
             return {...currentState, friend:action.friend};    
