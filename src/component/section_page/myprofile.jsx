@@ -51,7 +51,7 @@ const MyProfile = () => {
             return <div>Loading...</div>;
         }
 
-    console.log('user: ', user);
+    console.log('user: ', user);                    
     console.log('info: ', info);
     console.log('story: ', story);
     console.log('button: ', button);
