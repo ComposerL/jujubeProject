@@ -4,7 +4,7 @@ import ReReplyUI from './ReReplyUI';
 import $ from 'jquery';
 import { useSelector } from 'react-redux';
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
 const ReplyUI = (props) => {
     
@@ -52,7 +52,7 @@ const ReplyUI = (props) => {
             's_no' : props.s_no,
             'r_origin_no' : props.reply.R_NO,
             'r_txt' : rTxt,
-            'm_id' : props.reply.R_M_ID,
+            'm_id' : loginedMember.M_ID,
         }
 
 		axios({
@@ -207,13 +207,13 @@ const ReplyUI = (props) => {
                 }                
                 
                 {
-                    props.reply.re_replysCnt !== 0
+                    props.reply.re_replysCnt > 0
                     ?	
-                        reReplys.length !== 0
+                        reReplys.length > 0
                         ?
                         reReplys.map((reReply,idx) => {
                             return (
-                                <ReReplyUI idx={idx} reReply={reReply}/>
+                                <ReReplyUI idx={idx} reReply={reReply} s_no={props.s_no} setReplyFlag={props.setReplyFlag}/>
                             )
                         })
                         :				
