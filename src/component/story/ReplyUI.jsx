@@ -13,6 +13,7 @@ const ReplyUI = (props) => {
     const [reReplyWriteView,setReReplyWriteView] = useState(false);
 
     const modal = useSelector(store => store.modal);
+    const loginedMember = useSelector(store => store.loginedMember);
 
     useEffect(() => {
         console.log("ReplyUI useEffect()");
@@ -108,10 +109,14 @@ const ReplyUI = (props) => {
     }
 
     const reReplyWriteSendBtnClickHandler = () => {
-        console.log("reReplyWriteSendBtnClickHandler"); 
-        console.log(`${props.s_no}게시물 ${props.reply.R_M_ID}님의 ${props.reply.R_NO}번 댓글에 ${rTxt}라고 대댓글 남김`);   
+        console.log("reReplyWriteSendBtnClickHandler");    
         axios_re_reply_write_confirm();
         setRTxt('');    
+    }
+
+    const replyDeleteBtnClickHandler = (e) => {
+        console.log("replyDeleteBtnClickHandler()");
+        console.log(`${props.s_no}번 게시물 ${props.reply.R_NO}번 댓글 삭제`);
     }
 
     return (
@@ -128,7 +133,18 @@ const ReplyUI = (props) => {
                 </div>
             </div>
             <div className="story_reply_writer_info">
-                <div className='story_reply_writer_id'>{props.reply.R_M_ID}</div>
+                <div className='story_reply_writer_id'>
+                    {props.reply.R_M_ID}
+                    {   
+                        props.reply.R_M_ID === loginedMember.M_ID
+                        ?
+                        <span onClick={(e) => replyDeleteBtnClickHandler(e)} className='reply_delete_btn'>
+                            댓글삭제
+                        </span>
+                        :
+                        null
+                    }
+                </div>
                 <div className='story_reply_writer_txt'>{props.reply.R_TXT}</div>
                 {
                     !reReplyWriteView
@@ -148,8 +164,7 @@ const ReplyUI = (props) => {
                             <div></div>    
                         </div>   
                     </div>
-                }
-                
+                }                
                 
                 {
                     props.reply.re_replysCnt !== 0
@@ -168,6 +183,8 @@ const ReplyUI = (props) => {
                     :
                     null
                 }
+                
+                
             </div>
         </div>
     )
