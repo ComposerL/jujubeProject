@@ -88,6 +88,43 @@ const ReplyUI = (props) => {
 
 	}
 
+    const axios_reply_delete_confirm = () => {
+		console.log("axios_reply_delete_confirm()");
+
+		let requestData = {
+            'r_no' : props.reply.R_NO,
+        }
+
+		axios({
+			url: `${process.env.REACT_APP_HOST}/story/reply/delete_confirm`,
+			method: 'delete',
+			data: requestData,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+		})
+		.then(response => {	
+			console.log("axios reply delete confirm success!!");
+			console.log("response: ",response.data);
+			if(response.data === null){
+				console.log("database error!!");
+			}else if(response.data > 0){
+				props.setReplyFlag(pv => !pv);               
+			}else{
+				console.log("database delete fail!!");                
+			}
+
+		})
+		.catch(err => {
+            console.log("axios reply delete confirm error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios reply delete confirm finally!!");
+		});
+
+	}
+
     const reReplyListBtnClickHandler = (e) => {
 		console.log("reReplyListBtnClickHandler()");
 		let r_no = e.target.dataset.r_no;
@@ -116,7 +153,10 @@ const ReplyUI = (props) => {
 
     const replyDeleteBtnClickHandler = (e) => {
         console.log("replyDeleteBtnClickHandler()");
-        console.log(`${props.s_no}번 게시물 ${props.reply.R_NO}번 댓글 삭제`);
+        if(window.confirm("댓글을 삭제하시겠습니까?")){
+            console.log(`${props.s_no}번 게시물 ${props.reply.R_NO}번 댓글 삭제 요청`);
+            axios_reply_delete_confirm();
+        }
     }
 
     return (
