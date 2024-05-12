@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import $  from 'jquery';
+import $ from 'jquery';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import '../../css/member/modify_form.css'
+import { useNavigate } from 'react-router-dom';
+import '../../css/member/modify_form.css';
+import { getCookie } from './../../util/cookie';
 
 axios.defaults.withCredentials = true
 
@@ -178,11 +179,16 @@ const Modify = () => {
 
         console.log('formData=======>', ...formData);
 
+        let accessToken = getCookie('accessToken');
+
         axios({
             url: `${process.env.REACT_APP_HOST}/member/modify_confirm`, 
             method: 'post',
             data: formData,
-            
+            headers: {
+                'Authorization': `${accessToken}`
+            }
+
         })
         .then(response => {
             console.log('axios_member_modify communication success', response.data);

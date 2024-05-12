@@ -14,12 +14,14 @@ const StoryReplyUI = () => {
 
 	const loginedMember = useSelector(store => store.loginedMember);
 	const s_no = useSelector(store => store.s_no);
+	const modal = useSelector(store => store.modal);
 	
 
 	useEffect(() => {
 		console.log("StoryReplyUI useEffect()");
 		axios_get_story_reply_list(s_no);
-  	},[s_no,replyFlag]);
+		setR_txt('');
+  	},[s_no,replyFlag,modal]);
 
 	const axios_get_story_reply_list = (s_no) => {
 		console.log("axios_get_story_reply_list()");
@@ -34,7 +36,6 @@ const StoryReplyUI = () => {
 		.then(response => {	
 			console.log("axios get story reply list success!!");
             setResplys(response.data);		
-			console.log("get story reply: " + response.data);
 		})
 		.catch(err => {
             console.log("axios get story reply list error!!");
@@ -46,11 +47,11 @@ const StoryReplyUI = () => {
 
 	}
 
-	const axios_reply_write_confirm = (m_id,s_no,r_txt) => {
+	const axios_reply_write_confirm = (s_no,r_txt) => {
 		console.log("axios_reply_write_confirm()");
 
 		let requestData = {
-			"m_id": m_id,
+			"m_id": loginedMember.M_ID,
             "s_no": s_no,
             "r_txt": r_txt,
 		};
@@ -96,8 +97,7 @@ const StoryReplyUI = () => {
 	const storyReplySendBtnClickHandler = () => {
 		console.log("storyReplySendBtnClickHandler()");		
 		if(r_txt !== '') {
-
-			axios_reply_write_confirm(loginedMember.M_ID,s_no,r_txt);
+			axios_reply_write_confirm(s_no,r_txt);
 			
 		}
 		setR_txt('');
@@ -121,7 +121,7 @@ const StoryReplyUI = () => {
 					:
 					replys.map((reply,idx) => {				
 						return (
-							<ReplyUI reply={reply} idx={idx}/>
+							<ReplyUI reply={reply} s_no={s_no} setReplyFlag={setReplyFlag} idx={idx}/>
 						)
 					})
 				}

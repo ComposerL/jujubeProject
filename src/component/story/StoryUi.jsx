@@ -1,22 +1,29 @@
-import React, { useEffect, useState } from 'react'
 import $ from 'jquery';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { useDispatch } from 'react-redux';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true
 
 const StoryUi = (props) => {
 	
 	const dispatch = useDispatch();
 	const [pictures,setPictures] = useState([]);
+	
+	const modal = useSelector(store => store.modal);
+	const loginedMember = useSelector(store => store.loginedMember);
 
 	useEffect(() => {
         console.log("StoryUi useEffect()");
         setPictures(props.pictures);
-    },[]);
+    },[modal]);
 
 	const storyTextBtnClickHandler = (e) => {
         console.log("storyTextBtnClickHandler()");
@@ -30,8 +37,111 @@ const StoryUi = (props) => {
 			type:'story_btn_click',
 			modal: true,
 			s_no: props.s_no,
-			// s_replys: props.s_replys,
 		});
+	}
+
+	const storyModifyBtnClickHandler = () => {
+		console.log("storyModifyBtnClickHandler()");
+		console.log(`${props.s_no}.no story Modify confirm!!`);
+
+		dispatch({
+			type:'story_modify_btn_click',
+			s_no: props.s_no,
+		});
+
+	}
+
+	const storyDeleteBtnClickHandler = () => {
+		console.log("storyDeleteBtnClickHandler()");
+		
+		if(window.confirm("게시물을 삭제하시겠습니까?")){
+			console.log(`${props.s_no}.no story Delete confirm!!`);
+			axios_story_delete_confirm();
+		}
+	}
+
+	const storyLikeBtnClickHandler = () => {
+		console.log("storyLikeBtnClickHandler()");
+		console.log("s_no: " + props.s_no);
+		console.log("m_id: " + loginedMember.M_ID);
+		console.log("sl_is_like: " + props.storyIsLike);
+		axios_story_like_update();
+	}
+
+	const axios_story_delete_confirm = () => {
+		console.log("axios_story_delete_confirm()");
+
+		let requestData = {
+			's_no': props.s_no
+		};
+
+		axios({
+			url: `${process.env.REACT_APP_HOST}/story/story/delete_confirm`,
+			method: 'delete',
+			data: requestData,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+		})
+		.then(response => {	
+			console.log("axios story delete confirm success!!");
+			console.log("response: ",response.data);
+			if(response.data === null){
+				console.log("database error!!");
+			}else if(response.data > 0){
+				props.setStoryFlag(pv => !pv);
+			}else{
+				console.log("database delete fail!!");
+			}
+
+		})
+		.catch(err => {
+            console.log("axios story delete confirm error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios story delete confirm finally!!");
+		});
+
+	}
+
+	const axios_story_like_update = () => {
+		console.log("axios_story_like_update()");
+
+		let requestData = {
+			s_no: props.s_no,
+			m_id: loginedMember.M_ID,
+			sl_is_like: props.storyIsLike,
+		};
+
+		axios({
+			url: `${process.env.REACT_APP_HOST}/story/story/story_like_update`,
+			method: 'post',
+			data: requestData,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+		})
+		.then(response => {	
+			console.log("axios story like update success!!");
+			console.log("response: ",response.data);
+			if(response.data === null){
+				console.log("database error!!");
+			}else if(response.data > 0){
+				props.setStoryFlag(pv => !pv);
+			}else{
+				console.log("database delete fail!!");
+			}
+
+		})
+		.catch(err => {
+            console.log("axios story like update error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios story like update finally!!");
+		});
+
 	}
 	
 	return (
@@ -51,8 +161,24 @@ const StoryUi = (props) => {
 					<p>{props.m_name}</p>
 				</div>
 				<div className='story_header_menu_btn'>
-					<a href="#none">&#183; &#183; &#183;</a>
+					<a href="#none" >&#183; &#183; &#183;</a>
+					<div className="story_header_menu_modal">
+						{
+							props.m_id === loginedMember.M_ID
+							?
+							<ul>
+								<li onClick={(e) => storyModifyBtnClickHandler(e)}><Link to="/story/modify_story">게시물수정</Link></li>
+								<li onClick={(e) => storyDeleteBtnClickHandler(e)}>게시물삭제</li>
+							</ul>
+							:
+							<ul>
+								<li>신고하기</li>
+								<li>절교하기</li>
+							</ul>
+						}
+					</div>
 				</div>
+				
 			</div>
 			<div className='story_pictures_wrap'>
 				
@@ -73,8 +199,12 @@ const StoryUi = (props) => {
 						pictures.map((picture,idx) => {
 							let randomNum = Math.floor((Math.random() * 10)+3);
                             return (
-                                <SwiperSlide key={idx}><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></SwiperSlide>
-                                // <SwiperSlide key={index}><img src={`process.env.REACT_APP_HOST/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" /></SwiperSlide>
+                                // <SwiperSlide key={idx}><div id='swiper_img'><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></div></SwiperSlide>
+                                <SwiperSlide key={idx}>
+									<div id='swiper_img'>
+									<img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" />
+									</div>
+								</SwiperSlide>
                             )
                         })
 					}
@@ -82,9 +212,9 @@ const StoryUi = (props) => {
 			</div>
 			<div className='story_contents_Wrap'>
 				<div className='story_content_icon_wrap'>
-					<a href="#none">
+					<a href="#none" onClick={storyLikeBtnClickHandler}>
 						{
-							props.storyIsLike !== 0
+							props.storyIsLike > 0
 							?
 							<img src="/imgs/story_like_r_icon.png" alt="like button" />
 							:

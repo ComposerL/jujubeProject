@@ -1,44 +1,48 @@
- #my_profile_wrap {
-    padding: 15px;
-    max-height: 597px;
-    overflow-y: auto;
+#my_profile_wrap {
+    height: 620px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }   
 }
 
 #my_profile_wrap div.profile_member_name {
-    text-align: center;
-    font-size: 1.7em;
+    text-align: left;
+    padding: 10px 40px;
+    font-size: 1.1em;
     font-weight: bold;
 }
 
 #my_profile_wrap div.profile_header {
     display: flex;
-    padding-top: 50px;
-    justify-content: space-between;
+    padding-top: 5px;
+    /* justify-content: space-between; */
+    flex-direction: row;
     align-items: center;
-    
-}
-
-#my_profile_wrap div.post, div.followers, div.following {
-    font-size: 1.4em;
-    flex-direction: column;
-    text-align: center;
-    font-weight: bold;
     margin: 10px;
 }
 
-#my_profile_wrap img {
+#my_profile_wrap div.post, div.friend {
+    font-size: 1.2em;
+    flex-direction: column;
+    text-align: center;
+    font-weight: bold;
+    margin: 30px;
+}
+
+#my_profile_wrap div.profile_header img {
     width: 150px;
     height: 150px;
     border-radius: 50%;
 }
 
 #my_profile_wrap div.profile_self_intro p {
-    padding-top: 30px;
+    padding: 10px 40px;
 }
 
 #my_profile_wrap div.profile_follow_btn {
     text-align: center;
-    padding: 30px;
+    padding: 20px;
     border-bottom: 1px solid #ddd;
 }
 
@@ -56,23 +60,27 @@
     background-color: #357ae8;
 }
 
-#my_profile_wrap div.profile_img {
-    text-align: center;
+#my_profile_wrap #profile_imgs {
+    /* text-align: center;
     padding: 10px;
     font-size: 1.2em;
+    font-weight: bold; */
+}
+
+#my_profile_wrap div.profile_img_name {
+    margin: 10px;
+    text-align: center;
     font-weight: bold;
+    font-size: 1.3em;
 }
 
 #my_profile_wrap div.profile_item {
-    display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3px; /* 간격을 조절 */
- 
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+
 }
 
-#my_profile_wrap div.profile_item div {
-    background-color: #ccc;
+#my_profile_wrap div.profile_item img {
     border: 1px solid #000; 
-    padding: 80px; /* 내부 여백 조절 */
- 
 } 

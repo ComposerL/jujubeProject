@@ -3,7 +3,7 @@ import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import {getCookie} from '../../util/cookie';
 import { useDispatch } from 'react-redux';
 import '../../css/common.css';
 import '../../css/member/sign_in_form.css';
@@ -139,11 +139,12 @@ const SignIn = () => {
                     break;
                 default: 
                     alert('로그인 성공');
-                    sessionStorage.setItem('sessionID', response.data.sessionID);
+                    sessionStorage.setItem('sessionID', getCookie('accessToken'));
+                    
+                    // sessionStorage.setItem('sessionID', response.data.sessionID);
                     dispatch({
                         type: 'sign_in_success',
-                        sessionID: response.data.sessionID,
-                        loginedMember: response.data.loginedMember,
+                        // loginedMember: response.data.loginedMember,
                     });
             }
         

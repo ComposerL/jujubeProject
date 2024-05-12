@@ -1,12 +1,13 @@
+import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import '../css/home.css';
 
 import '../css/story/story.css';
-import StoryUi from './story/StoryUi';
 import StoryReplyUI from './story/StoryReplyUI';
+import StoryUi from './story/StoryUi';
+
 
 const Home = () => {
 
@@ -14,23 +15,30 @@ const Home = () => {
     const sessionID = useSelector(store => store.sessionID);
     const loginedMember = useSelector(store => store.loginedMember);
     const modal = useSelector(store => store.modal);
+    const [storyFlag,setStoryFlag] = useState(false);
 
     const [allStorys,setAllStorys] = useState([]);
-
-    
 
     useEffect(() => {
         console.log("Home useEffect()");
         axios_get_member();
-    },[]);
+
+        let token = sessionStorage.getItem('sessionID');
+        console.log('token----', jwtDecode(token)) ;
+        // let date = (new Date().getTime() + 1) / 1000;
+
+        
+    },[modal,storyFlag]);
 
     //비동기 통신
     const axios_get_member = () => {
         console.log("axios_get_member()");
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
-            
+            headers: {
+                'Authorization': sessionStorage.getItem('sessionID'),
+            }
         })
-       .then(respones => {
+        .then(respones => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
             console.log(respones.data);
             if(respones.data === -1){
@@ -49,6 +57,8 @@ const Home = () => {
                     });
                 }else{
                     console.log("member_id: " + respones.data.member.M_ID);
+                    //sessionStorage.removeItem('sessionID');
+                    //sessionStorage.setItem('sessionID',respones.data.token);
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,
@@ -58,14 +68,14 @@ const Home = () => {
                 }
     
             }
-       })
-       .catch(error => {
+        })
+        .catch(error => {
             console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
         
         })
         .finally(() => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-             
+            
         });
     }
     
@@ -124,6 +134,7 @@ const Home = () => {
                                 s_mod_date = {allStory.S_MOD_DATE}
                                 storyIdx = {idx}
                                 memberInfors = {allStory.memberInfors[0]}
+                                setStoryFlag = {setStoryFlag}
                             />
                         )
                     })

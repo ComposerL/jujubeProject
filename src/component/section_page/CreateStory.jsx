@@ -1,6 +1,6 @@
 import axios from 'axios';
 import $ from 'jquery';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +17,9 @@ const CreateStory = () => {
     const loginedMember = useSelector(store => store.loginedMember);
     const [isPublic, setIsPublic] = useState('0');
     const [sTxt, setSTxt] = useState('')
+
+    const fileInputRef = useRef(null);
+    const maxFiles = 10;        // 최대 업로드 파일 개수
     
     useEffect(() => {
         console.log('CreateStory useEffect()');
@@ -28,12 +31,29 @@ const CreateStory = () => {
 
     const onImageHandler = (e) => {
 
-        const imageArr = e.target.files;
-        let imageURLs = [];
-        setUploadImage(imageArr);
+        const imageFiles = e.target.files;
 
-        for(let i = 0; i < imageArr.length; i++) {
-            const curImgURL = URL.createObjectURL(imageArr[i]);
+        if (imageFiles.length > maxFiles) {
+            alert(`최대 ${maxFiles}개의 파일만 선택할 수 있습니다.`);
+        
+            // FileList 객체는 읽기 전용이므로 새로운 DataTransfer 객체를 생성하여 수정
+            const dataTransfer = new DataTransfer();
+        
+            for (let i = 0; i < maxFiles; i++) {
+                dataTransfer.items.add(imageFiles[i]);
+            }
+
+            // input 태그의 파일 목록을 업데이트
+            fileInputRef.current.files = dataTransfer.files;
+        }
+
+        const files = e.target.files;
+
+        setUploadImage(files);
+
+        let imageURLs = [];
+        for(let i = 0; i < files.length; i++) {
+            const curImgURL = URL.createObjectURL(files[i]);
             imageURLs.push(curImgURL);
             console.log('imageURLs---', imageURLs);
         }
@@ -56,6 +76,14 @@ const CreateStory = () => {
                 axios_write_story();
             }
         }
+    }
+
+    const picResetClickBtn = () => {
+        console.log('picResetClickBtn()');
+
+        setImagePreviews([]);
+        setUploadImage([]);
+
     }
 
     const axios_write_story = () => {
@@ -247,14 +275,14 @@ const CreateStory = () => {
 
     return (
         <div id='create_story_wrap'>
-
+            
             <div className='story_img_wrap'>
                 <div className='preview_img_wrap'>
 
                     {
                         imagePreviews.length > 0
                         ?
-                        <ImageSwiper imagePreviews={imagePreviews} />
+                        <ImageSwiper imagePreviews={imagePreviews} setImagePreviews={setImagePreviews} setUploadImage={setUploadImage} />
                         :
                         <div className='input_file_img'>
                             <label for="file">사진첨부</label> 
@@ -263,6 +291,7 @@ const CreateStory = () => {
                                 id="file"
                                 className="input_image"
                                 accept="image/*"    // 이미지 파일만 업로드 가능.
+                                ref={fileInputRef}
                                 multiple
                                 onChange={e => onImageHandler(e)}
                             />
@@ -274,16 +303,25 @@ const CreateStory = () => {
             
             <div className="select_is_public">
                 <div className='public_p'>
-                    <p>공개여부 &nbsp; </p>
+                    <span>공개여부 &nbsp; </span>
                 </div>
                 <div className="select_public">
-                    <input type="radio" name="s_is_public" value="0" checked={isPublic === '0'} onChange={(e) =>setIsPublic(e.target.value)}/> 전체공개
+                    <label>
+                        <input type="radio" name="s_is_public" value="0" checked={isPublic === '0'} onChange={(e) =>setIsPublic(e.target.value)}/> 
+                        <span> 전체공개 </span>
+                    </label>
                 </div>
                 <div className="select_friend_public">
-                    <input type="radio" name="s_is_public" value="1" checked={isPublic === '1'} onChange={(e) =>setIsPublic(e.target.value)}/> 일촌공개
+                    <label>
+                        <input type="radio" name="s_is_public" value="1" checked={isPublic === '1'} onChange={(e) =>setIsPublic(e.target.value)}/> 
+                        <span> 일촌공개 </span>
+                    </label>
                 </div>
                 <div className="select_private">
-                    <input type="radio" name="s_is_public" value="-1" checked={isPublic === '-1'} onChange={(e) =>setIsPublic(e.target.value)}/> 비공개
+                    <label>
+                        <input type="radio" name="s_is_public" value="-1" checked={isPublic === '-1'} onChange={(e) =>setIsPublic(e.target.value)}/> 
+                        <span> 비공개 </span>
+                    </label>
                 </div>
             </div>
 
@@ -295,6 +333,7 @@ const CreateStory = () => {
 
             <div className='story_btns'>
                 <button onClick={writeStoryClickBtn} >등록</button>
+                <button onClick={picResetClickBtn} >사진초기화</button>
             </div>
 
         </div>

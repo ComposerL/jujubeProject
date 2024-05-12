@@ -1,20 +1,23 @@
 import React from 'react';
-import { legacy_createStore as createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { BrowserRouter} from 'react-router-dom';
-import './css/common.css';
+import { BrowserRouter } from 'react-router-dom';
+import { legacy_createStore as createStore } from 'redux';
+import {removeCookie} from './util/cookie';
 import './App.css';
 import Wrap from './component/Wrap';
+import './css/common.css';
 
 //reducer setting
 const initial_state = {
     sessionID: sessionStorage.getItem('sessionID'),
     modal: false,
     s_replys: [],
-    button: true,
+    button: "",
     story: [],
-    replyFlag: true,
-}
+    user: '',
+    info: null,
+    friend: 0
+,}
 
 const reducer = (currentState = initial_state , action) => {
     console.log("App reducer()");
@@ -31,6 +34,11 @@ const reducer = (currentState = initial_state , action) => {
             return {...currentState, 
                 modal: action.modal, //modal: false
             }; 
+        
+        case 'story_modify_btn_click':  // story modify
+            return {...currentState, 
+                s_no: action.s_no, //스토리 번호
+            };
 
         //session 관련
         case 'session_out': //서버 세션토큰 만료
@@ -46,12 +54,28 @@ const reducer = (currentState = initial_state , action) => {
             };
 
         case 'sign_in_success':
+            // removeCookie('accessToken');
             return {...currentState, 
                 sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
-                loginedMember: action.loginedMember //loginedMember 로그인한 멤버 ID
+                // loginedMember: action.loginedMember //loginedMember 로그인한 멤버 ID
             };  
-        case 'set_my_stories':
-                return {...currentState, button:action.button, story:action.story}  
+
+        // 프로필 관련    
+        case 'test':
+            console.log("test: ", action.story);
+            return {...currentState, button:action.button, story:action.story, info:action.info, user:action.user, friend:action.friend};
+            
+        case 'set_my_info'://내 정보 가져오기
+            console.log("set_my_info: ");
+            return {...currentState, button:action.button};
+
+        case 'set_my_stories'://내 스토리 가져오기
+            console.log("set_my_stories: ", action.story);
+            return {...currentState, story:action.story};
+
+        case 'set_my_friend':
+            console.log('set_my_friend', action.friend);
+            return {...currentState, friend:action.friend};    
         default:
             return currentState; 
     }
