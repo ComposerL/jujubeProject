@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/member/modify_form.css';
 import { getCookie } from './../../util/cookie';
+import { jwtDecode } from 'jwt-decode';
 
 axios.defaults.withCredentials = true
 
@@ -27,15 +28,10 @@ const Modify = () => {
     useEffect(() => {
         console.log('modify useEffect()');
 
-        if (sessionID === '') {
-            dispatch({
-                type: 'session_out',
-                sessionID: '',
-            })
-            navigate('/');
-        } else {
-            modify_get_member(sessionID);
-        }
+            modify_get_member();
+
+            let token = sessionStorage.getItem('sessionID');
+            console.log('token----', jwtDecode(token)) ;
 
     }, []);
 

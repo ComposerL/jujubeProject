@@ -9,6 +9,7 @@ import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axios from 'axios';
+import OtherHome from '../section_page/OtherHome';
 
 axios.defaults.withCredentials = true
 
@@ -148,6 +149,7 @@ const StoryUi = (props) => {
 		<li className={`story_li_${props.s_no}`}>
 			<div className='story_header'>
 				<div className='story_header_img'>
+			
 					{
 						props.memberInfors.M_PROFILE_THUMBNAIL !== null
 						?
@@ -155,6 +157,7 @@ const StoryUi = (props) => {
 						:
 						<img src="/imgs/profile_default.png" alt="" />
 					}
+					
 				</div>
 				<div className='story_header_member_info_wrap'>
 					<h4>{props.m_id}</h4>

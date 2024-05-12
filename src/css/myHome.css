@@ -60,12 +60,12 @@
     background-color: #357ae8;
 }
 
-#my_profile_wrap #profile_imgs {
+/* #my_profile_wrap #profile_imgs {
     /* text-align: center;
     padding: 10px;
     font-size: 1.2em;
-    font-weight: bold; */
-}
+    font-weight: bold; 
+} */
 
 #my_profile_wrap div.profile_img_name {
     margin: 10px;
@@ -74,13 +74,37 @@
     font-size: 1.3em;
 }
 
-#my_profile_wrap div.profile_item {
+/* #my_profile_wrap div.profile_item {
     display: flex;
-    margin: 20px;
-    justify-content: center;
-
+    flex-wrap: wrap;
+    margin: 30px;
 }
 
 #my_profile_wrap div.profile_item img {
     border: 1px solid #000; 
+    background-color: #ddd;
+    width: 170px;
+    height: 170px;
+}  */
+
+#my_profile_wrap div.profile_item {
+    font-size: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; /* 세로 방향 가운데 정렬 */
+    gap: 10px; /* 요소들 사이의 간격 설정 */
+    margin: 30px;
+}
+
+#my_profile_wrap div.profile_item div {
+    height: 165px;
+}
+
+#my_profile_wrap div.profile_item img {
+    border: 1px solid #000; 
+    background-color: #ddd;
+    width: 165px; /* 너비를 직접 지정 */
+    height: 165px; /* 높이를 직접 지정 */
+    box-sizing: border-box; /* 요소의 크기에 경계 상자와 안팎 여백을 포함 */
 } 
+
