@@ -78,9 +78,11 @@
     display: flex;
     margin: 20px;
     justify-content: center;
+    background-color: #ddd;
 
 }
 
 #my_profile_wrap div.profile_item img {
     border: 1px solid #000; 
+    background-color: #ddd;
 } 

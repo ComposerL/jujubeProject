@@ -3,7 +3,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
-// import MyProfile from './MyProfile';
+import { jwtDecode } from 'jwt-decode';
+import MyProfile from './myprofile';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
@@ -17,7 +18,8 @@ const MyHome = () => {
         console.log("MyHome useEffect()");
         
             axios_get_member();
-        
+            let token = sessionStorage.getItem('sessionID');
+            console.log('token----', jwtDecode(token)) ;
     },[]);
 
     const axios_get_member = () => {
@@ -25,7 +27,9 @@ const MyHome = () => {
         
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
             method:'get',
-            
+            headers: {
+                'Authorization': sessionStorage.getItem('sessionID'),
+            }
         })
         .then(respones => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
@@ -165,7 +169,7 @@ const MyHome = () => {
 
     return (
         <div>
-            {/* <MyProfile /> */}
+            <MyProfile />
         </div>
         
     )

@@ -130,35 +130,35 @@ const MyProfile = () => {
 
             <div id='profile_img' >
                 
-                    {
-                        story.length === 0 
-                        ? 
-                        '내용이 없습니다.' 
-                        : 
-                        <div className='profile_item'>
-                            {
-                                story.map((story, idx) => {
-                                    return (
+                {
+                    story.length === 0 
+                    ? 
+                    '내용이 없습니다.' 
+                    : 
+                    <div className='profile_item'>
+                        {
+                            story.map((story, idx) => {
+                                return (
 
-                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>
-                                            
-                                            {
-                                                story.pictures.length === 0
-                                                ?
-                                                <img src="" alt="" />
-                                                :
-                                                <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
+                                    <div key={idx} onClick={() => openStoryClickHandler(story)}>
+                                        
+                                        {
+                                            story.pictures.length === 0
+                                            ?
+                                            <img src="" alt="" />
+                                            :
+                                            <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
 
-                                            }
-                                            
-                                        </div>
-                                    )
-                                })
-                            }  
-                        </div> 
-                    }
+                                        }
+                                        
+                                    </div>
+                                )
+                            })
+                        }  
+                    </div> 
+                }
 
-                </div>
+            </div>
                 
 
                 <ul id='story_wrap'>
