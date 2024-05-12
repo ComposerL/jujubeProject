@@ -9,15 +9,16 @@ const MyProfile = () => {
 
     const dispatch = useDispatch();
     const loginedMember = useSelector(store => store.loginedMember);
+    const otherMember = useSelector(store => store.info);    
     const story = useSelector(store => store.story);
     const button = useSelector(store => store.button);
     const friend = useSelector(store => store.friend);
     const modal = useSelector(store => store.modal);
-
+    
+    const [storyFlag , setStoryFlag] = useState(false);
     const [mId, setMId] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
-    
     const [mystory, setMystory] = useState([]);
 
     useEffect(() => {
@@ -26,16 +27,20 @@ const MyProfile = () => {
             setMId(loginedMember.M_ID);
             setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
             setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
+
+        } else if (otherMember) {
+            setMId(otherMember.M_ID);
+            setMSelfIntroduction(otherMember.M_SELF_INTRODUCTION);
+            setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
         }
 
-    },[loginedMember]);
+    },[loginedMember, otherMember, storyFlag]);
         
-        if (!loginedMember) {
-            return <div>Loading...</div>;
-        }   
-        
-        console.log('story: ', story);
 
+    if (!loginedMember || !story || !friend) {
+         // 데이터가 없는 경우 처리
+        return <div>Loading...</div>;
+    }  
 
     //버튼 분기
     const btn = () => {
@@ -55,7 +60,10 @@ const MyProfile = () => {
     const addFriendClickHandler = () => {
         console.log('addFriendClickHandler()');
 
-        
+    }
+
+    const axios_delete_friend = () => {
+       
     }
 
     const deleteFriendClickHandler = () => {
@@ -76,21 +84,29 @@ const MyProfile = () => {
         console.log('addFriendClickHandler()', story);
 
         setMystory([story]);
-
-    }
-
-
-    const replyModalCloseBtnClickHandler = () => {
-        console.log('replyModalCloseBtnClickHandler()');
         dispatch({
             type:'reply_modal_close',
             modal: false,
         });
+
+    }
+    
+    const handleOutsideClick = () => {
+        console.log('handleOutsideClick()');
+        dispatch({
+            type:'reply_modal_close',
+            modal:false,
+        })
+    };
+
+    const replyModalCloseBtnClickHandler = () => {
+        console.log('replyModalCloseBtnClickHandler()');
+        dispatch({
+            type:'story_btn_click',
+            modal: true,
+        });
     }
 
-    const axios_delete_friend = () => {
-       
-    }
 
     return (
         <div id='my_profile_wrap'>
@@ -109,10 +125,9 @@ const MyProfile = () => {
                     <div>post</div>
                 </div>
                 <div className='friend'>
-                    <div>{friend.friend_count > 0 ? friend.friend_count : 0}</div>
+                    <div>{friend.friend_list.length > 0 ? friend.friend_list.length : 0}</div>
                     <div>friend</div>
                 </div>
-                
             </div>
             <div className='profile_member_name'>
                 <p>{mId}</p>
@@ -128,39 +143,39 @@ const MyProfile = () => {
 
             <div className='profile_img_name'>게시물</div>
 
-            <div id='profile_img' >
+            <div id='profile_img'>
                 
-                {
-                    story.length === 0 
-                    ? 
-                    '내용이 없습니다.' 
-                    : 
-                    <div className='profile_item'>
-                        {
-                            story.map((story, idx) => {
-                                return (
+                    {
+                        story.length === 0 
+                        ? 
+                        '내용이 없습니다.' 
+                        : 
+                        <div className='profile_item'>
+                            {
+                                story.map((story, idx) => {
+                                    return (
 
-                                    <div key={idx} onClick={() => openStoryClickHandler(story)}>
-                                        
-                                        {
-                                            story.pictures.length === 0
-                                            ?
-                                            <img src="" alt="" />
-                                            :
-                                            <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
+                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>
+                                            
+                                            {
+                                                story.pictures.length === 0
+                                                ?
+                                                <img src="#" alt="" />
+                                                :
+                                                <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
 
-                                        }
-                                        
-                                    </div>
-                                )
-                            })
-                        }  
-                    </div> 
-                }
+                                            }
+                                            
+                                        </div>
+                                    )
+                                })
+                            }  
+                        </div> 
+                    }
 
             </div>
-                
 
+            <div id={modal ? "story_btn_click" : "reply_modal_close"}>    
                 <ul id='story_wrap'>
                     {
                         mystory.map((story, idx) => (
@@ -177,19 +192,20 @@ const MyProfile = () => {
                                 replysCnt={story.replysCnt}
                                 s_mod_date={story.S_MOD_DATE}
                                 memberInfors={story.memberInfors[0]}
+                                setStoryFlag = {setStoryFlag}
                             />
                         ))
                     }
                 </ul>   
             
-            <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
-            <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
-                <div></div>
-                <div></div>
-            </div>
-            <StoryReplyUI/>
-        </div>
-
+                <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
+                    <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <StoryReplyUI/>
+                </div>
+            </div>    
         </div>
     );
 };

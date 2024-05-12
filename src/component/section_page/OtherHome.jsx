@@ -9,75 +9,69 @@ import MyProfile from './myprofile';
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
 
-const MyHome = () => {
+const OtherHome = () => {
     
+    const loginedMember = useSelector(store => store.loginedMember);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [storyFlag, setStoryFlag] = useState(false);
 
     useEffect(() => {
-        console.log("MyHome useEffect()");
+        console.log("otherHome useEffect()");
         
-            axios_get_member();
+        axios_get_search_member();
             let token = sessionStorage.getItem('sessionID');
             console.log('token----', jwtDecode(token)) ;
-    },[storyFlag]);
+    },[]);
 
-    const axios_get_member = () => {
-        console.log("axios_get_member()");
+    const axios_get_search_member = () => {
+        console.log('axios_get_search_member()');
         
-        axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
-            method:'get',
-            headers: {
-                'Authorization': sessionStorage.getItem('sessionID'),
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/get_search_member`, 
+            method: 'GET',
+            params: {
+                //  'm_id': m_id,
             }
         })
         .then(response => {
-            console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(response.data);
+            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
+            console.log('data ---> ', response.data);
+            
             if(response.data === -1){
-                console.log("Home session out!!");
-                sessionStorage.removeItem('sessionID');
+                alert('session out!!');
                 dispatch({
                     type:'session_out',
                 });
                 navigate('/');
             }else{
-                
-                if(response.data === null){
-                    console.log("undefined member");
-                    console.log("Home session out!!");
-                    sessionStorage.removeItem('sessionID');
+                if (response.data === null) {
+                    alert('회원 정보 조회 실패!!');
+                    
+                } else {
+                    console.log("회원 정보 조회 성공!!");
                     dispatch({
-                        type:'session_out',
-                    });
-                    navigate('/');
-                }else{                    
-                    console.log("member_id: " + response.data.member.M_ID);
-
-                        dispatch({
-                            type:'session_enter',
-                            loginedMember: response.data.member,
-                        });
-                        
-                        
-                    axios_get_profile(response.data.member.M_ID);
+                        type:'set_my_info',
+                        info: response.data
+                    })
+                    axios_get_other_profile(response.data.member.M_ID);
                     axios_get_friend(response.data.member.M_ID);
                 }
             }
+            
         })
         .catch(error => {
-            console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
+            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION ERROR');
             
         })
         .finally(() => {
-            console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-            
+            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION COMPLETE');
+
         });
+    
     }
     
-    const axios_get_profile = (m_id) => {
-        console.log('axios_get_profile()');
+    const axios_get_other_profile = (m_id) => {
+        console.log('axios_get_other_profile()');
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
@@ -104,11 +98,9 @@ const MyHome = () => {
                     });
                     navigate('/');
                 } else {
-
                     dispatch({
                         type: 'set_my_stories',
                         story: response.data,
-                        button: response.button,
                     });
                     
                 }
@@ -133,7 +125,7 @@ const MyHome = () => {
             } 
         })
         .then(response => {
-                console.log('AXIOS GET MY FRIEND COMMUNICATION SUCCESS');
+                console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
                 console.log(response.data);
                 if (response.data === -1) {
                     console.log("Home session out!!");
@@ -152,11 +144,17 @@ const MyHome = () => {
                         navigate('/');
                     } else {
 
-                        dispatch({
-                            type: 'set_my_friend',
-                            friend: response.data,
-                            button: 0
-                        });
+                        if (response.data === loginedMember) {
+                            dispatch({
+                                type:'set_my_friend',
+                                button: -2,
+                            }) 
+                        } else {
+                            dispatch({
+                                type:'set_my_friend',
+                                button: -1,
+                            })
+                        }
                         
                     }
                 }
@@ -173,10 +171,10 @@ const MyHome = () => {
 
     return (
         <div>
-            <MyProfile setStoryFlag={setStoryFlag}/>
+            <MyProfile />
         </div>
         
     )
 }
 
-export default MyHome;
+export default OtherHome;

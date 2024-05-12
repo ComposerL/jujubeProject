@@ -18,8 +18,6 @@ const Home = () => {
 
     const [allStorys,setAllStorys] = useState([]);
 
-    
-
     useEffect(() => {
         console.log("Home useEffect()");
         axios_get_member();

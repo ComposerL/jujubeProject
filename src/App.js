@@ -11,12 +11,12 @@ const initial_state = {
     sessionID: sessionStorage.getItem('sessionID'),
     modal: false,
     s_replys: [],
-    button: "",
-    story: [],
-    user: '',
-    info: null,
-    friend: 0
-,}
+
+    info: "",
+    button: 0,
+    story: "",
+    friend: "",
+}
 
 const reducer = (currentState = initial_state , action) => {
     console.log("App reducer()");
@@ -59,21 +59,18 @@ const reducer = (currentState = initial_state , action) => {
             };  
 
         // 프로필 관련    
-        case 'test':
-            console.log("test: ", action.story);
-            return {...currentState, button:action.button, story:action.story, info:action.info, user:action.user, friend:action.friend};
             
-        case 'set_my_info'://내 정보 가져오기
+        case 'set_my_info':// 다른 사람 정보 가져오기
             console.log("set_my_info: ");
-            return {...currentState, button:action.button};
+            return {...currentState, info:action.info};
 
         case 'set_my_stories'://내 스토리 가져오기
             console.log("set_my_stories: ", action.story);
-            return {...currentState, story:action.story};
+            return {...currentState, story:action.story, button:action.button};
 
         case 'set_my_friend':
             console.log('set_my_friend', action.friend);
-            return {...currentState, friend:action.friend};    
+            return {...currentState, friend:action.friend, button:action.button}; 
         default:
             return currentState; 
     }
