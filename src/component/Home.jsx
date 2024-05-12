@@ -35,9 +35,11 @@ const Home = () => {
     const axios_get_member = () => {
         console.log("axios_get_member()");
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
-            
+            headers: {
+                'Authorization': sessionStorage.getItem('sessionID'),
+            }
         })
-       .then(respones => {
+        .then(respones => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
             console.log(respones.data);
             if(respones.data === -1){
@@ -65,14 +67,14 @@ const Home = () => {
                 }
     
             }
-       })
-       .catch(error => {
+        })
+        .catch(error => {
             console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
         
         })
         .finally(() => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-             
+            
         });
     }
     
