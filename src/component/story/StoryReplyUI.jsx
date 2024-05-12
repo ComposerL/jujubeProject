@@ -12,7 +12,6 @@ const StoryReplyUI = () => {
 	const [replyFlag,setReplyFlag] = useState(false);
 	const [r_txt,setR_txt] = useState('');
 
-	// const s_replys = useSelector((store) => store.s_replys );
 	const loginedMember = useSelector(store => store.loginedMember);
 	const s_no = useSelector(store => store.s_no);
 	
@@ -24,7 +23,7 @@ const StoryReplyUI = () => {
 
 	const axios_get_story_reply_list = (s_no) => {
 		console.log("axios_get_story_reply_list()");
-		console.log("get story reply S_NO: ",s_no)
+		console.log("get story reply S_NO: ",s_no);
 		axios({
 			url: `${process.env.REACT_APP_HOST}/story/reply/get_replys`,
 			method: 'get',

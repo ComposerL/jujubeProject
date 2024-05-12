@@ -13,6 +13,7 @@ const initial_state = {
     s_replys: [],
     button: true,
     story: [],
+    replyFlag: true,
 }
 
 const reducer = (currentState = initial_state , action) => {
