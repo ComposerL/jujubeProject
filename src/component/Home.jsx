@@ -49,7 +49,7 @@ const Home = () => {
                     type:'session_out',
                 });
             }else{
-    
+
                 if(respones.data === null){
                     console.log("undefined member");
                     sessionStorage.removeItem('sessionID');
@@ -63,9 +63,9 @@ const Home = () => {
                         loginedMember: respones.data.member,
                     });
                     axios_get_all_storys(respones.data.member.M_ID);
-                    
+
                 }
-    
+
             }
         })
         .catch(error => {

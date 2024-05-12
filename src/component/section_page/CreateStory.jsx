@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/story/create_story.css';
 import ImageSwiper from './ImageSwiper';
+import { getCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -105,7 +106,8 @@ const CreateStory = () => {
             method: 'post',
             data: formData,
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': localStorage.getItem('ssesionID')
             }
         })
         .then((response) => {
@@ -117,6 +119,14 @@ const CreateStory = () => {
 
             if (response.data > 0) {
                 alert('스토리 작성이 완료되었습니다.');
+
+                sessionStorage.setItem('sessionID', getCookie('accessToken'));
+                dispatch({
+                    type:'session_enter',
+                    sessinID: getCookie('accessToken'),
+                    loginedMember: response.data.member.M_ID,
+                });
+
                 navigate('/member/my_home');
             }
 
@@ -131,12 +141,14 @@ const CreateStory = () => {
     const axios_get_member = () => {
         console.log("axios_get_member()");
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
-            
+            headers: {
+                'Authorization': localStorage.getItem('sessionID')
+            }
         })
-        .then(respones => {
+        .then(response => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(respones.data);
-            if(respones.data === -1){
+            console.log(response.data);
+            if(response.data === -1){
                 console.log("Home session out!!");
                 sessionStorage.removeItem('sessionID');
                 dispatch({
@@ -144,17 +156,19 @@ const CreateStory = () => {
                 });
             }else{
     
-                if(respones.data === null){
+                if(response.data === null){
                     console.log("undefined member");
                     sessionStorage.removeItem('sessionID');
                     dispatch({
                         type:'session_out',
                     });
                 }else{
-                    console.log("member_id: " + respones.data.member.M_ID);
+                    console.log("member_id: " + response.data.member.M_ID);
+                    sessionStorage.setItem('sessionID', getCookie('accessToken'));
                     dispatch({
                         type:'session_enter',
-                        loginedMember: respones.data.member.M_ID,
+                        sessinID: getCookie('accessToken'),
+                        loginedMember: response.data.member.M_ID,
                     });
                     
                 }

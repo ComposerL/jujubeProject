@@ -116,7 +116,9 @@ const Modify = () => {
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_member`, 
-            
+            headers: {
+                'Authorization': sessionStorage.getItem('sessionID'),
+            }
         })
         .then(response => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS', response.data);
