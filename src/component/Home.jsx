@@ -8,6 +8,7 @@ import '../css/story/story.css';
 import StoryReplyUI from './story/StoryReplyUI';
 import StoryUi from './story/StoryUi';
 
+
 const Home = () => {
 
     const dispatch = useDispatch();
@@ -18,8 +19,6 @@ const Home = () => {
 
     const [allStorys,setAllStorys] = useState([]);
 
-    
-
     useEffect(() => {
         console.log("Home useEffect()");
         axios_get_member();
@@ -28,7 +27,7 @@ const Home = () => {
         console.log('token----', jwtDecode(token)) ;
         // let date = (new Date().getTime() + 1) / 1000;
 
-
+        
     },[modal,storyFlag]);
 
     //비동기 통신
@@ -58,6 +57,8 @@ const Home = () => {
                     });
                 }else{
                     console.log("member_id: " + respones.data.member.M_ID);
+                    //sessionStorage.removeItem('sessionID');
+                    //sessionStorage.setItem('sessionID',respones.data.token);
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,

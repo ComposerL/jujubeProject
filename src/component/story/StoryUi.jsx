@@ -243,7 +243,7 @@ const StoryUi = (props) => {
 							?
 							null
 							:
-							<p onClick={(e) => storyReplyBtnClickHandler(e)}>댓글 <span>{props.replysCnt.toLocaleString("ko-KR")}</span>개 모두 보기</p>
+							<p onClick={(e) => storyReplyBtnClickHandler(e)}>댓글 <span>{props.replysCnt.toLocaleString("ko-KR")}</span>개 모두 보기 </p>
 						}
 					</div>
 					<div className='story_date'>

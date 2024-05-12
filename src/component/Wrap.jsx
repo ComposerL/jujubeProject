@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
@@ -13,12 +13,16 @@ import SignUp from './member/SignUp';
 import CreateStory from './section_page/CreateStory';
 import Message from './section_page/Message';
 import MyHome from './section_page/MyHome';
-
 import '../css/section.css';
 import ModifyStory from './section_page/ModifyStory';
 
 const Wrap = () => {
     const session = useSelector(store => store.sessionID);
+
+    useEffect(() => {
+        console.log("Wrap useEffect()");
+        console.log("session: ",session);
+    },[session]);
 
     return (
         <>

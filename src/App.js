@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { legacy_createStore as createStore } from 'redux';
+import {removeCookie} from './util/cookie';
 import './App.css';
 import Wrap from './component/Wrap';
 import './css/common.css';
@@ -53,9 +54,10 @@ const reducer = (currentState = initial_state , action) => {
             };
 
         case 'sign_in_success':
+            // removeCookie('accessToken');
             return {...currentState, 
                 sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
-                loginedMember: action.loginedMember //loginedMember 로그인한 멤버 ID
+                // loginedMember: action.loginedMember //loginedMember 로그인한 멤버 ID
             };  
 
         // 프로필 관련    
