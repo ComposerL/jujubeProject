@@ -2,7 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { legacy_createStore as createStore } from 'redux';
-import {removeCookie} from './util/cookie';
 import './App.css';
 import Wrap from './component/Wrap';
 import './css/common.css';
@@ -43,7 +42,8 @@ const reducer = (currentState = initial_state , action) => {
         //session 관련
         case 'session_out': //서버 세션토큰 만료
             return {...currentState, 
-                sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
+                sessionID: null, //session 토큰 체크
+                loginedMember: '',
             };
 
         case 'session_enter': //서버 세션토큰 유지
