@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import { jwtDecode } from 'jwt-decode';
 import MyProfile from './myprofile';
+import { getCookie } from '../../util/cookie';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
@@ -19,8 +20,6 @@ const MyHome = () => {
         console.log("MyHome useEffect()");
         
             axios_get_member();
-            let token = sessionStorage.getItem('sessionID');
-            console.log('token----', jwtDecode(token)) ;
             
     },[storyFlag]);
 
@@ -73,7 +72,8 @@ const MyHome = () => {
         })
         .finally(() => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-            
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     }
     
