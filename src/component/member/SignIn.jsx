@@ -155,7 +155,7 @@ const SignIn = () => {
         })
         .finally(() => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION COMPLETE');
-
+            sessionStorage.setItem('sessionID', getCookie('accessToken'));////
         });
     
     }

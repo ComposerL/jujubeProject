@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { jwtDecode } from "jwt-decode";
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../css/home.css';
@@ -7,8 +7,8 @@ import '../css/home.css';
 import '../css/story/story.css';
 import StoryReplyUI from './story/StoryReplyUI';
 import StoryUi from './story/StoryUi';
-import { getCookie } from '../util/cookie';
-
+import { getCookie,removeCookie } from '../util/cookie';
+import {session_check} from'../util/session_check';
 
 const Home = () => {
 
@@ -21,13 +21,19 @@ const Home = () => {
     const [allStorys,setAllStorys] = useState([]);
 
     useEffect(() => {
-        console.log("Home useEffect()");
-        axios_get_member();
+        console.log("Home useEffect()");       
 
-        let token = sessionStorage.getItem('sessionID');
-        console.log('token----', jwtDecode(token)) ;
-        // let date = (new Date().getTime() + 1) / 1000;
-
+        let session = session_check();
+        if(session !== null){
+            console.log('[home] session_check enter!!');
+            axios_get_member();
+        }else{
+            console.log('[home] session_check expired!!');
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+            });
+        }
         
     },[modal,storyFlag]);
 
@@ -45,6 +51,7 @@ const Home = () => {
             if(respones.data === -1){
                 console.log("Home session out!!");
                 sessionStorage.removeItem('sessionID');
+                removeCookie('accessToken');
                 dispatch({
                     type:'session_out',
                 });
@@ -53,12 +60,14 @@ const Home = () => {
                 if(respones.data === null || respones.data === -1){
                     console.log("undefined member or server session out");
                     sessionStorage.removeItem('sessionID');
+                    removeCookie('accessToken');
                     dispatch({
                         type:'session_out',
                     });
                 }else{
                     console.log("member_id: " + respones.data.member.M_ID);
-                    
+                    sessionStorage.removeItem('sessionID');
+                    sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,
@@ -75,8 +84,6 @@ const Home = () => {
         })
         .finally(() => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-            sessionStorage.removeItem('sessionID');//
-            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     }
     
@@ -109,6 +116,7 @@ const Home = () => {
             console.log("axios get all storys finally!!");
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+            removeCookie('accessToken');//
 		});	
     }
 
@@ -150,13 +158,19 @@ const Home = () => {
             </ul>
             
         </div>
-        <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
-            <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
-                <div></div>
-                <div></div>
+        {
+            modal === true
+            ?
+            <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
+                <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
+                    <div></div>
+                    <div></div>
+                </div>
+                <StoryReplyUI/>
             </div>
-            <StoryReplyUI/>
-        </div>
+            :
+            null
+        }
         </>
     )
 }

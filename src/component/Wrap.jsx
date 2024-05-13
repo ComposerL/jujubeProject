@@ -27,7 +27,7 @@ const Wrap = () => {
     return (
         <>
             {   
-                session !== null
+                session !== undefined && session !== null 
                 ?
                 <>                    
                 <nav>

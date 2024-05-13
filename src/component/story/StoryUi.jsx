@@ -9,7 +9,7 @@ import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axios from 'axios';
-import { getCookie } from '../../util/cookie';
+import { getCookie, removeCookie} from '../../util/cookie';
 import OtherHome from '../section_page/OtherHome';
 
 axios.defaults.withCredentials = true
@@ -107,6 +107,7 @@ const StoryUi = (props) => {
             console.log("axios story delete confirm finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');//
 		});
 
 	}
@@ -149,6 +150,7 @@ const StoryUi = (props) => {
             console.log("axios story like update finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');//
 		});
 
 	}

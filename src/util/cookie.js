@@ -7,5 +7,6 @@ export const getCookie = (name) => {
 }
 
 export const removeCookie = (name) => {
-    cookies.removeCookie(name); 
+    console.log("removeToken");
+    cookies.remove(name,null); 
 }
