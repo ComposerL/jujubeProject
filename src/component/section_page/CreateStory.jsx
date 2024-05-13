@@ -105,15 +105,14 @@ const CreateStory = () => {
             method: 'post',
             data: formData,
             headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': localStorage.getItem('ssesionID')
+                'Authorization': sessionStorage.getItem('sessionID'),
             }
         })
         .then((response) => {
             console.log('axios_write_story communication success', response.data);
 
             if (response.data === -1) {
-                localStorage.removeItem('ssesionID');
+                sessionStorage.removeItem('ssesionID');
                 dispatch({
                     type:'session_out',
                 });
@@ -126,20 +125,18 @@ const CreateStory = () => {
             if (response.data > 0) {
                 alert('스토리 작성이 완료되었습니다.');
 
-                sessionStorage.setItem('sessionID', getCookie('accessToken'));
-                dispatch({
-                    type:'session_enter',
-                    sessinID: getCookie('accessToken'),
-                    loginedMember: response.data.member.M_ID,
-                });
+                navigate('/');
 
-                navigate('/member/my_home');
             }
 
         })
         .catch((error) => {
             console.log('axios_write_story communication error', error);
 
+        })
+        .finally(() => {
+            sessionStorage.removeItem('ssesionID');
+            sessionStorage.setItem('sessionID', getCookie('accessToken'));
         })
 
     }
