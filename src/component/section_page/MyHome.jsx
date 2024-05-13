@@ -76,7 +76,7 @@ const MyHome = () => {
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     }
-    
+
     const axios_get_profile = (m_id) => {
         console.log('axios_get_profile()');
         axios({
