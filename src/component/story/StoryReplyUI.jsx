@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/story/storyReply.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import ReplyUI from './ReplyUI';
-
-import { getCookie } from '../../util/cookie';
+import {session_check} from'../../util/session_check';
+import { getCookie, removeCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true
 
@@ -14,6 +14,7 @@ const StoryReplyUI = () => {
 	const [replyFlag,setReplyFlag] = useState(false);
 	const [r_txt,setR_txt] = useState('');
 
+	const dispatch = useDispatch();
 	const loginedMember = useSelector(store => store.loginedMember);
 	const s_no = useSelector(store => store.s_no);
 	const modal = useSelector(store => store.modal);
@@ -51,6 +52,7 @@ const StoryReplyUI = () => {
             console.log("axios get story reply list finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');
 		});
 
 	}
@@ -94,6 +96,7 @@ const StoryReplyUI = () => {
             console.log("axios reply write confirm finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');//
 		});
 
 	}

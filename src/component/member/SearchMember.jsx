@@ -4,7 +4,7 @@ import $ from 'jquery';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getCookie } from '../../util/cookie';
+import { getCookie, removeCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -61,6 +61,7 @@ const SearchMember = () => {
             
             if(response.data === -1){
                 alert('session out!!');
+                removeCookie('accessToken');
                 dispatch({
                     type:'session_out',
                 });

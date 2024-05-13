@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import NavLi from '../component/main_nav/NavLi';
 import '../css/nav.css';
+import { removeCookie } from '../util/cookie';
 
 
 const Nav = () => {
@@ -43,7 +44,7 @@ const Nav = () => {
         })
         .then(response => {
             console.log('AXIOS SIGN OUT COMMUNICATION SUCCESS');
-
+            removeCookie('accessToken');
         })
         .catch(error => {
             console.log('AXIOS SIGN OUT COMMUNICATION ERROR');

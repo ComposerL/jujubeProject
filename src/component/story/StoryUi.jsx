@@ -9,7 +9,7 @@ import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axios from 'axios';
-import { getCookie } from '../../util/cookie';
+import { getCookie, removeCookie} from '../../util/cookie';
 import OtherHome from '../section_page/OtherHome';
 
 axios.defaults.withCredentials = true
@@ -24,8 +24,9 @@ const StoryUi = (props) => {
 
 	useEffect(() => {
         console.log("StoryUi useEffect()");
+		console.log("pictures: ",props.pictures);
         setPictures(props.pictures);
-    },[modal]);
+    },[modal,props.pictures]);
 
 	const storyTextBtnClickHandler = (e) => {
         console.log("storyTextBtnClickHandler()");
@@ -107,6 +108,7 @@ const StoryUi = (props) => {
             console.log("axios story delete confirm finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');//
 		});
 
 	}
@@ -149,6 +151,7 @@ const StoryUi = (props) => {
             console.log("axios story like update finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');//
 		});
 
 	}
@@ -212,7 +215,7 @@ const StoryUi = (props) => {
                             return (
                                 // <SwiperSlide key={idx}><div id='swiper_img'><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></div></SwiperSlide>
                                 <SwiperSlide key={idx}>
-									<div id='swiper_img'>
+									<div id={`swiper_img`} className={`${picture.SP_PICTURE_NAME}`}>
 									<img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" />
 									</div>
 								</SwiperSlide>
