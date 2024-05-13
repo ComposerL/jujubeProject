@@ -103,7 +103,7 @@ const Home = () => {
 		})
 		.then(response => {	
 			console.log("axios get all storys success!!");
-			console.log("data: ",response.data);
+			console.log("get all storys data: ",response.data);
             setAllStorys(response.data);
             
 		})
@@ -133,7 +133,6 @@ const Home = () => {
         <div id='home_wrap'>
             <ul id='story_wrap'>
                 {   
-
                     allStorys.map((allStory,idx) => {
                         return (
                             <StoryUi

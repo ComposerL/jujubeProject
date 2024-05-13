@@ -24,8 +24,9 @@ const StoryUi = (props) => {
 
 	useEffect(() => {
         console.log("StoryUi useEffect()");
+		console.log("pictures: ",props.pictures);
         setPictures(props.pictures);
-    },[modal]);
+    },[modal,props.pictures]);
 
 	const storyTextBtnClickHandler = (e) => {
         console.log("storyTextBtnClickHandler()");
@@ -214,7 +215,7 @@ const StoryUi = (props) => {
                             return (
                                 // <SwiperSlide key={idx}><div id='swiper_img'><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></div></SwiperSlide>
                                 <SwiperSlide key={idx}>
-									<div id='swiper_img'>
+									<div id={`swiper_img`} className={`${picture.SP_PICTURE_NAME}`}>
 									<img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" />
 									</div>
 								</SwiperSlide>
