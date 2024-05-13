@@ -188,8 +188,7 @@ const MyProfile = () => {
             <div>
                 <div id={storymodal ? "open_story_wrap" : "hide_story_wrap"}>
                     <div className='modal_close_btn' onClick={ModalCloseBtnClickHandler}>
-                        <div></div>
-                        <div></div>
+                        <img src="/imgs/pngwing.com.png" alt="" />
                     </div>
                     <div id='story_wrap' >    
                         <ul>
