@@ -7,5 +7,5 @@ export const getCookie = (name) => {
 }
 
 export const removeCookie = (name) => {
-    return cookies.removeCookie(name); 
+    cookies.removeCookie(name); 
 }

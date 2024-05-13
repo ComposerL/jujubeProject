@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReReplyUI from './ReReplyUI';
 import $ from 'jquery';
 import { useSelector } from 'react-redux';
+import { getCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -29,10 +30,15 @@ const ReplyUI = (props) => {
 			method: 'get',
 			params:{
 				"r_no" : r_no,
-			}
+			},
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
 		})
 		.then(response => {	
 			console.log("axios get story re_reply list success!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 			setReResplys(response.data);
 		})
 		.catch(err => {
@@ -61,6 +67,7 @@ const ReplyUI = (props) => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
+                'authorization': sessionStorage.getItem('sessionID'),
             }
 		})
 		.then(response => {	
@@ -69,7 +76,7 @@ const ReplyUI = (props) => {
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data === 0){
-				console.log("database insert fail!!")
+				console.log("database insert fail!!");
 			}else if(response.data === 1){
 				alert("댓글 등록 성공!!");
 				props.setReplyFlag(pv => !pv);               
@@ -83,6 +90,8 @@ const ReplyUI = (props) => {
 		})
 		.finally(data => {
             console.log("axios re_reply write confirm finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
             setReReplyWriteView(false);
 		});
 
@@ -102,6 +111,7 @@ const ReplyUI = (props) => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
+                'authorization': sessionStorage.getItem('sessionID'),
             }
 		})
 		.then(response => {	
@@ -122,6 +132,8 @@ const ReplyUI = (props) => {
 		})
 		.finally(data => {
             console.log("axios reply delete confirm finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 		});
 
 	}
