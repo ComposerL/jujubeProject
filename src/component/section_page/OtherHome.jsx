@@ -20,68 +20,70 @@ const OtherHome = () => {
     useEffect(() => {
         console.log("otherHome useEffect()", member);
         
-        axios_get_search_member(member.M_ID);
+        // axios_get_search_member(member.M_ID);
+        axios_get_other_profile(member.M_ID);
             
     },[]);
 
-    const axios_get_search_member = () => {
-        console.log('axios_get_search_member()');
+    // const axios_get_search_member = () => {
+    //     console.log('axios_get_search_member()');
         
-        axios({
-            url: `${process.env.REACT_APP_HOST}/member/get_search_member`, 
-            method: 'GET',
-            params: {
-                'm_id': member.M_ID,
-            },
-            headers: {
-                'authorization': sessionStorage.getItem('sessionID'),      
-            },
-        })
-        .then(response => {
-            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
-            console.log('data ---> ', response.data);
+    //     axios({
+    //         url: `${process.env.REACT_APP_HOST}/member/get_search_member`, 
+    //         method: 'GET',
+    //         params: {
+    //             search_member: member.M_ID,
+    //         },
+    //         headers: {
+    //             'authorization': sessionStorage.getItem('sessionID'),      
+    //         },
+    //     })
+    //     .then(response => {
+    //         console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
+    //         console.log('data ---> ', response.data);
             
-            if(response.data === -1){
-                alert('session out!!');
-                dispatch({
-                    type:'session_out',
-                });
-                navigate('/');
-            }else{
-                if (response.data === null) {
-                    alert('회원 정보 조회 실패!!');
+    //         if(response.data === -1){
+    //             alert('session out!!');
+    //             dispatch({
+    //                 type:'session_out',
+    //             });
+    //             navigate('/');
+    //         }else{
+    //             if (response.data === null) {
+    //                 alert('회원 정보 조회 실패!!');
                     
-                } else {
-                    console.log("회원 정보 조회 성공!!");
-                    dispatch({
-                        type:'set_other_info',
-                        info: response.data
-                    })
-                    axios_get_other_profile(response.data.member.M_ID);
-                    axios_get_friend(response.data.member.M_ID);
-                }
-            }
+    //             } else {
+    //                 console.log("회원 정보 조회 성공!!");
+    //                 dispatch({
+    //                     type:'set_other_info',
+    //                     info: response.data
+    //                 })
+    //                 axios_get_other_profile(response.data.member.M_ID);
+    //                 axios_get_friend(response.data.member.M_ID);
+    //             }
+    //         }
             
-        })
-        .catch(error => {
-            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION ERROR');
+    //     })
+    //     .catch(error => {
+    //         console.log('AXIOS GET SEARCH MEMBER COMMUNICATION ERROR');
             
-        })
-        .finally(() => {
-            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION COMPLETE');
-            sessionStorage.removeItem('sessionID');//
-            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
-        });
+    //     })
+    //     .finally(() => {
+    //         console.log('AXIOS GET SEARCH MEMBER COMMUNICATION COMPLETE');
+    //         sessionStorage.removeItem('sessionID');//
+    //         sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+    //     });
     
-    }
-    
-    const axios_get_other_profile = (m_id) => {
+    // }
+    console.log('member.m_id: ', member.M_ID);
+
+    const axios_get_other_profile = () => {
         console.log('axios_get_other_profile()');
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
             params: {
-                'm_id': m_id,
+                'm_id': member.M_ID,
             },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),      
