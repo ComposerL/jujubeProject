@@ -89,6 +89,16 @@ const SearchMember = () => {
     
     }
     
+    const testClickHandler = (member) => {/////////////////////////
+        console.log('testClickHandler()');
+
+        dispatch({
+            type:'get_other_id',
+            member:member
+        })
+        navigate('/member/other_home');
+    }
+
     return (
         <div id='search_member_wrap'>
             <h3>회원찾기</h3>
@@ -103,7 +113,7 @@ const SearchMember = () => {
                     {   
                         memberList.map((member, index) => {
                             return (
-                                <li key={index}>
+                                <li key={index} onClick={() => testClickHandler(member)}>
                                     <div className='search_result_frofile_thum_wrap'>
                                         {
                                             member.M_PROFILE_THUMBNAIL !== null
