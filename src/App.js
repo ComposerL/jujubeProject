@@ -62,9 +62,12 @@ const reducer = (currentState = initial_state , action) => {
             };  
 
         // 프로필 관련    
-            
-        case 'set_my_info':// 다른 사람 정보 가져오기
-            console.log("set_my_info: ");
+        case 'get_other_id': //다른 사람 정보 가져오기
+            console.log('get_other_id: ', action.member);
+            return {...currentState, member:action.member};    
+
+        case 'set_other_info':// 다른 사람 정보 부려주기
+            console.log("set_other_info: ");
             return {...currentState, info:action.info};
 
         case 'set_my_stories'://내 스토리 가져오기

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import { jwtDecode } from 'jwt-decode';
 import MyProfile from './myprofile';
+import { getCookie } from '../../util/cookie';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
@@ -14,24 +15,27 @@ const OtherHome = () => {
     const loginedMember = useSelector(store => store.loginedMember);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const member = useSelector(store => store.member);
 
     useEffect(() => {
-        console.log("otherHome useEffect()");
+        console.log("otherHome useEffect()", member);
         
-        axios_get_search_member();
-            let token = sessionStorage.getItem('sessionID');
-            console.log('token----', jwtDecode(token));
+        axios_get_search_member(member.M_ID);
+            
     },[]);
 
-    const axios_get_search_member = (m_id) => {
+    const axios_get_search_member = () => {
         console.log('axios_get_search_member()');
         
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_search_member`, 
             method: 'GET',
             params: {
-                'm_id': m_id,
-            }
+                'm_id': member.M_ID,
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),      
+            },
         })
         .then(response => {
             console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
@@ -50,7 +54,7 @@ const OtherHome = () => {
                 } else {
                     console.log("회원 정보 조회 성공!!");
                     dispatch({
-                        type:'set_my_info',
+                        type:'set_other_info',
                         info: response.data
                     })
                     axios_get_other_profile(response.data.member.M_ID);
@@ -65,7 +69,8 @@ const OtherHome = () => {
         })
         .finally(() => {
             console.log('AXIOS GET SEARCH MEMBER COMMUNICATION COMPLETE');
-
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     
     }
@@ -77,7 +82,10 @@ const OtherHome = () => {
             method: 'get',
             params: {
                 'm_id': m_id,
-            } 
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),      
+            },
         })
         .then(response => {
             console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
@@ -112,6 +120,8 @@ const OtherHome = () => {
         })
         .finally(() => {
             console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     }
 
@@ -122,7 +132,10 @@ const OtherHome = () => {
             method: 'get',
             params: {
                 'm_id': m_id
-            } 
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),      
+            }, 
         })
         .then(response => {
                 console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
@@ -165,6 +178,8 @@ const OtherHome = () => {
             })
             .finally(() => {
                 console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+                sessionStorage.removeItem('sessionID');//
+                sessionStorage.setItem('sessionID',getCookie('accessToken'));//
             });
         }
     
