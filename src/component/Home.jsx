@@ -24,6 +24,7 @@ const Home = () => {
         console.log("Home useEffect()");       
 
         let session = session_check();
+        console.log("session: ",session);
         if(session !== null){
             console.log('[home] session_check enter!!');
             axios_get_member();
@@ -49,7 +50,7 @@ const Home = () => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
             console.log(respones.data);
             if(respones.data === -1){
-                console.log("Home session out!!");
+                console.log("Home server session out!!");
                 sessionStorage.removeItem('sessionID');
                 removeCookie('accessToken');
                 dispatch({
@@ -57,13 +58,11 @@ const Home = () => {
                 });
             }else{
 
-                if(respones.data === null || respones.data === -1){
-                    console.log("undefined member or server session out");
+                if(respones.data === null){
+                    console.log("undefined member");
                     sessionStorage.removeItem('sessionID');
-                    removeCookie('accessToken');
-                    dispatch({
-                        type:'session_out',
-                    });
+                    sessionStorage.setItem('sessionID',getCookie('accessToken'));
+                    alert("로그인한 멤머 정보가 없습니다. 다시 시도해주세요.")
                 }else{
                     console.log("member_id: " + respones.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
