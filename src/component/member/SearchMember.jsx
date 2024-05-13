@@ -4,6 +4,7 @@ import $ from 'jquery';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -16,7 +17,6 @@ const SearchMember = () => {
 
     useEffect(() => {
         console.log("searchMember useEffect()");
-        axios_get_member();
         $('#search_member_wrap input[name="search_member"]').focus();
         setSearchId('');
     },[]);
@@ -50,7 +50,10 @@ const SearchMember = () => {
             method: 'GET',
             params: {
                 search_member : searchId,
-            }
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),      
+            },
         })
         .then(response => {
             console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
@@ -79,55 +82,10 @@ const SearchMember = () => {
         })
         .finally(() => {
             console.log('AXIOS GET SEARCH MEMBER COMMUNICATION COMPLETE');
-
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     
-    }
-
-    //세션체크
-    const axios_get_member = () => {
-        console.log("axios_get_member()");
-        axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
-            
-        })
-       .then(respones => {
-            console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(respones.data);
-            if(respones.data === -1){
-                console.log("Home session out!!");
-                sessionStorage.removeItem('sessionID');
-                dispatch({
-                    type:'session_out',
-                });
-                navigate('/');
-            }else{
-    
-                if(respones.data === null){
-                    console.log("undefined member");
-                    console.log("Home session out!!");
-                    sessionStorage.removeItem('sessionID');
-                    dispatch({
-                        type:'session_out',
-                    });
-                    navigate('/');
-                }else{
-                    console.log("member_id: " + respones.data.member.M_ID);
-                    dispatch({
-                        type:'session_enter',
-                        loginedMember: respones.data.member.M_ID,
-                    });
-                }
-    
-            }
-       })
-       .catch(error => {
-            console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
-        
-        })
-        .finally(() => {
-            console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-             
-        });
     }
     
     return (

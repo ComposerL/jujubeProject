@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { getCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -26,6 +27,7 @@ const ReReplyUI = (props) => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
+                'authorization': sessionStorage.getItem('sessionID'),
             }
 		})
 		.then(response => {	
@@ -46,6 +48,8 @@ const ReReplyUI = (props) => {
 		})
 		.finally(data => {
             console.log("axios reply delete confirm finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 		});
 
 	}

@@ -50,8 +50,8 @@ const Home = () => {
                 });
             }else{
 
-                if(respones.data === null){
-                    console.log("undefined member");
+                if(respones.data === null || respones.data === -1){
+                    console.log("undefined member or server session out");
                     sessionStorage.removeItem('sessionID');
                     dispatch({
                         type:'session_out',
