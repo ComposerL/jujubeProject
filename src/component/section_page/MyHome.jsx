@@ -21,6 +21,7 @@ const MyHome = () => {
             axios_get_member();
             let token = sessionStorage.getItem('sessionID');
             console.log('token----', jwtDecode(token)) ;
+            
     },[storyFlag]);
 
     const axios_get_member = () => {

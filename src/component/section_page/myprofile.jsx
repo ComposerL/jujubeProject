@@ -154,7 +154,6 @@ const MyProfile = () => {
                             {
                                 story.map((story, idx) => {
                                     return (
-
                                         <div key={idx} onClick={() => openStoryClickHandler(story)}>
                                             
                                             {
@@ -163,7 +162,6 @@ const MyProfile = () => {
                                                 <img src="#" alt="" />
                                                 :
                                                 <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
-
                                             }
                                             
                                         </div>
@@ -174,7 +172,7 @@ const MyProfile = () => {
                     }
 
             </div>
-
+            
             <div>    
                 <ul id='story_wrap'>
                     {
