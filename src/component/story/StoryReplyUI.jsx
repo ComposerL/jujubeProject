@@ -42,8 +42,6 @@ const StoryReplyUI = () => {
 		.then(response => {	
 			console.log("axios get story reply list success!!");
             setResplys(response.data);	
-			sessionStorage.removeItem('sessionID');//
-            sessionStorage.setItem('sessionID',getCookie('accessToken'));//	
 		})
 		.catch(err => {
             console.log("axios get story reply list error!!");
