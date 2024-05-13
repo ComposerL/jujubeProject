@@ -7,6 +7,7 @@ import '../css/home.css';
 import '../css/story/story.css';
 import StoryReplyUI from './story/StoryReplyUI';
 import StoryUi from './story/StoryUi';
+import { getCookie } from '../util/cookie';
 
 
 const Home = () => {
@@ -57,8 +58,7 @@ const Home = () => {
                     });
                 }else{
                     console.log("member_id: " + respones.data.member.M_ID);
-                    //sessionStorage.removeItem('sessionID');
-                    //sessionStorage.setItem('sessionID',respones.data.token);
+                    
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,
@@ -70,24 +70,30 @@ const Home = () => {
             }
         })
         .catch(error => {
-            console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
-        
+            console.log('AXIOS GET MEMBER COMMUNICATION ERROR',error);
+            
         })
         .finally(() => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-            
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     }
     
     //axios get all storys
     const axios_get_all_storys = (m_id) => {
         console.log("axios_get_all_storys()");
+        console.log("sessionID: ",sessionStorage.getItem('sessionID'));
+        console.log("cookie: ",getCookie('accessToken'));
         axios({
 			url: `${process.env.REACT_APP_HOST}/story/story/get_all_storys`,
 			method: 'get',
 			params:{
 				"m_id" : m_id,
-			}
+			},
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
 		})
 		.then(response => {	
 			console.log("axios get all storys success!!");
@@ -101,6 +107,8 @@ const Home = () => {
 		})
 		.finally(data => {
             console.log("axios get all storys finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 		});	
     }
 

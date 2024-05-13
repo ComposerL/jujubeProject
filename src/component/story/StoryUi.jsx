@@ -9,6 +9,7 @@ import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axios from 'axios';
+import { getCookie } from '../../util/cookie';
 import OtherHome from '../section_page/OtherHome';
 
 axios.defaults.withCredentials = true
@@ -82,6 +83,7 @@ const StoryUi = (props) => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
+				'authorization': sessionStorage.getItem('sessionID'),
             }
 		})
 		.then(response => {	
@@ -90,6 +92,7 @@ const StoryUi = (props) => {
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data > 0){
+				
 				props.setStoryFlag(pv => !pv);
 			}else{
 				console.log("database delete fail!!");
@@ -102,6 +105,8 @@ const StoryUi = (props) => {
 		})
 		.finally(data => {
             console.log("axios story delete confirm finally!!");
+			sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 		});
 
 	}
@@ -121,7 +126,8 @@ const StoryUi = (props) => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
-            }
+				'authorization': sessionStorage.getItem('sessionID'),
+            },
 		})
 		.then(response => {	
 			console.log("axios story like update success!!");
@@ -141,6 +147,8 @@ const StoryUi = (props) => {
 		})
 		.finally(data => {
             console.log("axios story like update finally!!");
+			sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 		});
 
 	}
