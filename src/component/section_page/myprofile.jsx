@@ -23,6 +23,12 @@ const MyProfile = () => {
 
     useEffect(() => {
        
+        {user()}
+
+    },[loginedMember, otherMember, storyFlag]);
+        
+    const user = () => {
+
         if (loginedMember) {
             setMId(loginedMember.M_ID);
             setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
@@ -34,11 +40,10 @@ const MyProfile = () => {
             setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
         }
 
-    },[loginedMember, otherMember, storyFlag]);
-        
+    }
 
     if (!loginedMember || !story || !friend) {
-         // 데이터가 없는 경우 처리
+         // 데이터가 없는 경우
         return <div>Loading...</div>;
     }  
 
@@ -62,14 +67,10 @@ const MyProfile = () => {
 
     }
 
-    const axios_delete_friend = () => {
-       
-    }
-
     const deleteFriendClickHandler = () => {
         console.log('deleteFriendClickHandler()');
 
-        const isDeleteFriend = window.confirm("정말로 친구 삭제하시겠습니까?");
+        const isDeleteFriend = window.confirm("정말로 친구 해제하시겠습니까?");
 
         if (isDeleteFriend) {
             axios_delete_friend();
@@ -80,13 +81,14 @@ const MyProfile = () => {
         }
     }
 
+    //스토리 모달
     const openStoryClickHandler = (story) => {
         console.log('addFriendClickHandler()', story);
 
         setMystory([story]);
         dispatch({
             type:'reply_modal_close',
-            modal: false,
+            modal: true,
         });
 
     }
@@ -98,7 +100,9 @@ const MyProfile = () => {
             modal:false,
         })
     };
+    //스토리 모달 끝
 
+    //댓글 모달
     const replyModalCloseBtnClickHandler = () => {
         console.log('replyModalCloseBtnClickHandler()');
         dispatch({
@@ -107,6 +111,9 @@ const MyProfile = () => {
         });
     }
 
+    const axios_delete_friend = () => {
+        console.log('axios_delete_friend()');
+    }
 
     return (
         <div id='my_profile_wrap'>
@@ -143,8 +150,8 @@ const MyProfile = () => {
 
             <div className='profile_img_name'>게시물</div>
 
-            <div id='profile_img'>
-                
+            <div id='profile_modal'>
+
                     {
                         story.length === 0 
                         ? 
@@ -170,10 +177,9 @@ const MyProfile = () => {
                             }  
                         </div> 
                     }
-
             </div>
             
-            <div>    
+            <div id='story_modal'>    
                 <ul id='story_wrap'>
                     {
                         mystory.map((story, idx) => (

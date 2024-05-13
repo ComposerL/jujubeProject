@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import { jwtDecode } from 'jwt-decode';
 import MyProfile from './myprofile';
+import { getCookie } from '../../util/cookie';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
@@ -73,10 +74,11 @@ const MyHome = () => {
         })
         .finally(() => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-            
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     }
-    
+
     const axios_get_profile = (m_id) => {
         console.log('axios_get_profile()');
         axios({
