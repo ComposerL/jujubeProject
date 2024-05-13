@@ -175,7 +175,7 @@ const MyProfile = () => {
 
             </div>
 
-            <div id={modal ? "story_btn_click" : "reply_modal_close"}>    
+            <div>    
                 <ul id='story_wrap'>
                     {
                         mystory.map((story, idx) => (
