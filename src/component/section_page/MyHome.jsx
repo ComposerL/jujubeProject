@@ -29,8 +29,8 @@ const MyHome = () => {
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
             method:'get',
             headers: {
-                'Authorization': sessionStorage.getItem('sessionID'),
-            }
+                'authorization': sessionStorage.getItem('sessionID'),      
+            },
         })
         .then(response => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
@@ -84,7 +84,10 @@ const MyHome = () => {
             method: 'get',
             params: {
                 'm_id': m_id,
-            } 
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
         })
         .then(response => {
             console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
@@ -121,6 +124,8 @@ const MyHome = () => {
         })
         .finally(() => {
             console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     }
 
@@ -131,7 +136,10 @@ const MyHome = () => {
             method: 'get',
             params: {
                 'm_id': m_id
-            } 
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
         })
         .then(response => {
                 console.log('AXIOS GET MY FRIEND COMMUNICATION SUCCESS');
@@ -168,6 +176,8 @@ const MyHome = () => {
             })
             .finally(() => {
                 console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+                sessionStorage.removeItem('sessionID');//
+                sessionStorage.setItem('sessionID',getCookie('accessToken'));//
             });
         }
     

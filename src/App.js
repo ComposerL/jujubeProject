@@ -16,6 +16,7 @@ const initial_state = {
     button: 0,
     story: "",
     friend: "",
+    storymodal: false,
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -73,6 +74,12 @@ const reducer = (currentState = initial_state , action) => {
         case 'set_my_friend':
             console.log('set_my_friend', action.friend);
             return {...currentState, friend:action.friend, button:action.button}; 
+
+        case 'story_open_btn':
+            return {...currentState, storymodal:action.storymodal}   
+
+        case 'story_close_btn':
+            return {...currentState, storymodal:action.storymodal}        
         default:
             return currentState; 
     }

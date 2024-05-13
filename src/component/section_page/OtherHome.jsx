@@ -20,17 +20,17 @@ const OtherHome = () => {
         
         axios_get_search_member();
             let token = sessionStorage.getItem('sessionID');
-            console.log('token----', jwtDecode(token)) ;
+            console.log('token----', jwtDecode(token));
     },[]);
 
-    const axios_get_search_member = () => {
+    const axios_get_search_member = (m_id) => {
         console.log('axios_get_search_member()');
         
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_search_member`, 
             method: 'GET',
             params: {
-                //  'm_id': m_id,
+                'm_id': m_id,
             }
         })
         .then(response => {

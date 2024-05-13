@@ -8,12 +8,15 @@ import StoryReplyUI from '../story/StoryReplyUI';
 const MyProfile = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const loginedMember = useSelector(store => store.loginedMember);
     const otherMember = useSelector(store => store.info);    
     const story = useSelector(store => store.story);
     const button = useSelector(store => store.button);
     const friend = useSelector(store => store.friend);
     const modal = useSelector(store => store.modal);
+    const storymodal = useSelector(store => store.storymodal);
+
     
     const [storyFlag , setStoryFlag] = useState(false);
     const [mId, setMId] = useState('');
@@ -23,12 +26,6 @@ const MyProfile = () => {
 
     useEffect(() => {
        
-        {user()}
-
-    },[loginedMember, otherMember, storyFlag]);
-        
-    const user = () => {
-
         if (loginedMember) {
             setMId(loginedMember.M_ID);
             setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
@@ -40,12 +37,14 @@ const MyProfile = () => {
             setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
         }
 
-    }
+    },[loginedMember, otherMember, storyFlag]);
+        
 
     if (!loginedMember || !story || !friend) {
-         // 데이터가 없는 경우
+         // 데이터가 없는 경우 처리
         return <div>Loading...</div>;
     }  
+
 
     //버튼 분기
     const btn = () => {
@@ -67,10 +66,14 @@ const MyProfile = () => {
 
     }
 
+    const axios_delete_friend = () => {
+       
+    }
+
     const deleteFriendClickHandler = () => {
         console.log('deleteFriendClickHandler()');
 
-        const isDeleteFriend = window.confirm("정말로 친구 해제하시겠습니까?");
+        const isDeleteFriend = window.confirm("정말로 친구 삭제하시겠습니까?");
 
         if (isDeleteFriend) {
             axios_delete_friend();
@@ -81,38 +84,33 @@ const MyProfile = () => {
         }
     }
 
-    //스토리 모달
     const openStoryClickHandler = (story) => {
-        console.log('addFriendClickHandler()', story);
+        console.log('openStoryClickHandler()');
 
         setMystory([story]);
         dispatch({
-            type:'reply_modal_close',
-            modal: true,
+            type:'story_open_btn',
+            storymodal: true,
         });
 
     }
-    
-    const handleOutsideClick = () => {
-        console.log('handleOutsideClick()');
-        dispatch({
-            type:'reply_modal_close',
-            modal:false,
-        })
-    };
-    //스토리 모달 끝
 
-    //댓글 모달
+    const closeStoryClickHandler = (story) => {
+        console.log('closeStoryClickHandler()');
+
+        dispatch({
+            type:'story_close_btn',
+            storymodal: false,
+        });
+
+    }
+
     const replyModalCloseBtnClickHandler = () => {
         console.log('replyModalCloseBtnClickHandler()');
         dispatch({
-            type:'story_btn_click',
-            modal: true,
+            type:'reply_modal_close',
+            modal: false,
         });
-    }
-
-    const axios_delete_friend = () => {
-        console.log('axios_delete_friend()');
     }
 
     return (
@@ -150,8 +148,8 @@ const MyProfile = () => {
 
             <div className='profile_img_name'>게시물</div>
 
-            <div id='profile_modal'>
-
+            <div id='profile_img'>
+                
                     {
                         story.length === 0 
                         ? 
@@ -177,10 +175,11 @@ const MyProfile = () => {
                             }  
                         </div> 
                     }
+
             </div>
             
-            <div id='story_modal'>    
-                <ul id='story_wrap'>
+            <div id='story_modal' >    
+                <ul id={storymodal ? "open_story_wrap" : "hide_story_wrap"} >
                     {
                         mystory.map((story, idx) => (
                             <StoryUi
