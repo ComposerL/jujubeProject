@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
+import '../css/section.css';
 import Header from '../include/Header';
 import Nav from '../include/Nav';
 import Error from './Error';
@@ -12,9 +13,8 @@ import SignIn from './member/SignIn';
 import SignUp from './member/SignUp';
 import CreateStory from './section_page/CreateStory';
 import Message from './section_page/Message';
-import MyHome from './section_page/MyHome';
-import '../css/section.css';
 import ModifyStory from './section_page/ModifyStory';
+import MyHome from './section_page/MyHome';
 
 const Wrap = () => {
     const session = useSelector(store => store.sessionID);

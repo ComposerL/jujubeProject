@@ -5,8 +5,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/story/create_story.css';
-import ImageSwiper from './ImageSwiper';
 import { getCookie } from '../../util/cookie';
+import ImageSwiper from './ImageSwiper';
 
 axios.defaults.withCredentials = true;
 
@@ -24,7 +24,6 @@ const CreateStory = () => {
     
     useEffect(() => {
         console.log('CreateStory useEffect()');
-        axios_get_member()
 
     }, [])
 
@@ -113,6 +112,13 @@ const CreateStory = () => {
         .then((response) => {
             console.log('axios_write_story communication success', response.data);
 
+            if (response.data === -1) {
+                localStorage.removeItem('ssesionID');
+                dispatch({
+                    type:'session_out',
+                });
+            }
+
             if(response.data === null) {
                 return alert('서버 통신 중 오류가 발생했습니다. 다시 시도해주세요.')
             }
@@ -136,53 +142,6 @@ const CreateStory = () => {
 
         })
 
-    }
-
-    const axios_get_member = () => {
-        console.log("axios_get_member()");
-        axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
-            headers: {
-                'Authorization': localStorage.getItem('sessionID')
-            }
-        })
-        .then(response => {
-            console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(response.data);
-            if(response.data === -1){
-                console.log("Home session out!!");
-                sessionStorage.removeItem('sessionID');
-                dispatch({
-                    type:'session_out',
-                });
-            }else{
-    
-                if(response.data === null){
-                    console.log("undefined member");
-                    sessionStorage.removeItem('sessionID');
-                    dispatch({
-                        type:'session_out',
-                    });
-                }else{
-                    console.log("member_id: " + response.data.member.M_ID);
-                    sessionStorage.setItem('sessionID', getCookie('accessToken'));
-                    dispatch({
-                        type:'session_enter',
-                        sessinID: getCookie('accessToken'),
-                        loginedMember: response.data.member.M_ID,
-                    });
-                    
-                }
-    
-            }
-        })
-        .catch(error => {
-            console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
-        
-        })
-        .finally(() => {
-            console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-            
-        });
     }
 
     /*
