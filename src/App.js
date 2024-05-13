@@ -77,9 +77,7 @@ const reducer = (currentState = initial_state , action) => {
 
         case 'story_open_btn':
             return {...currentState, storymodal:action.storymodal}   
-
-        case 'story_close_btn':
-            return {...currentState, storymodal:action.storymodal}        
+                
         default:
             return currentState; 
     }

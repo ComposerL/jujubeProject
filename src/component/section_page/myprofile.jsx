@@ -7,8 +7,8 @@ import StoryReplyUI from '../story/StoryReplyUI';
 
 const MyProfile = () => {
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const loginedMember = useSelector(store => store.loginedMember);
     const otherMember = useSelector(store => store.info);    
     const story = useSelector(store => store.story);
@@ -25,7 +25,7 @@ const MyProfile = () => {
     const [mystory, setMystory] = useState([]);
 
     useEffect(() => {
-       
+        
         if (loginedMember) {
             setMId(loginedMember.M_ID);
             setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
@@ -37,9 +37,17 @@ const MyProfile = () => {
             setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
         }
 
+        dispatch({
+            type:'story_open_btn',
+            storymodal:false
+        })
+
+        dispatch({
+            type:'reply_modal_close',
+            modal:false
+        })
     },[loginedMember, otherMember, storyFlag]);
         
-
     if (!loginedMember || !story || !friend) {
          // 데이터가 없는 경우 처리
         return <div>Loading...</div>;
@@ -84,7 +92,7 @@ const MyProfile = () => {
         }
     }
 
-    const openStoryClickHandler = (story) => {
+    const openStoryClickHandler = (story, e) => {
         console.log('openStoryClickHandler()');
 
         setMystory([story]);
@@ -95,11 +103,11 @@ const MyProfile = () => {
 
     }
 
-    const closeStoryClickHandler = (story) => {
+    const ModalCloseBtnClickHandler = () => {
         console.log('closeStoryClickHandler()');
 
         dispatch({
-            type:'story_close_btn',
+            type:'story_open_btn',
             storymodal: false,
         });
 
@@ -177,30 +185,39 @@ const MyProfile = () => {
                     }
 
             </div>
-            
-            <div id='story_modal' >    
-                <ul id={storymodal ? "open_story_wrap" : "hide_story_wrap"} >
-                    {
-                        mystory.map((story, idx) => (
-                            <StoryUi
-                                key={idx}
-                                s_no={story.S_NO}
-                                m_id={story.memberInfors[0].M_ID}
-                                m_name={story.memberInfors[0].M_NAME}
-                                m_profile_thumbnail={story.memberInfors[0].M_PROFILE_THUMBNAIL}
-                                pictures={story.pictures}
-                                s_txt={story.S_TXT}
-                                storyLikeCnt={story.storyLikeCnt}
-                                storyIsLike={story.storyIsLike}
-                                replysCnt={story.replysCnt}
-                                s_mod_date={story.S_MOD_DATE}
-                                memberInfors={story.memberInfors[0]}
-                                setStoryFlag = {setStoryFlag}
-                            />
-                        ))
-                    }
-                </ul>   
-            
+            <div>
+                <div id={storymodal ? "open_story_wrap" : "hide_story_wrap"}>
+                    <div className='modal_close_btn' onClick={ModalCloseBtnClickHandler}>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div id='story_wrap' >    
+                        <ul>
+                            
+                            {
+                                mystory.map((story, idx) => (
+                                    <StoryUi
+                                        key={idx}
+                                        s_no={story.S_NO}
+                                        m_id={story.memberInfors[0].M_ID}
+                                        m_name={story.memberInfors[0].M_NAME}
+                                        m_profile_thumbnail={story.memberInfors[0].M_PROFILE_THUMBNAIL}
+                                        pictures={story.pictures}
+                                        s_txt={story.S_TXT}
+                                        storyLikeCnt={story.storyLikeCnt}
+                                        storyIsLike={story.storyIsLike}
+                                        replysCnt={story.replysCnt}
+                                        s_mod_date={story.S_MOD_DATE}
+                                        memberInfors={story.memberInfors[0]}
+                                        setStoryFlag = {setStoryFlag}
+                                    />
+                                ))
+                            }
+
+                        </ul>   
+                    </div>
+                </div> 
+            </div>
                 <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
                     <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
                         <div></div>
@@ -208,7 +225,6 @@ const MyProfile = () => {
                     </div>
                     <StoryReplyUI/>
                 </div>
-            </div>    
         </div>
     );
 };
