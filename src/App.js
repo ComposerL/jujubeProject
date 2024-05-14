@@ -13,7 +13,7 @@ const initial_state = {
     s_replys: [],
 
     info: "",
-    button: 0,
+    button: "",
     story: "",
     friend: "",
     storymodal: false,

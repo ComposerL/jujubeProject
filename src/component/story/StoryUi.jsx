@@ -10,7 +10,6 @@ import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axios from 'axios';
 import { getCookie, removeCookie} from '../../util/cookie';
-import OtherHome from '../section_page/OtherHome';
 
 axios.defaults.withCredentials = true
 

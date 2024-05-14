@@ -10,7 +10,7 @@ const MyProfile = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const loginedMember = useSelector(store => store.loginedMember);
-    const otherMember = useSelector(store => store.info);    
+    const otherMember = useSelector(store => store.member);    
     const story = useSelector(store => store.story);
     const button = useSelector(store => store.button);
     const friend = useSelector(store => store.friend);
@@ -26,12 +26,13 @@ const MyProfile = () => {
 
     useEffect(() => {
         
-        if (loginedMember) {
-            setMId(loginedMember.M_ID);
-            setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
-            setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
+        // if (loginedMember) {
+        //     setMId(loginedMember.M_ID);
+        //     setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
+        //     setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
 
-        } else if (otherMember) {
+        // } else 
+        if (otherMember) {
             setMId(otherMember.M_ID);
             setMSelfIntroduction(otherMember.M_SELF_INTRODUCTION);
             setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
@@ -55,19 +56,27 @@ const MyProfile = () => {
 
 
     //버튼 분기
+    
     const btn = () => {
-
         switch(button) {
-            case 0:
-                return null; 
-            case -1:
-                return <input type="button" value="친구 추가" onClick={addFriendClickHandler} />;
-            case -2:
-                return <input type="button" value="친구 삭제" onClick={deleteFriendClickHandler} />;
+            case 'is_friend: true, is_friend_request: false':
+
+                return <input type="button" value="친구 삭제" onClick={'deleteFriendHandler'} />;
+
+            case 'is_friend: false, is_friend_request: true':
+
+                return <input type="button" value="친구 요청 취소" onClick={'cancelFriendRequestHandler'} />;
+            
+            case 'is_friend: false, is_friend_request:false':
+
+                return <input type="button" value="친구 추가" onClick={'cancelFriendRequestHandler'} />;
+
             default:
-                return null; 
+                // 친구도 아니고 친구 요청도 안한 경우
+                return <input type="button" value="친구 추가" onClick={'addFriendHandler'} />;
         }
     }
+
 
     const addFriendClickHandler = () => {
         console.log('addFriendClickHandler()');
