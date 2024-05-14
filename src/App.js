@@ -15,7 +15,7 @@ const initial_state = {
     info: "",
     button: [],
     story: "",
-    friend: "",
+    friend: 0,
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -71,13 +71,13 @@ const reducer = (currentState = initial_state , action) => {
 
         case 'set_my_stories'://내 스토리 가져오기
             console.log("set_my_stories: ", action.story);
-            return {...currentState, story:action.story,};
+            return {...currentState, story:action.story};
 
-        case 'set_my_friend':
+        case 'set_my_friend':// 내 친구 수
             console.log('set_my_friend', action.friend);
             return {...currentState, friend:action.friend}; 
 
-        case 'set_my_button':
+        case 'set_my_button':// 친구 상태
             console.log('set_my_button', action.button);
             return {...currentState, button:action.button}; 
 

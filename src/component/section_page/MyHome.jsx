@@ -1,9 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
-import { jwtDecode } from 'jwt-decode';
 import MyProfile from './myprofile';
 import { getCookie, removeCookie } from '../../util/cookie';
 
@@ -43,12 +42,12 @@ const MyHome = () => {
             }else{
 
                 if(respones.data === null){
-                    console.log("undefined member");
+                    console.log("Home session out!!");
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     alert("로그인한 멤머 정보가 없습니다. 다시 시도해주세요.")
                 }else{
-                    console.log("member_id: " + respones.data.member.M_ID);
+                    // console.log("member_id: " + respones.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     dispatch({
@@ -70,8 +69,6 @@ const MyHome = () => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
         });
     }
-
-    
 
     const axios_get_profile = (m_id) => {
         console.log('axios_get_profile()');
@@ -120,16 +117,16 @@ const MyHome = () => {
         })
         .finally(() => {
             console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
-            sessionStorage.removeItem('sessionID');//
-            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
-            removeCookie('accessToken');//
+            sessionStorage.removeItem('sessionID');
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));
+            removeCookie('accessToken');
         });
     }
 
     const axios_get_friend = (m_id) => {
         console.log('axios_get_friend()');
         axios({
-            url: `${process.env.REACT_APP_HOST}/member/get_friend_list`,
+            url: `${process.env.REACT_APP_HOST}/member/get_friend_count`,
             method: 'get',
             params: {
                 'm_id': m_id
@@ -159,8 +156,6 @@ const MyHome = () => {
                         dispatch({
                             type: 'set_my_friend',
                             friend: response.data,
-                            button: null,
-        
                         });
                         
                     }

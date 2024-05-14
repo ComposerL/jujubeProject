@@ -94,7 +94,7 @@ const SearchMember = () => {
 
         dispatch({
             type:'get_other_id',
-            member:member
+            member:member,
         })
         navigate('/member/other_home');
     }
