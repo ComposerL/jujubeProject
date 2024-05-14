@@ -10,7 +10,6 @@ import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axios from 'axios';
 import { getCookie, removeCookie} from '../../util/cookie';
-import OtherHome from '../section_page/OtherHome';
 
 axios.defaults.withCredentials = true
 
@@ -31,7 +30,8 @@ const StoryUi = (props) => {
 	const storyTextBtnClickHandler = (e) => {
         console.log("storyTextBtnClickHandler()");
 		let story_text_btn = e.target;
-        $(story_text_btn).css({'width': '100%','white-space': 'initial', 'cursor':'inherit'});
+        $(story_text_btn).parent('p').css({'width': '100%','white-space': 'initial', 'cursor':'inherit', 'word-break': 'break-all'});
+        $(story_text_btn).css({'cursor':'inherit'});
     }
 
 	const storyReplyBtnClickHandler = (e) => {
@@ -247,9 +247,9 @@ const StoryUi = (props) => {
 					<p>좋아요<span>{props.storyLikeCnt.toLocaleString("ko-KR")}</span>개</p>
 				</div>
 				<div className='story_contents_text_wrap'>
-					<p className='story_text_btn' onClick={(e)=>storyTextBtnClickHandler(e)}>
+					<p className='story_text_btn' >
 						<span className='s_id'>{props.m_id}</span>
-						<span className='s_text'>{props.s_txt}</span>
+						<span className='s_text' onClick={(e)=>storyTextBtnClickHandler(e)}>{props.s_txt}</span>
 					</p>
 					<div className='story_reply_wrap'>
 						{

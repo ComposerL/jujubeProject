@@ -150,7 +150,6 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    cursor: pointer;
 }
 
 #story_wrap li div.story_contents_Wrap div.story_contents_text_wrap p.story_text_btn span.s_id {
@@ -159,7 +158,7 @@
 }
 
 #story_wrap li div.story_contents_Wrap div.story_contents_text_wrap p.story_text_btn span.s_text {
-    
+    cursor: pointer;
 }
 
 #story_wrap li div.story_contents_Wrap div.story_contents_text_wrap div.story_reply_wrap p {

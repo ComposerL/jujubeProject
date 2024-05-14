@@ -16,6 +16,7 @@ import Message from './section_page/Message';
 import ModifyStory from './section_page/ModifyStory';
 import MyHome from './section_page/MyHome';
 import OtherHome from './section_page/OtherHome';
+import FollowForm from './member/FollowForm';
 
 const Wrap = () => {
     const session = useSelector(store => store.sessionID);
@@ -45,6 +46,8 @@ const Wrap = () => {
                         <Route path='/story/modify_story' element={<ModifyStory/>}></Route>
                         <Route path='/member/my_home' element={<MyHome/>}></Route>
                         <Route path='/member/other_home' element={<OtherHome/>}></Route>
+                        <Route path='/member/follow_form' element={<FollowForm/>}></Route>
+                        {/* <Route path='/member/follow_confirm' element={}></Route> */}
                         <Route path='/*' element={<Error/>}></Route>
                     </Routes>
                 </section>            
