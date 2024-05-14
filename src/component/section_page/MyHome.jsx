@@ -68,8 +68,6 @@ const MyHome = () => {
         })
         .finally(() => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-            sessionStorage.removeItem('sessionID');//
-            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     }
 
