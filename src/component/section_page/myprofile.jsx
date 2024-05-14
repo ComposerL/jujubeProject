@@ -4,8 +4,9 @@ import {useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import StoryUi from '../story/StoryUi';
 import StoryReplyUI from '../story/StoryReplyUI';
+import { getCookie,removeCookie } from '../../util/cookie';
 
-const MyProfile = () => {
+const MyProfile = (props) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -16,24 +17,25 @@ const MyProfile = () => {
     const friend = useSelector(store => store.friend);
     const modal = useSelector(store => store.modal);
     const storymodal = useSelector(store => store.storymodal);
-
     
-    const [storyFlag , setStoryFlag] = useState(false);
+    // const [storyFlag , setStoryFlag] = useState(false);
     const [mId, setMId] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [mystory, setMystory] = useState([]);
 
+    console.log('button: ', button);
+
     useEffect(() => {
         
-        // if (loginedMember) {
-        //     setMId(loginedMember.M_ID);
-        //     setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
-        //     setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
+        if (loginedMember) {
+            setMId(loginedMember.M_ID);
+            setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
+            setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
 
-        // } else 
-        if (otherMember) {
-            setMId(otherMember.M_ID);
+        } else 
+        if (otherMember || loginedMember) {
+            setMId(otherMember.M_ID || loginedMember.M_ID);
             setMSelfIntroduction(otherMember.M_SELF_INTRODUCTION);
             setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
         }
@@ -47,7 +49,8 @@ const MyProfile = () => {
             type:'reply_modal_close',
             modal:false
         })
-    },[loginedMember, otherMember, storyFlag]);
+
+    },[loginedMember, otherMember, props.setStoryFlag]);
         
     if (!loginedMember || !story || !friend) {
          // 데이터가 없는 경우 처리
@@ -56,62 +59,74 @@ const MyProfile = () => {
 
 
     //버튼 분기
-    
-    const btn = () => {
-        switch(button) {
-            case 'is_friend: true, is_friend_request: false':
+    console.log("buttonnnnnnnnnnnnnnnnnnnnn: ", button.is_friend);
+    console.log("buttonnnnnnnnnnnnnnnnnnnnn: ", button.is_friend_request);
 
-                return <input type="button" value="친구 삭제" onClick={'deleteFriendHandler'} />;
-
-            case 'is_friend: false, is_friend_request: true':
-
-                return <input type="button" value="친구 요청 취소" onClick={'cancelFriendRequestHandler'} />;
+    //{is_friend = false, is_friend_request = false}
+    const FriendButton = () => {
+        return (
+            <div>
+                {button.is_friend === true ? (
+                    <input type="button" value="친구 삭제" onClick={deleteFriendClickHandler} />
+                ) : (
+                    button.is_friend_request === true ? (
+                        <input type="button" value="친구 요청 취소" onClick={cancelFriendRequestHandler} />
+                    ) : (
+                        <input type="button" value="친구 추가" onClick={addFriendClickHandler} />
+                    )
+                )}
+            </div>
+        );
             
-            case 'is_friend: false, is_friend_request:false':
+      
+        
+    }
+        
+    const axios_delete_friend = () => {
+        console.log('axios_delete_friend()');
 
-                return <input type="button" value="친구 추가" onClick={'cancelFriendRequestHandler'} />;
+    }
 
-            default:
-                // 친구도 아니고 친구 요청도 안한 경우
-                return <input type="button" value="친구 추가" onClick={'addFriendHandler'} />;
+    
+    
+    
+    const addFriendClickHandler = () => {
+    console.log('addFriendClickHandler()');
+
+    const isAddFriend = window.confirm("정말로 친구를 추가하시겠습니까?");
+        
+    if (isAddFriend) {
+      
+        
         }
     }
-
-
-    const addFriendClickHandler = () => {
-        console.log('addFriendClickHandler()');
-
+    
+    const cancelFriendRequestHandler = () => {
+        console.log('cancelFriendRequestHandler()');
     }
-
-    const axios_delete_friend = () => {
-       
-    }
-
+    
     const deleteFriendClickHandler = () => {
         console.log('deleteFriendClickHandler()');
-
+        
         const isDeleteFriend = window.confirm("정말로 친구 삭제하시겠습니까?");
-
+        
         if (isDeleteFriend) {
             axios_delete_friend();
-            dispatch({
-                type:'set_my_friend',
-                button: -1,
-            });
+            
         }
     }
-
+    
     const openStoryClickHandler = (story, e) => {
         console.log('openStoryClickHandler()');
-
+        
         setMystory([story]);
         dispatch({
             type:'story_open_btn',
             storymodal: true,
         });
-
+        
     }
-
+    
     const ModalCloseBtnClickHandler = () => {
         console.log('closeStoryClickHandler()');
 
@@ -121,7 +136,7 @@ const MyProfile = () => {
         });
 
     }
-
+    
     const replyModalCloseBtnClickHandler = () => {
         console.log('replyModalCloseBtnClickHandler()');
         dispatch({
@@ -129,7 +144,7 @@ const MyProfile = () => {
             modal: false,
         });
     }
-
+    
     return (
         <div id='my_profile_wrap'>
 
@@ -159,7 +174,7 @@ const MyProfile = () => {
             </div>
             <div className='profile_follow_btn'>
             
-                {btn()}
+                {FriendButton()}
             
             </div>
 
@@ -217,7 +232,7 @@ const MyProfile = () => {
                                         replysCnt={story.replysCnt}
                                         s_mod_date={story.S_MOD_DATE}
                                         memberInfors={story.memberInfors[0]}
-                                        setStoryFlag = {setStoryFlag}
+                                        setStoryFlag = {props.setStoryFlag}
                                     />
                                 ))
                             }

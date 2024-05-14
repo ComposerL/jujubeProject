@@ -117,6 +117,8 @@ const OtherHome = () => {
                     dispatch({
                         type: 'set_my_stories',
                         story: response.data,
+                        setStoryFlag:true,
+                        
                     });
                     
                 }
@@ -214,7 +216,7 @@ const OtherHome = () => {
                         alert('친구상태를 불러오지 못했습니다. 다시 시도해주세요.');
                     } else {
                         dispatch({
-                            type:'set_my_friend',
+                            type:'set_my_button',
                             button: response.data
                         })
                         

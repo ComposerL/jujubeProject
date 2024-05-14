@@ -13,10 +13,9 @@ const initial_state = {
     s_replys: [],
 
     info: "",
-    button: "",
+    button: [],
     story: "",
     friend: "",
-    storymodal: false,
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -68,15 +67,19 @@ const reducer = (currentState = initial_state , action) => {
 
         case 'set_other_info':// 다른 사람 정보 부려주기
             console.log("set_other_info: ");
-            return {...currentState, info:action.info};
+            return {...currentState, info:action.info,};
 
         case 'set_my_stories'://내 스토리 가져오기
             console.log("set_my_stories: ", action.story);
-            return {...currentState, story:action.story, button:action.button};
+            return {...currentState, story:action.story,};
 
         case 'set_my_friend':
             console.log('set_my_friend', action.friend);
-            return {...currentState, friend:action.friend, button:action.button}; 
+            return {...currentState, friend:action.friend}; 
+
+        case 'set_my_button':
+            console.log('set_my_button', action.button);
+            return {...currentState, button:action.button}; 
 
         case 'story_open_btn':
             return {...currentState, storymodal:action.storymodal}   

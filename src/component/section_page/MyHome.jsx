@@ -14,14 +14,14 @@ const MyHome = () => {
     
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [storyFlag, setStoryFlag] = useState(false);
+    const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
         console.log("MyHome useEffect()");
         
             axios_get_member();
             
-    },[storyFlag]);
+    },[]);
 
     const axios_get_member = () => {
         console.log("axios_get_member()");
@@ -110,6 +110,7 @@ const MyHome = () => {
                     dispatch({
                         type: 'set_my_stories',
                         story: response.data,
+                  
                     });
                     
                 }
@@ -160,13 +161,13 @@ const MyHome = () => {
                         dispatch({
                             type: 'set_my_friend',
                             friend: response.data,
-                            button: "",
-                        
+                            button: null,
+        
                         });
                         
                     }
                 }
-            
+                
             })
             .catch(error => {
                 console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
@@ -182,7 +183,7 @@ const MyHome = () => {
 
     return (
         <div>
-            <MyProfile setStoryFlag={setStoryFlag}/>
+            <MyProfile setStoryFlag={setStoryFlag} />
         </div>
         
     )
