@@ -30,8 +30,8 @@ const MyProfile = (props) => {
             setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
             setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
 
-        } else 
-        // if (otherMember) {
+        } 
+        //else  if (otherMember) {
         //     setMId(otherMember.M_ID);
         //     setMSelfIntroduction(otherMember.M_SELF_INTRODUCTION);
         //     setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
