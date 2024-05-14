@@ -1,5 +1,5 @@
 
-.preview_img_wrap {
+#create_story_wrap .preview_img_wrap {
     width: 400px;
     height: 400px;
     margin: 0 auto;
@@ -9,13 +9,13 @@
     border: solid 1px #888;
 }
 
-.input_file_img {
+#create_story_wrap .input_file_img {
     height: 400px;
     display: flex;
     align-items: center;
 }
 
-.input_file_img label {
+#create_story_wrap .input_file_img label {
     display: inline-block;
     padding: 3px 10px;
     font-weight: bold;
@@ -28,7 +28,7 @@
     line-height: 40px;
 }
 
-.input_file_img input[type="file"] {
+#create_story_wrap .input_file_img input[type="file"] {
     position: absolute;
     width: 0;
     height: 0;
@@ -38,7 +38,7 @@
     vertical-align: middle;
 }
 
-.select_is_public {
+#create_story_wrap .select_is_public {
     width: 400px;
     height: 25px;
     margin: 0 auto;
@@ -48,59 +48,60 @@
     text-align: center;
 }
 
-.select_is_public .public_p {
+#create_story_wrap .select_is_public .public_p {
     font-weight: bold;
     margin-right: 10px;
     font-size: .8em;
 }
 
-.select_is_public .public_p,
-.select_is_public .select_public,
-.select_is_public .select_friend_public,
-.select_is_public .select_private {
+#create_story_wrap .select_is_public .public_p,
+#create_story_wrap .select_is_public .select_public,
+#create_story_wrap .select_is_public .select_friend_public,
+#create_story_wrap .select_is_public .select_private {
     display: inline-block;
     margin-right: 5px;
 }
 
-label {
+#create_story_wrap label {
     font-size: .8em;
     line-height: .8em;
 }
 
-[type="radio"],
-span {
+#create_story_wrap [type="radio"],
+#create_story_wrap span {
     vertical-align: middle;
 }
 
-.write_s_txt {
+#create_story_wrap .write_s_txt {
     width: 400px;
     margin: 0 auto;
     margin-top: 3px;
     text-align: center;
 }
 
-textarea {
+#create_story_wrap textarea {
     resize: none;
 }
 
-textarea::placeholder {
+#create_story_wrap textarea::placeholder {
     line-height: 120px;
     text-align: center;
 }
 
-.story_btns {
+#create_story_wrap .story_btns {
     width: 400px;
     margin: 0 auto;
     text-align: center;
 }
 
-.story_btns button {
+#create_story_wrap .story_btns button {
     margin: 0 5px;
     padding: 5px 10px;
     color: #fff;
     font-weight: bold;
     background-color: #3897f0;
     border: solid 1px #2789e4;
+    border-radius: 5px;
     &:hover {
         background-color: #2186e4;
         cursor: pointer;
