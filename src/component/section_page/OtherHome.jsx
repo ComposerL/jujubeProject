@@ -135,13 +135,14 @@ const OtherHome = () => {
     const axios_get_friend = () => {
         console.log('axios_get_friend()');
 
-        let formData = new FormData();
-        formData.append("f_id", member.M_ID);
+
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_friend_status`,
             method: 'post',
-            data: formData,
+            data: {
+                f_id: member.M_ID
+            },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),      
             }, 

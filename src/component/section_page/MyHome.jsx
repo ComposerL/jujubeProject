@@ -101,7 +101,7 @@ const MyHome = () => {
                    
                     navigate('/');
                 } else {
-                    
+                    console.log(response.data);
                     dispatch({
                         type: 'set_my_stories',
                         story: response.data,

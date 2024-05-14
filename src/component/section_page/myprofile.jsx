@@ -31,16 +31,16 @@ const MyProfile = (props) => {
             setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
 
         } 
-        //else  if (otherMember) {
-        //     setMId(otherMember.M_ID);
-        //     setMSelfIntroduction(otherMember.M_SELF_INTRODUCTION);
-        //     setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
+        else  if (otherMember) {
+            setMId(otherMember.M_ID);
+            setMSelfIntroduction(otherMember.M_SELF_INTRODUCTION);
+            setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
 
-        // } else {
-        //     setMId('');
-        //     setMSelfIntroduction('');
-        //     setMProfileThumbnail('');
-        // }
+        } else {
+            setMId('');
+            setMSelfIntroduction('');
+            setMProfileThumbnail('');
+        }
 
         dispatch({
             type:'story_open_btn',
