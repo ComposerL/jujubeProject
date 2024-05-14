@@ -14,7 +14,6 @@ const ImageSwiper = ({ imagePreviews, setUploadImage, setImagePreviews }) => {
         console.log('picDeleteClickBtn()');
 
         let idx = parseInt(e.currentTarget.dataset.idx);
-        console.log('idx---', idx);
 
         setImagePreviews((prevPreviews) => {
             const newPreviews = [...prevPreviews];

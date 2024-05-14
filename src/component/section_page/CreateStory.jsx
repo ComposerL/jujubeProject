@@ -55,7 +55,6 @@ const CreateStory = () => {
         for(let i = 0; i < files.length; i++) {
             const curImgURL = URL.createObjectURL(files[i]);
             imageURLs.push(curImgURL);
-            console.log('imageURLs---', imageURLs);
         }
 
         setImagePreviews(imageURLs);
@@ -97,8 +96,6 @@ const CreateStory = () => {
             
             formData.append("files", uploadImage[i]);
         }
-
-        console.log('formData---', ...formData);
 
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/write_confirm`,

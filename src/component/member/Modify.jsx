@@ -111,6 +111,7 @@ const Modify = () => {
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_member`, 
+            method: 'get',
             headers: {
                 'Authorization': sessionStorage.getItem('sessionID'),
             }
@@ -148,7 +149,7 @@ const Modify = () => {
             
         })
         .catch(error => {
-            console.log('ajax_get_member communication error');
+            console.log('ajax_get_member communication error', error);
 
         })
         .finally(data => {

@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import '../css/home.css';
 
 import '../css/story/story.css';
+import { getCookie, removeCookie } from '../util/cookie';
+import { session_check } from '../util/session_check';
 import StoryReplyUI from './story/StoryReplyUI';
 import StoryUi from './story/StoryUi';
-import { getCookie,removeCookie } from '../util/cookie';
-import {session_check} from'../util/session_check';
 
 const Home = () => {
 
@@ -149,6 +149,7 @@ const Home = () => {
                                 storyIdx = {idx}
                                 memberInfors = {allStory.memberInfors[0]}
                                 setStoryFlag = {setStoryFlag}
+                                key = {idx}
                             />
                         )
                     })
