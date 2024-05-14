@@ -127,6 +127,19 @@ const SearchMember = () => {
                                         <p>{member.M_ID}</p>
                                         <p>{member.M_NAME}</p>
                                     </div>
+                                    <div className="search_result_btn_area">
+                                        {
+                                            true
+                                            ?
+                                            <div className="follow_btn">
+                                                <img className='follow_btn' src='/imgs/follow_btn_icon_b.png'/>
+                                            </div>
+                                            :
+                                            <div className="un_follow_btn">
+                                                <img className='follow_btn' src='/imgs/follow_btn_icon.png'/>
+                                            </div>
+                                        }
+                                    </div>
                                 </li>
                             )
                         })

@@ -141,10 +141,8 @@ const SignIn = () => {
                     alert('로그인 성공');
                     sessionStorage.setItem('sessionID', getCookie('accessToken'));
                     
-                    // sessionStorage.setItem('sessionID', response.data.sessionID);
                     dispatch({
                         type: 'sign_in_success',
-                        // loginedMember: response.data.loginedMember,
                     });
             }
         
