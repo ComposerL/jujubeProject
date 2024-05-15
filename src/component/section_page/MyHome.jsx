@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import { jwtDecode } from 'jwt-decode';
-import MyProfile from './myprofile';
+// import MyProfile from './myprofile';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
@@ -173,7 +173,7 @@ const MyHome = () => {
 
     return (
         <div>
-            <MyProfile setStoryFlag={setStoryFlag}/>
+            {/* <MyProfile setStoryFlag={setStoryFlag}/> */}
         </div>
         
     )
