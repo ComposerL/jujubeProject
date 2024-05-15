@@ -4,6 +4,7 @@ import $ from 'jquery';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getCookie, removeCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -16,7 +17,6 @@ const SearchMember = () => {
 
     useEffect(() => {
         console.log("searchMember useEffect()");
-        axios_get_member();
         $('#search_member_wrap input[name="search_member"]').focus();
         setSearchId('');
     },[]);
@@ -50,7 +50,10 @@ const SearchMember = () => {
             method: 'GET',
             params: {
                 search_member : searchId,
-            }
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),      
+            },
         })
         .then(response => {
             console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
@@ -58,6 +61,7 @@ const SearchMember = () => {
             
             if(response.data === -1){
                 alert('session out!!');
+                removeCookie('accessToken');
                 dispatch({
                     type:'session_out',
                 });
@@ -79,57 +83,24 @@ const SearchMember = () => {
         })
         .finally(() => {
             console.log('AXIOS GET SEARCH MEMBER COMMUNICATION COMPLETE');
-
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });
     
     }
+    
+    const testClickHandler = (member) => {/////////////////////////
+        console.log('testClickHandler()');
 
-    //세션체크
-    const axios_get_member = () => {
-        console.log("axios_get_member()");
-        axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
-            
+        localStorage.setItem('member_info', JSON.stringify(member));
+
+        dispatch({
+            type:'get_other_id',
+            member:member,
         })
-       .then(respones => {
-            console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(respones.data);
-            if(respones.data === -1){
-                console.log("Home session out!!");
-                sessionStorage.removeItem('sessionID');
-                dispatch({
-                    type:'session_out',
-                });
-                navigate('/');
-            }else{
-    
-                if(respones.data === null){
-                    console.log("undefined member");
-                    console.log("Home session out!!");
-                    sessionStorage.removeItem('sessionID');
-                    dispatch({
-                        type:'session_out',
-                    });
-                    navigate('/');
-                }else{
-                    console.log("member_id: " + respones.data.member.M_ID);
-                    dispatch({
-                        type:'session_enter',
-                        loginedMember: respones.data.member.M_ID,
-                    });
-                }
-    
-            }
-       })
-       .catch(error => {
-            console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
-        
-        })
-        .finally(() => {
-            console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-             
-        });
+        navigate('/member/other_home');
     }
-    
+
     return (
         <div id='search_member_wrap'>
             <h3>회원찾기</h3>
@@ -144,7 +115,7 @@ const SearchMember = () => {
                     {   
                         memberList.map((member, index) => {
                             return (
-                                <li key={index}>
+                                <li key={index} onClick={() => testClickHandler(member)}>
                                     <div className='search_result_frofile_thum_wrap'>
                                         {
                                             member.M_PROFILE_THUMBNAIL !== null
@@ -157,6 +128,19 @@ const SearchMember = () => {
                                     <div className='search_result_frofile_info_wrap'>
                                         <p>{member.M_ID}</p>
                                         <p>{member.M_NAME}</p>
+                                    </div>
+                                    <div className="search_result_btn_area">
+                                        {
+                                            true
+                                            ?
+                                            <div className="follow_btn">
+                                                <img className='follow_btn' src='/imgs/follow_btn_icon_b.png'/>
+                                            </div>
+                                            :
+                                            <div className="un_follow_btn">
+                                                <img className='follow_btn' src='/imgs/follow_btn_icon.png'/>
+                                            </div>
+                                        }
                                     </div>
                                 </li>
                             )

@@ -5,8 +5,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/story/create_story.css';
-import ImageSwiper from './ImageSwiper';
 import { getCookie } from '../../util/cookie';
+import ImageSwiper from './ImageSwiper';
 
 axios.defaults.withCredentials = true;
 
@@ -24,7 +24,6 @@ const CreateStory = () => {
     
     useEffect(() => {
         console.log('CreateStory useEffect()');
-        axios_get_member()
 
     }, [])
 
@@ -56,7 +55,6 @@ const CreateStory = () => {
         for(let i = 0; i < files.length; i++) {
             const curImgURL = URL.createObjectURL(files[i]);
             imageURLs.push(curImgURL);
-            console.log('imageURLs---', imageURLs);
         }
 
         setImagePreviews(imageURLs);
@@ -99,19 +97,23 @@ const CreateStory = () => {
             formData.append("files", uploadImage[i]);
         }
 
-        console.log('formData---', ...formData);
-
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/write_confirm`,
             method: 'post',
             data: formData,
             headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': localStorage.getItem('ssesionID')
+                'Authorization': sessionStorage.getItem('sessionID'),
             }
         })
         .then((response) => {
             console.log('axios_write_story communication success', response.data);
+
+            if (response.data === -1) {
+                sessionStorage.removeItem('ssesionID');
+                dispatch({
+                    type:'session_out',
+                });
+            }
 
             if(response.data === null) {
                 return alert('서버 통신 중 오류가 발생했습니다. 다시 시도해주세요.')
@@ -120,14 +122,8 @@ const CreateStory = () => {
             if (response.data > 0) {
                 alert('스토리 작성이 완료되었습니다.');
 
-                sessionStorage.setItem('sessionID', getCookie('accessToken'));
-                dispatch({
-                    type:'session_enter',
-                    sessinID: getCookie('accessToken'),
-                    loginedMember: response.data.member.M_ID,
-                });
+                navigate('/');
 
-                navigate('/member/my_home');
             }
 
         })
@@ -135,54 +131,11 @@ const CreateStory = () => {
             console.log('axios_write_story communication error', error);
 
         })
-
-    }
-
-    const axios_get_member = () => {
-        console.log("axios_get_member()");
-        axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
-            headers: {
-                'Authorization': localStorage.getItem('sessionID')
-            }
-        })
-        .then(response => {
-            console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(response.data);
-            if(response.data === -1){
-                console.log("Home session out!!");
-                sessionStorage.removeItem('sessionID');
-                dispatch({
-                    type:'session_out',
-                });
-            }else{
-    
-                if(response.data === null){
-                    console.log("undefined member");
-                    sessionStorage.removeItem('sessionID');
-                    dispatch({
-                        type:'session_out',
-                    });
-                }else{
-                    console.log("member_id: " + response.data.member.M_ID);
-                    sessionStorage.setItem('sessionID', getCookie('accessToken'));
-                    dispatch({
-                        type:'session_enter',
-                        sessinID: getCookie('accessToken'),
-                        loginedMember: response.data.member.M_ID,
-                    });
-                    
-                }
-    
-            }
-        })
-        .catch(error => {
-            console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
-        
-        })
         .finally(() => {
-            console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-            
-        });
+            sessionStorage.removeItem('ssesionID');
+            sessionStorage.setItem('sessionID', getCookie('accessToken'));
+        })
+
     }
 
     /*

@@ -9,7 +9,7 @@ import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axios from 'axios';
-import OtherHome from '../section_page/OtherHome';
+import { getCookie, removeCookie} from '../../util/cookie';
 
 axios.defaults.withCredentials = true
 
@@ -23,13 +23,15 @@ const StoryUi = (props) => {
 
 	useEffect(() => {
         console.log("StoryUi useEffect()");
+		console.log("pictures: ",props.pictures);
         setPictures(props.pictures);
-    },[modal]);
+    },[modal,props.pictures]);
 
 	const storyTextBtnClickHandler = (e) => {
         console.log("storyTextBtnClickHandler()");
 		let story_text_btn = e.target;
-        $(story_text_btn).css({'width': '100%','white-space': 'initial', 'cursor':'inherit'});
+        $(story_text_btn).parent('p').css({'width': '100%','white-space': 'initial', 'cursor':'inherit', 'word-break': 'break-all'});
+        $(story_text_btn).css({'cursor':'inherit'});
     }
 
 	const storyReplyBtnClickHandler = (e) => {
@@ -82,6 +84,7 @@ const StoryUi = (props) => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
+				'authorization': sessionStorage.getItem('sessionID'),
             }
 		})
 		.then(response => {	
@@ -90,6 +93,7 @@ const StoryUi = (props) => {
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data > 0){
+				
 				props.setStoryFlag(pv => !pv);
 			}else{
 				console.log("database delete fail!!");
@@ -102,6 +106,9 @@ const StoryUi = (props) => {
 		})
 		.finally(data => {
             console.log("axios story delete confirm finally!!");
+			sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');//
 		});
 
 	}
@@ -121,7 +128,8 @@ const StoryUi = (props) => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
-            }
+				'authorization': sessionStorage.getItem('sessionID'),
+            },
 		})
 		.then(response => {	
 			console.log("axios story like update success!!");
@@ -141,6 +149,9 @@ const StoryUi = (props) => {
 		})
 		.finally(data => {
             console.log("axios story like update finally!!");
+			sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');//
 		});
 
 	}
@@ -204,7 +215,7 @@ const StoryUi = (props) => {
                             return (
                                 // <SwiperSlide key={idx}><div id='swiper_img'><img src={`${picture.SP_PICTURE_NAME}/${randomNum}00/${randomNum}00`} alt="" /></div></SwiperSlide>
                                 <SwiperSlide key={idx}>
-									<div id='swiper_img'>
+									<div id={`swiper_img`} className={`${picture.SP_PICTURE_NAME}`}>
 									<img src={`${process.env.REACT_APP_HOST}/${props.m_id}/${picture.SP_SAVE_DIR}/${picture.SP_PICTURE_NAME}`} alt="" />
 									</div>
 								</SwiperSlide>
@@ -236,9 +247,9 @@ const StoryUi = (props) => {
 					<p>좋아요<span>{props.storyLikeCnt.toLocaleString("ko-KR")}</span>개</p>
 				</div>
 				<div className='story_contents_text_wrap'>
-					<p className='story_text_btn' onClick={(e)=>storyTextBtnClickHandler(e)}>
+					<p className='story_text_btn' >
 						<span className='s_id'>{props.m_id}</span>
-						<span className='s_text'>{props.s_txt}</span>
+						<span className='s_text' onClick={(e)=>storyTextBtnClickHandler(e)}>{props.s_txt}</span>
 					</p>
 					<div className='story_reply_wrap'>
 						{

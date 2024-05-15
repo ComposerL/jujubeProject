@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/story/storyReply.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import ReplyUI from './ReplyUI';
+import {session_check} from'../../util/session_check';
+import { getCookie, removeCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true
 
@@ -12,6 +14,7 @@ const StoryReplyUI = () => {
 	const [replyFlag,setReplyFlag] = useState(false);
 	const [r_txt,setR_txt] = useState('');
 
+	const dispatch = useDispatch();
 	const loginedMember = useSelector(store => store.loginedMember);
 	const s_no = useSelector(store => store.s_no);
 	const modal = useSelector(store => store.modal);
@@ -26,16 +29,20 @@ const StoryReplyUI = () => {
 	const axios_get_story_reply_list = (s_no) => {
 		console.log("axios_get_story_reply_list()");
 		console.log("get story reply S_NO: ",s_no);
+		console.log("get story reply sessionID: ",sessionStorage.getItem('sessionID'));
 		axios({
 			url: `${process.env.REACT_APP_HOST}/story/reply/get_replys`,
 			method: 'get',
 			params:{
 				"s_no" : s_no,
-			}
+			},
+			headers: {
+                'Authorization': sessionStorage.getItem('sessionID'),
+            }
 		})
 		.then(response => {	
 			console.log("axios get story reply list success!!");
-            setResplys(response.data);		
+            setResplys(response.data);	
 		})
 		.catch(err => {
             console.log("axios get story reply list error!!");
@@ -43,6 +50,9 @@ const StoryReplyUI = () => {
 		})
 		.finally(data => {
             console.log("axios get story reply list finally!!");
+			sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');
 		});
 
 	}
@@ -62,6 +72,7 @@ const StoryReplyUI = () => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
+				'authorization': sessionStorage.getItem('sessionID'),
             }
 		})
 		.then(response => {	
@@ -83,6 +94,9 @@ const StoryReplyUI = () => {
 		})
 		.finally(data => {
             console.log("axios reply write confirm finally!!");
+			sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+			removeCookie('accessToken');//
 		});
 
 	}

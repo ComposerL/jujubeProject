@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { jwtDecode } from "jwt-decode";
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../css/home.css';
 
 import '../css/story/story.css';
+import { getCookie, removeCookie } from '../util/cookie';
+import { session_check } from '../util/session_check';
 import StoryReplyUI from './story/StoryReplyUI';
 import StoryUi from './story/StoryUi';
-
 
 const Home = () => {
 
@@ -20,13 +21,20 @@ const Home = () => {
     const [allStorys,setAllStorys] = useState([]);
 
     useEffect(() => {
-        console.log("Home useEffect()");
-        axios_get_member();
+        console.log("Home useEffect()");       
 
-        let token = sessionStorage.getItem('sessionID');
-        console.log('token----', jwtDecode(token)) ;
-        // let date = (new Date().getTime() + 1) / 1000;
-
+        let session = session_check();
+        console.log("session: ",session);
+        if(session !== null){
+            console.log('[home] session_check enter!!');
+            axios_get_member();
+        }else{
+            console.log('[home] session_check expired!!');
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+            });
+        }
         
     },[modal,storyFlag]);
 
@@ -42,8 +50,9 @@ const Home = () => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
             console.log(respones.data);
             if(respones.data === -1){
-                console.log("Home session out!!");
+                console.log("Home server session out!!");
                 sessionStorage.removeItem('sessionID');
+                removeCookie('accessToken');
                 dispatch({
                     type:'session_out',
                 });
@@ -52,13 +61,12 @@ const Home = () => {
                 if(respones.data === null){
                     console.log("undefined member");
                     sessionStorage.removeItem('sessionID');
-                    dispatch({
-                        type:'session_out',
-                    });
+                    sessionStorage.setItem('sessionID',getCookie('accessToken'));
+                    alert("로그인한 멤머 정보가 없습니다. 다시 시도해주세요.")
                 }else{
                     console.log("member_id: " + respones.data.member.M_ID);
-                    //sessionStorage.removeItem('sessionID');
-                    //sessionStorage.setItem('sessionID',respones.data.token);
+                    sessionStorage.removeItem('sessionID');
+                    sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,
@@ -70,28 +78,32 @@ const Home = () => {
             }
         })
         .catch(error => {
-            console.log('AXIOS GET MEMBER COMMUNICATION ERROR');
-        
+            console.log('AXIOS GET MEMBER COMMUNICATION ERROR',error);
+            
         })
         .finally(() => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
-            
         });
     }
     
     //axios get all storys
     const axios_get_all_storys = (m_id) => {
         console.log("axios_get_all_storys()");
+        console.log("sessionID: ",sessionStorage.getItem('sessionID'));
+        console.log("cookie: ",getCookie('accessToken'));
         axios({
 			url: `${process.env.REACT_APP_HOST}/story/story/get_all_storys`,
 			method: 'get',
 			params:{
 				"m_id" : m_id,
-			}
+			},
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
 		})
 		.then(response => {	
 			console.log("axios get all storys success!!");
-			console.log("data: ",response.data);
+			console.log("get all storys data: ",response.data);
             setAllStorys(response.data);
             
 		})
@@ -101,6 +113,9 @@ const Home = () => {
 		})
 		.finally(data => {
             console.log("axios get all storys finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+            removeCookie('accessToken');//
 		});	
     }
 
@@ -118,7 +133,6 @@ const Home = () => {
         <div id='home_wrap'>
             <ul id='story_wrap'>
                 {   
-
                     allStorys.map((allStory,idx) => {
                         return (
                             <StoryUi
@@ -135,6 +149,7 @@ const Home = () => {
                                 storyIdx = {idx}
                                 memberInfors = {allStory.memberInfors[0]}
                                 setStoryFlag = {setStoryFlag}
+                                key = {idx}
                             />
                         )
                     })
@@ -142,13 +157,19 @@ const Home = () => {
             </ul>
             
         </div>
-        <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
-            <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
-                <div></div>
-                <div></div>
+        {
+            modal === true
+            ?
+            <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
+                <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
+                    <div></div>
+                    <div></div>
+                </div>
+                <StoryReplyUI/>
             </div>
-            <StoryReplyUI/>
-        </div>
+            :
+            null
+        }
         </>
     )
 }

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../css/nav.css';
-import NavLi from '../component/main_nav/NavLi';
-import $ from 'jquery';
-import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import $ from 'jquery';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import NavLi from '../component/main_nav/NavLi';
+import '../css/nav.css';
+import { removeCookie } from '../util/cookie';
 
 
 const Nav = () => {
@@ -43,7 +44,7 @@ const Nav = () => {
         })
         .then(response => {
             console.log('AXIOS SIGN OUT COMMUNICATION SUCCESS');
-
+            removeCookie('accessToken');
         })
         .catch(error => {
             console.log('AXIOS SIGN OUT COMMUNICATION ERROR');
@@ -65,7 +66,7 @@ const Nav = () => {
                 <NavLi command="/member/search_member_form" img_src="/imgs/nav_search_icon.png" text="SEARCH"/>
                 <NavLi command="/member/message" img_src="/imgs/nav_messege_icon.png" text="MESSAGE"/>
                 <NavLi command="/story/create_story" img_src="/imgs/nav_create_icon.png" text="CREATE"/>
-                <NavLi command="/member/my_home" img_src="/imgs/nav_my_icon.png" text="PROFILE"/>
+                <NavLi command="/member/my_home" img_src="/imgs/nav_my_icon.png" text="MY"/>
             </ul>
             <div className="nav_detail_menu" onMouseEnter={navModalMouseEnterHandler} onMouseLeave={navModalMouseLeaveHandler}>
                 <div className="nav_detail_img_wrap">

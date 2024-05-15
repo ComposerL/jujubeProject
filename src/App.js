@@ -2,7 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { legacy_createStore as createStore } from 'redux';
-import {removeCookie} from './util/cookie';
 import './App.css';
 import Wrap from './component/Wrap';
 import './css/common.css';
@@ -14,9 +13,9 @@ const initial_state = {
     s_replys: [],
 
     info: "",
-    button: 0,
+    button: [],
     story: "",
-    friend: "",
+    friend: 0,
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -43,7 +42,8 @@ const reducer = (currentState = initial_state , action) => {
         //session 관련
         case 'session_out': //서버 세션토큰 만료
             return {...currentState, 
-                sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
+                sessionID: null, //session 토큰 체크
+                loginedMember: '',
             };
 
         case 'session_enter': //서버 세션토큰 유지
@@ -61,18 +61,29 @@ const reducer = (currentState = initial_state , action) => {
             };  
 
         // 프로필 관련    
-            
-        case 'set_my_info':// 다른 사람 정보 가져오기
-            console.log("set_my_info: ");
+        case 'get_other_id': //다른 사람 정보 가져오기
+            console.log('get_other_id: ', action.member);
+            return {...currentState, member:action.member};    
+
+        case 'set_other_info':// 다른 사람 정보 부려주기
+            console.log("set_other_info: ");
             return {...currentState, info:action.info};
 
         case 'set_my_stories'://내 스토리 가져오기
             console.log("set_my_stories: ", action.story);
-            return {...currentState, story:action.story, button:action.button};
+            return {...currentState, story:action.story};
 
-        case 'set_my_friend':
+        case 'set_my_friend':// 내 친구 수
             console.log('set_my_friend', action.friend);
-            return {...currentState, friend:action.friend, button:action.button}; 
+            return {...currentState, friend:action.friend}; 
+
+        case 'set_my_button':// 친구 상태
+            console.log('set_my_button', action.button);
+            return {...currentState, button:action.button}; 
+
+        case 'story_open_btn':
+            return {...currentState, storymodal:action.storymodal}   
+                
         default:
             return currentState; 
     }

@@ -60,32 +60,12 @@
     background-color: #357ae8;
 }
 
-/* #my_profile_wrap #profile_imgs {
-    /* text-align: center;
-    padding: 10px;
-    font-size: 1.2em;
-    font-weight: bold; 
-} */
-
 #my_profile_wrap div.profile_img_name {
     margin: 10px;
     text-align: center;
     font-weight: bold;
     font-size: 1.3em;
 }
-
-/* #my_profile_wrap div.profile_item {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 30px;
-}
-
-#my_profile_wrap div.profile_item img {
-    border: 1px solid #000; 
-    background-color: #ddd;
-    width: 170px;
-    height: 170px;
-}  */
 
 #my_profile_wrap div.profile_item {
     font-size: 0;
@@ -107,4 +87,55 @@
     height: 165px; /* 높이를 직접 지정 */
     box-sizing: border-box; /* 요소의 크기에 경계 상자와 안팎 여백을 포함 */
 } 
+
+#my_profile_wrap #story_wrap {
+    margin: auto;
+    
+}
+
+#my_profile_wrap #story_wrap li {
+    /* margin-top: 10px; */
+}
+
+#my_profile_wrap #open_story_wrap {
+    width: 750px;
+    height: 620px;
+    position: absolute;
+    bottom: 0px;
+    background-color: rgba(255, 255, 255);
+    /* transition: 0.5s; */
+    box-sizing: border-box;
+    z-index: 1;
+    
+}
+
+#my_profile_wrap #hide_story_wrap{
+    width: 750px;
+    height: 620px;
+    position: absolute;
+    bottom: -620px;
+    /* background-color: rgba(0,0,0,0.6); */
+    z-index: 1;
+    /* transition: 0.5s; */
+    box-sizing: border-box;
+}
+
+div.modal_close_btn img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 0;right: 0;
+    cursor: pointer;
+    margin: 10px;
+}
+
+div.modal_close_btn div {
+    margin: 20px;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    margin: auto;
+    background-color: #000  ;
+}
 

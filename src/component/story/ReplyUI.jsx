@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReReplyUI from './ReReplyUI';
 import $ from 'jquery';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCookie, removeCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -11,6 +12,8 @@ const ReplyUI = (props) => {
     const [reReplys,setReResplys] = useState([]);
     const [rTxt,setRTxt] = useState('');
     const [reReplyWriteView,setReReplyWriteView] = useState(false);
+
+    const dispatch = useDispatch();
 
     const modal = useSelector(store => store.modal);
     const loginedMember = useSelector(store => store.loginedMember);
@@ -29,11 +32,19 @@ const ReplyUI = (props) => {
 			method: 'get',
 			params:{
 				"r_no" : r_no,
-			}
+			},
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
 		})
 		.then(response => {	
 			console.log("axios get story re_reply list success!!");
-			setReResplys(response.data);
+            if(response.data !== null){                
+                setReResplys(response.data);
+            }else{
+                console.log("axios get re_reply list is null!!");
+                setReResplys([]);
+            }
 		})
 		.catch(err => {
             console.log("axios get story re_reply list error!!");
@@ -41,6 +52,9 @@ const ReplyUI = (props) => {
 		})
 		.finally(data => {
             console.log("axios get story re_reply list finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+            removeCookie('accessToken');//
 		});
 
 	}
@@ -61,6 +75,7 @@ const ReplyUI = (props) => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
+                'authorization': sessionStorage.getItem('sessionID'),
             }
 		})
 		.then(response => {	
@@ -69,8 +84,13 @@ const ReplyUI = (props) => {
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data === 0){
-				console.log("database insert fail!!")
-			}else if(response.data === 1){
+				console.log("database insert fail!!");
+			}else if(response.data === -1){
+                console.log("server session expired!!");
+                dispatch({
+                    type:'session_out',
+                });
+            }else if(response.data === 1){
 				alert("댓글 등록 성공!!");
 				props.setReplyFlag(pv => !pv);               
                 
@@ -83,6 +103,9 @@ const ReplyUI = (props) => {
 		})
 		.finally(data => {
             console.log("axios re_reply write confirm finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+            removeCookie('accessToken');//
             setReReplyWriteView(false);
 		});
 
@@ -102,6 +125,7 @@ const ReplyUI = (props) => {
 			data: requestData,
             headers: {
                 'Content-Type': 'application/json',
+                'authorization': sessionStorage.getItem('sessionID'),
             }
 		})
 		.then(response => {	
@@ -111,7 +135,13 @@ const ReplyUI = (props) => {
 				console.log("database error!!");
 			}else if(response.data > 0){
 				props.setReplyFlag(pv => !pv);               
-			}else{
+			}else if(response.data === -1){
+                console.log("server session expired!!");
+                sessionStorage.removeItem('sessionID');
+                dispatch({
+                    type:'session_out',
+                });
+            }else{
 				console.log("database delete fail!!");                
 			}
 
@@ -122,6 +152,8 @@ const ReplyUI = (props) => {
 		})
 		.finally(data => {
             console.log("axios reply delete confirm finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 		});
 
 	}

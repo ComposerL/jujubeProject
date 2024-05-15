@@ -1,11 +1,10 @@
 import axios from 'axios';
 import $ from 'jquery';
+import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/member/modify_form.css';
-import { getCookie } from './../../util/cookie';
-import { jwtDecode } from 'jwt-decode';
 
 axios.defaults.withCredentials = true
 
@@ -112,6 +111,7 @@ const Modify = () => {
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_member`, 
+            method: 'get',
             headers: {
                 'Authorization': sessionStorage.getItem('sessionID'),
             }
@@ -149,7 +149,7 @@ const Modify = () => {
             
         })
         .catch(error => {
-            console.log('ajax_get_member communication error');
+            console.log('ajax_get_member communication error', error);
 
         })
         .finally(data => {
@@ -177,14 +177,12 @@ const Modify = () => {
 
         console.log('formData=======>', ...formData);
 
-        let accessToken = getCookie('accessToken');
-
         axios({
             url: `${process.env.REACT_APP_HOST}/member/modify_confirm`, 
             method: 'post',
             data: formData,
             headers: {
-                'Authorization': `${accessToken}`
+                'Authorization': `${sessionStorage.getItem('sessionID')}`,
             }
 
         })
