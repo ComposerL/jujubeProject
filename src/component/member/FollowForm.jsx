@@ -1,17 +1,74 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/member/follow_form.css';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { getCookie, removeCookie } from '../../util/cookie';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const FollowForm = () => {
 
     const m_id = useSelector(store => store.m_id);
     const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
-    const [followID,setFollowID] = useState();
+    const [followID,setFollowID] = useState('');
+    const [followNickName,setFollowNickName] = useState('');
+    const navigate = useNavigate();
+
     useEffect(() => {
         console.log("FollowForm useEffect()");
-        console.log("m_id: ",m_id);
         setFollowID(m_id);
     },[]);
+
+    const followFormSubmitBtnClickHandler = () => {
+        console.log("followFormSubmitBtnClickHandler()");
+        // console.log("followID: ",followID);
+        // console.log("followNickName: ",followNickName);
+        axios_friend_request(followID,followNickName);
+    }
+
+    const axios_friend_request = (followID,followNickName) => {
+		console.log("axios_friend_request()");
+
+		let requestData = {
+            fr_res_id : followID,
+            fr_ilchon_name: followNickName,
+        }
+
+		axios({
+			url: `${process.env.REACT_APP_HOST}/member/friend_request`,
+			method: 'post',
+			data: requestData,
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
+		})
+		.then(response => {	
+			console.log("axios friend request success!!");
+			console.log("response: ",response.data.result);
+            if(response.data.result === 3){
+                alert("이미 일촌입니다.");
+            }else if(response.data.result === null){
+                alert("server error response is null");
+            }else if(response.data.result === 0){
+                alert("일촌 신청에 실패하였습니다.");
+            }else{
+                alert("상대방이 동의하시면 일촌이 맺어집니다.");
+                navigate('/');
+            }
+		})
+		.catch(err => {
+            console.log("axios friend request error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios friend request finally!!");
+            setFollowNickName('');
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+            removeCookie('accessToken');//
+		});
+
+	}
 
     return (
         <>
@@ -33,11 +90,11 @@ const FollowForm = () => {
                         님을 &nbsp; 
                         <span className='section3_follow_to_id'>{followID}</span>
                         님의 &nbsp;
-                        <input type="text" name = 'f_ilchon_name' placeholder='내 일촌명 입력' />로
+                        <input type="text" name = 'f_ilchon_name' value={followNickName} onChange={(e) => setFollowNickName(e.target.value)} placeholder='내 일촌명 입력' />로
                     </div>
                     <div className='follow_form_section4_subTxt'>상대방이 동의하시면 일촌이 맺어집니다.</div>
                     <div className='follow_form_section5_btn'>
-                        <input type="button" value="보내기"/>
+                        <input type="button" value="보내기" onClick={followFormSubmitBtnClickHandler}/>
                         <input type="button" value="취소"/>
                     </div>
                 </div>
