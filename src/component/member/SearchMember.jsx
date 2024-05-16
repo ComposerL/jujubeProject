@@ -16,6 +16,7 @@ const SearchMember = () => {
     const [searchId, setSearchId] = useState('');
     const [memberList, setMemberList] = useState([]);
 
+
     useEffect(() => {
         console.log("searchMember useEffect()");
         $('#search_member_wrap input[name="search_member"]').focus();
@@ -102,14 +103,10 @@ const SearchMember = () => {
     
     const searchMemberInfoHandler = (member) => {/////////////////////////
         console.log('testClickHandler()');
-
-        
-        dispatch({
-            type:'get_other_id',
-            member:member,
-        })
-        navigate('/member/other_home');
+       
         sessionStorage.setItem('member_info', JSON.stringify(member));
+        navigate('/member/other_home');
+
     }
 
     return (
