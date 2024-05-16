@@ -38,26 +38,14 @@ const MyProfile = (props) => {
             setMProfileThumbnail('');
         }
 
-        dispatch({
-            type:'story_open_btn',
-            storymodal:false
-        })
-
-        dispatch({
-            type:'reply_modal_close',
-            modal:false
-        })
+        // dispatch({
+        //     type:'story_open_btn',
+        //     storymodal: false,
+        // });
 
     },[member_info, props.setStoryFlag]);
+
         
-
-    console.log('asgadshadfhfsdh:', loginedMember);
-    // if (!loginedMember || !otherMember || !story || !friend) {
-    //      // 데이터가 없는 경우 처리
-    //     return <div>Loading...</div>;
-    // }  
-
-
     //버튼 분기
     const FriendButton = () => {
         return (
@@ -92,6 +80,7 @@ const MyProfile = (props) => {
             type:'story_open_btn',
             storymodal: true,
         });
+        console.log('true: ', storymodal);
         
     }
     
@@ -288,16 +277,8 @@ const MyProfile = (props) => {
                             {
                                 story.map((story, idx) => {
                                     return (
-                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>
-                                            
-                                            {
-                                                story.pictures.length === 0
-                                                ?
-                                                <img src="#" alt="" />
-                                                :
-                                                <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
-                                            }
-                                            
+                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>                                   
+                                            <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_SAVE_DIR}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />                                            
                                         </div>
                                     )
                                 })
