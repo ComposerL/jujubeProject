@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import '../../css/member/follow_form.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { getCookie, removeCookie } from '../../util/cookie';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { session_check } from '../../util/session_check';
 
 const FollowForm = () => {
 
     const m_id = useSelector(store => store.m_id);
-    const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
     const [followID,setFollowID] = useState('');
     const [followNickName,setFollowNickName] = useState('');
+    const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
         console.log("FollowForm useEffect()");
-        setFollowID(m_id);
+
+        let session = session_check();
+        if(session !== null){
+            console.log('[FollowForm] session_check enter!!');
+            setFollowID(m_id);
+        }else{
+            console.log('[FollowForm] session_check expired!!');
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+            });
+        }
+
     },[]);
 
     const followFormSubmitBtnClickHandler = () => {
