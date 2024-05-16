@@ -16,6 +16,7 @@ const SearchMember = () => {
     const navigate = useNavigate();
     const [searchId, setSearchId] = useState('');
     const [memberList, setMemberList] = useState([]);
+    const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
 
     useEffect(() => {
         console.log("searchMember useEffect()");
@@ -157,6 +158,10 @@ const SearchMember = () => {
                                     </div>
                                     <div className="search_result_btn_area">
                                         {
+                                            member.M_ID === loginedMemberID
+                                            ?
+                                            '나'
+                                            :
                                             member.result === 0
                                             ?
                                             <div className="follow_btn">
