@@ -78,8 +78,6 @@ const MyProfile = (props) => {
 
         );
             
-      
-        
     }
 
     const openStoryClickHandler = (story, e) => {
