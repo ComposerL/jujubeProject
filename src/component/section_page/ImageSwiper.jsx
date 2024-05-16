@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -28,6 +29,13 @@ const ImageSwiper = ({ imagePreviews, setUploadImage, setImagePreviews }) => {
         });
 
     };
+
+    const plusImgBtnClick = () => {
+        console.log('plusImgBtnClick()')
+
+        $('#create_story_wrap .input_file_img label').click();
+
+    }
 
     return (
         <Swiper
@@ -62,6 +70,18 @@ const ImageSwiper = ({ imagePreviews, setUploadImage, setImagePreviews }) => {
                     </SwiperSlide>
                 )
             }
+            <SwiperSlide>
+                <div className="img_wrap">
+                    <div className='plus_img_wrap'
+                        onClick={plusImgBtnClick}
+                    >
+                        <img src="/imgs/modify_add_icon.png" alt="" />
+                    </div>
+                    <div className='delete_box'>
+                        <span></span>
+                    </div>
+                </div>
+            </SwiperSlide>
         </Swiper>
     );
 };

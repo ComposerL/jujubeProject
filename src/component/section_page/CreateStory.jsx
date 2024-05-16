@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/story/create_story.css';
 import { getCookie } from '../../util/cookie';
 import ImageSwiper from './ImageSwiper';
+import { session_check } from './../../util/session_check';
 
 axios.defaults.withCredentials = true;
 
@@ -25,6 +26,18 @@ const CreateStory = () => {
     useEffect(() => {
         console.log('CreateStory useEffect()');
 
+        let session  = session_check();
+        if(session !== null){
+            console.log('[home] session_check enter!!');
+            axios_get_access_token();
+        }else{
+            console.log('[home] session_check expired!!');
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+            });
+        }
+
     }, [])
 
     const navigate = useNavigate();
@@ -33,7 +46,7 @@ const CreateStory = () => {
 
         const imageFiles = e.target.files;
 
-        if (imageFiles.length > maxFiles) {
+        if ((imagePreviews.length + imageFiles.length) > maxFiles) {
             alert(`최대 ${maxFiles}개의 파일만 선택할 수 있습니다.`);
         
             // FileList 객체는 읽기 전용이므로 새로운 DataTransfer 객체를 생성하여 수정
@@ -49,15 +62,22 @@ const CreateStory = () => {
 
         const files = e.target.files;
 
-        setUploadImage(files);
+        setUploadImage((preUploadImgFiles) => {
+            const newUploadImgFiles = [...preUploadImgFiles];
+            for (let i = 0; i < files.length; i++) {
+                newUploadImgFiles.push(files[i]);
+            }
+            return newUploadImgFiles;
+        });
 
-        let imageURLs = [];
-        for(let i = 0; i < files.length; i++) {
-            const curImgURL = URL.createObjectURL(files[i]);
-            imageURLs.push(curImgURL);
-        }
-
-        setImagePreviews(imageURLs);
+        setImagePreviews((preImgUrls)=> {
+            const newImgUrls = [...preImgUrls];
+            for(let i = 0; i < files.length; i++) {
+                const imgUrl = URL.createObjectURL(files[i]);
+                newImgUrls.push(imgUrl);
+                return newImgUrls;
+            }
+        });
 
     }
 
@@ -85,6 +105,13 @@ const CreateStory = () => {
 
     }
 
+    const inputLabelBtnClick = () => {
+        console.log('inputLabelBtnClick()')
+
+        $('#create_story_wrap .input_file_img label').click();
+
+    }
+
     const axios_write_story = () => {
         console.log('axios_write_story()');
 
@@ -93,7 +120,6 @@ const CreateStory = () => {
         formData.append("s_is_public", isPublic);
         formData.append("m_id", loginedMember);
         for(let i = 0; i < uploadImage.length; i++) {
-            
             formData.append("files", uploadImage[i]);
         }
 
@@ -134,6 +160,42 @@ const CreateStory = () => {
         .finally(() => {
             sessionStorage.removeItem('ssesionID');
             sessionStorage.setItem('sessionID', getCookie('accessToken'));
+        })
+
+    }
+
+    const axios_get_access_token = () => {
+        console.log('modifyStory axios_get_access_token()')
+
+        axios({
+            url: `${process.env.REACT_APP_HOST}/auth/get_access_token`,
+            method: 'get',
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
+        })
+        .then(response => {
+            console.log('AXIOS GET ACCESS TOKEN COMMUNICATION SUCCESS', response.data);
+
+            if(response.data === -1) {
+                console.log('modifyStory session out');
+                sessionStorage.removeItem('sessionID');
+                dispatch({
+                    type:'session_out',
+                });
+            } else {
+                sessionStorage.removeItem('sessionID');
+                sessionStorage.setItem('sessionID', getCookie('accessToken'));
+                dispatch({
+                    type:'session_enter',
+                })
+            }
+
+        })
+        .catch(error => {
+            console.log('AXIOS GET ACCESS TOKEN COMMUNICATION ERROR', error);
+
+
         })
 
     }
@@ -251,17 +313,10 @@ const CreateStory = () => {
                         ?
                         <ImageSwiper imagePreviews={imagePreviews} setImagePreviews={setImagePreviews} setUploadImage={setUploadImage} />
                         :
-                        <div className='input_file_img'>
-                            <label for="file">사진첨부</label> 
-                            <input 
-                                type="file"
-                                id="file"
-                                className="input_image"
-                                accept="image/*"    // 이미지 파일만 업로드 가능.
-                                ref={fileInputRef}
-                                multiple
-                                onChange={e => onImageHandler(e)}
-                            />
+                        <div className='label_img'
+                            onClick={inputLabelBtnClick}
+                        >
+                            <label>사진첨부</label> 
                         </div>
                     }
 
@@ -301,6 +356,19 @@ const CreateStory = () => {
             <div className='story_btns'>
                 <button onClick={writeStoryClickBtn} >등록</button>
                 <button onClick={picResetClickBtn} >사진초기화</button>
+            </div>
+
+            <div className='input_file_img'>
+                <label for="file">사진첨부</label> 
+                <input 
+                    type="file"
+                    id="file"
+                    className="input_image"
+                    accept="image/*"    // 이미지 파일만 업로드 가능.
+                    ref={fileInputRef}
+                    multiple
+                    onChange={e => onImageHandler(e)}
+                />
             </div>
 
         </div>
