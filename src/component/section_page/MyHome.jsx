@@ -50,6 +50,7 @@ const MyHome = () => {
                     // console.log("member_id: " + respones.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
+                    localStorage.setItem('member_info', JSON.stringify(respones.data.member));
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,
@@ -129,7 +130,7 @@ const MyHome = () => {
             url: `${process.env.REACT_APP_HOST}/member/get_friend_count`,
             method: 'get',
             params: {
-                'm_id': m_id
+                'id': m_id
             },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),

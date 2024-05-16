@@ -10,17 +10,18 @@ axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
 
 const OtherHome = () => {
-    
+
+    const member_info = JSON.parse(localStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const member = useSelector(store => store.member);
+    // const member = useSelector(store => store.member);
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
 
-        axios_get_friend(member.M_ID);
-        axios_get_other_profile(member.M_ID);
-        axios_list_friend(member.M_ID)
+        axios_get_friend(member_info.M_ID);
+        axios_get_other_profile(member_info.M_ID);
+        axios_list_friend(member_info.M_ID)
             
     },[]);
 
@@ -31,7 +32,7 @@ const OtherHome = () => {
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
             params: {
-                'm_id': member.M_ID,
+                'm_id': member_info.M_ID,
             },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),      
@@ -86,7 +87,7 @@ const OtherHome = () => {
             url: `${process.env.REACT_APP_HOST}/member/get_friend_count`,
             method: 'get',
             params: {
-                'm_id': member.M_ID
+                'id': member_info.M_ID
             },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),
@@ -139,7 +140,7 @@ const OtherHome = () => {
             url: `${process.env.REACT_APP_HOST}/member/get_friend_status`,
             method: 'post',
             data: {
-                f_id: member.M_ID
+                f_id: member_info.M_ID
             },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),      
