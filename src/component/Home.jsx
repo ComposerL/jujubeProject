@@ -31,6 +31,7 @@ const Home = () => {
         }else{
             console.log('[home] session_check expired!!');
             sessionStorage.removeItem('sessionID');
+            sessionStorage.removeItem('member_info');
             dispatch({
                 type:'session_out',
             });
@@ -67,6 +68,7 @@ const Home = () => {
                     console.log("member_id: " + respones.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
+
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,

@@ -22,6 +22,7 @@ const MyHome = () => {
             
     },[]);
 
+    
     const axios_get_member = () => {
         console.log("axios_get_member()");
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
@@ -29,10 +30,10 @@ const MyHome = () => {
                 'Authorization': sessionStorage.getItem('sessionID'),
             }
         })
-        .then(respones => {
+        .then(response => {
             console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(respones.data);
-            if(respones.data === -1){
+            console.log(response.data);
+            if(response.data === -1){
                 console.log("Home server session out!!");
                 sessionStorage.removeItem('sessionID');
                 removeCookie('accessToken');
@@ -41,22 +42,25 @@ const MyHome = () => {
                 });
             }else{
 
-                if(respones.data === null){
-                    console.log("Home session out!!");
+                if(response.data === null){
+                    console.log("undefined member");
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     alert("로그인한 멤머 정보가 없습니다. 다시 시도해주세요.")
                 }else{
-                    // console.log("member_id: " + respones.data.member.M_ID);
+                    console.log("member_id: " + response.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
-                    localStorage.setItem('member_info', JSON.stringify(respones.data.member));
+                    sessionStorage.setItem('member_info', JSON.stringify(response.data.member));
+
                     dispatch({
                         type:'session_enter',
-                        loginedMember: respones.data.member,
+                        loginedMember: response.data.member,
                     });
-                    axios_get_profile(respones.data.member.M_ID);
-                    axios_get_friend(respones.data.member.M_ID)
+
+                    axios_get_profile(response.data.member.M_ID);
+                    axios_list_friend(response.data.member.M_ID);
+                    axios_get_friend(response.data.member.M_ID);
 
                 }
 
@@ -70,7 +74,7 @@ const MyHome = () => {
             console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
         });
     }
-
+    
     const axios_get_profile = (m_id) => {
         console.log('axios_get_profile()');
         axios({
@@ -124,7 +128,7 @@ const MyHome = () => {
         });
     }
 
-    const axios_get_friend = (m_id) => {
+    const axios_list_friend = (m_id) => {
         console.log('axios_get_friend()');
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_friend_count`,
@@ -173,6 +177,54 @@ const MyHome = () => {
                 removeCookie('accessToken');//
             });
         }
+
+        const axios_get_friend = (m_id) => {
+            console.log('axios_get_friend()');
+    
+            axios({
+                url: `${process.env.REACT_APP_HOST}/member/get_friend_status`,
+                method: 'post',
+                data: {
+                    f_id: m_id,
+                },
+                headers: {
+                    'authorization': sessionStorage.getItem('sessionID'),      
+                }, 
+            })
+            .then(response => {
+                    console.log('AXIOS GET MY friend COMMUNICATION SUCCESS');
+                    console.log(response.data);
+                    if (response.data === -1) {
+                        console.log("Home session out!!");
+                        sessionStorage.removeItem('sessionID');
+                        dispatch({
+                            type: 'session_out',
+                        });
+                        navigate('/');
+                    } else {
+                        if (response.data === null) {
+                            console.log("undefined member");
+                            alert('친구상태를 불러오지 못했습니다. 다시 시도해주세요.');
+                        } else {
+                            dispatch({
+                                type:'set_my_button',
+                                button: 0
+                            })
+                            
+                        }
+                    }
+                
+                })
+                .catch(error => {
+                    console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
+                })
+                .finally(() => {
+                    console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+                    sessionStorage.removeItem('sessionID');//
+                    sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+                    removeCookie('accessToken');//
+                });
+            }
     
 
     return (
