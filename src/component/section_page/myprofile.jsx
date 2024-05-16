@@ -17,16 +17,19 @@ const MyProfile = (props) => {
     const friend = useSelector(store => store.friend);
     const modal = useSelector(store => store.modal);
     const storymodal = useSelector(store => store.storymodal);
+    const storyMemberInfo = useSelector(store => store.storyMemberInfo);
     
-    const [storyFlag , setStoryFlag] = useState(false);
+    const [storyFlag, setStoryFlag] = useState(false);
     const [mId, setMId] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
+    const [storys,setStorys] = useState([]);
     const [mystory, setMystory] = useState([]);
+    const [storyModal, setStoryModal] = useState('');
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
     useEffect(() => {
-
+        console.log('myprofile useEffct222222222222222');
         if (member_info) {
             setMId(member_info.M_ID);
             setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
@@ -37,9 +40,13 @@ const MyProfile = (props) => {
             setMSelfIntroduction('');
             setMProfileThumbnail('');
         }
-        
+        setStorys(story);
+        // dispatch({ type: 'story_open_btn', storymodal: false });
+        // dispatch({ type: 'reply_modal_close', modal: false });
 
-    },[member_info, props.setStoryFlag]);
+    },[member_info, storys, storyModal, props.setStoryFlag]);
+    
+
 
     //버튼 분기
     const FriendButton = () => {
@@ -224,8 +231,6 @@ const MyProfile = (props) => {
             });
         }
 
-
-
     return (
         <div id='my_profile_wrap'>
 
@@ -239,7 +244,7 @@ const MyProfile = (props) => {
             }
 
                 <div className='post'>
-                    <div>{story.length > 0 ? story.length : 0}</div>
+                    <div>{story.length > 1 ? story.length : 0}</div>
                     <div>post</div>
                 </div>
                 <div className='friend'>
@@ -264,16 +269,24 @@ const MyProfile = (props) => {
             <div id='profile_img'>
                 
                     {
-                        story.length === 0 
+                        storys === null || storys.length === 0
                         ? 
                         '내용이 없습니다.' 
                         : 
                         <div className='profile_item'>
                             {
-                                story.map((story, idx) => {
+                                storys.map((story, idx) => {
                                     return (
                                         <div key={idx} onClick={() => openStoryClickHandler(story)}>                                   
-                                            <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_SAVE_DIR}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />                                            
+                                            
+                                            {
+                                                story.length === 1
+                                                ?
+                                                <img src="#" alt="" />
+                                                :
+                                                <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_SAVE_DIR}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
+                                            }
+
                                         </div>
                                     )
                                 })
