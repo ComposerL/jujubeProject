@@ -63,14 +63,14 @@ const MyProfile = (props) => {
         return (
             <div>
                 {button.is_friend === true ? (
-                    <input type="button" value="친구 삭제" onClick={deleteFriendClickHandler} /> 
+                    <input type="button" value="일촌 삭제" onClick={deleteFriendClickHandler} /> 
                 ) : (
                     button.is_friend_request === true ? (
-                        <input type="button" value="친구 요청 취소" onClick={cancelFriendRequestHandler} />
+                        <input type="button" value="일촌 요청 취소" onClick={cancelFriendRequestHandler} />
                     ) : (
                         button.is_friend === false && button.is_friend_request === false ? (
                             <div>
-                                <Link to="/member/follow_form"><input type="button" value="친구 추가"/></Link>
+                                <Link to="/member/follow_form"><input type="button" value="일촌 추가"/></Link>
                             </div>
                         ) : null
                         
@@ -116,7 +116,7 @@ const MyProfile = (props) => {
     const deleteFriendClickHandler = () => {
         console.log('deleteFriendClickHandler()');
 
-        const isConfirmed = window.confirm("정말로 친구을 삭제하시겠습니까?");
+        const isConfirmed = window.confirm("정말로 일촌을 삭제하시겠습니까?");
 
         if (isConfirmed) {
             console.log("delete()");
@@ -128,7 +128,7 @@ const MyProfile = (props) => {
     const cancelFriendRequestHandler = () => {
         console.log('deleteFriendClickHandler()');
 
-        const isConfirmed = window.confirm("정말로 친구요청을 취소하시겠습니까?");
+        const isConfirmed = window.confirm("정말로 일촌 요청을 취소하시겠습니까?");
 
         if (isConfirmed) {
             console.log("delete()");
@@ -144,8 +144,8 @@ const MyProfile = (props) => {
         axios({
             url: `${process.env.REACT_APP_HOST}/member/friend_request_cancel`,
             method: 'get',
-            params: {
-                'id': member_info.M_ID
+            data: {
+                f_id: member_info.M_ID
             },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),
@@ -166,10 +166,10 @@ const MyProfile = (props) => {
                     if (response.data === null) {
                         console.log("undefined member");
                         
-                        alert('친구요청 취소를 실패했습니다. 다시 시도해주세요.');
+                        alert('일촌요청 취소를 실패했습니다. 다시 시도해주세요.');
                     } else {
                         
-                        alert('친구요청을 취소했습니다.');
+                        alert('일촌요청을 취소했습니다.');
 
                         dispatch({
                             type: 'set_my_button',
@@ -198,7 +198,7 @@ const MyProfile = (props) => {
             url: `${process.env.REACT_APP_HOST}/member/friend_delete_confirm`,
             method: 'post',
             data: {
-                m_id: member_info.M_ID,
+                f_id: member_info.M_ID,
             },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),      
@@ -217,8 +217,9 @@ const MyProfile = (props) => {
                 } else {
                     if (response.data === null) {
                         console.log("undefined member");
-                        alert('친구삭제에 실패했습니다. 다시 시도해주세요.');
+                        alert('일촌 삭제에 실패했습니다. 다시 시도해주세요.');
                     } else {
+                        alert("일촌 삭제가 완료되었습니다.");
                         dispatch({
                             type:'set_my_button',
                             button:response.data
@@ -227,7 +228,6 @@ const MyProfile = (props) => {
                             type: 'set_my_friend',
                             friend: response.data,
                         });
-                        alert("친구 삭제가 완료되었습니다.");
                     }
                 }
             

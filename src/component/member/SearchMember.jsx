@@ -16,7 +16,7 @@ const SearchMember = () => {
     const navigate = useNavigate();
     const [searchId, setSearchId] = useState('');
     const [memberList, setMemberList] = useState([]);
-    const member_info = JSON.parse(sessionStorage.getItem('member_info'));
+
 
 
 
@@ -106,17 +106,10 @@ const SearchMember = () => {
     
     const searchMemberInfoHandler = (member) => {
         console.log('searchMemberInfoHandler()');
-        
-        if (member.M_ID === member_info.M_ID) {
-            
-            navigate('/member/my_home');
-            
-        } else {
-            
+                   
             sessionStorage.setItem('member_info', JSON.stringify(member));
             navigate('/member/other_home');
-            
-        }
+ 
     }
 
     return (

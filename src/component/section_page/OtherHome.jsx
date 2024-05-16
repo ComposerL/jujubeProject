@@ -10,13 +10,13 @@ import { session_check } from '../../util/session_check';
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
 
-const OtherHome = (props) => {
+const OtherHome = () => {
 
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const member = useSelector(store => store.member);
-    // const [storyFlag , setStoryFlag] = useState(false);
+    const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
 
@@ -38,7 +38,7 @@ const OtherHome = (props) => {
             });
         }
         
-    },[props.setStoryFlag]);
+    },[]);
 
 
     const axios_get_other_profile = () => {
@@ -199,7 +199,7 @@ const OtherHome = (props) => {
 
     return (
         <div>
-            <MyProfile setStoryFlag={props.setStoryFlag}/>
+            <MyProfile setStoryFlag={setStoryFlag}/>
         </div>
         
     )
