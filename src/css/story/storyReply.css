@@ -40,12 +40,18 @@
 #story_replys_overflow .story_reply .story_reply_writer_profile {
     width: 40px;
     height: 40px;      
+    line-height: 40px;
     border-radius: 40px;
     background-color: #fff;
     margin-right: 10px;
     overflow: hidden;
+    display: flex;
+	justify-content: center;
+	align-items: center;
     img {
-        width: 100%;
+        max-width: 40px;
+        min-width: 40px;
+        object-fit: contain;
     }
 }
 #story_replys_overflow .story_reply .story_reply_writer_info {
@@ -81,12 +87,18 @@
 #story_replys_wrap .story_reply_input .story_reply_input_profile_thum {
     width: 40px;
     height: 40px;
+    line-height: 40px;
     border-radius: 40px;
     overflow: hidden;
     background-color: #fff;
     margin-right: 10px;
+    display: flex;
+	justify-content: center;
+	align-items: center;
     img {
-        width: 100%;
+        max-width: 40px;
+        min-width: 40px;
+        object-fit: contain;
     }
 }
 
