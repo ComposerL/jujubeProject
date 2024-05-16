@@ -8,10 +8,11 @@ import { session_check } from '../../util/session_check';
 
 const FollowForm = () => {
 
-    const m_id = useSelector(store => store.m_id);
     const [followID,setFollowID] = useState('');
     const [followNickName,setFollowNickName] = useState('');
+    const m_id = useSelector(store => store.m_id);
     const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
+    const m_profile_thumbnail = useSelector(store => store.m_profile_thumbnail);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -92,7 +93,7 @@ const FollowForm = () => {
                     </div>
                     <div className='follow_form_section2_contents'>
                         <div className='follow_form_section2_profile_wrap'>
-                            <img src="" alt="" />
+                            <img src={`${process.env.REACT_APP_HOST}/${followID}/${m_profile_thumbnail}`} alt="" />
                         </div>
                         <div className='follow_form_section2_text'>
                             <p className='section2_follow_my_id'>{followID}님께</p>

@@ -17,6 +17,8 @@ import ModifyStory from './section_page/ModifyStory';
 import MyHome from './section_page/MyHome';
 import OtherHome from './section_page/OtherHome';
 import FollowForm from './member/FollowForm';
+import FollowList from './member/FollowList';
+import FollowRequestList from './member/FollowRequestList';
 
 const Wrap = () => {
     const session = useSelector(store => store.sessionID);
@@ -41,13 +43,14 @@ const Wrap = () => {
                         <Route path='/' element={<Home/>}></Route>
                         <Route path='/member/modify_form' element={<Modify/>}></Route>
                         <Route path='/member/search_member_form' element={<SearchMember/>}></Route>
-                        <Route path='/member/message' element={<Message/>}></Route>
+                        {/* <Route path='/member/message' element={<Message/>}></Route> */}
                         <Route path='/story/create_story' element={<CreateStory/>}></Route>
                         <Route path='/story/modify_story' element={<ModifyStory/>}></Route>
                         <Route path='/member/my_home' element={<MyHome/>}></Route>
                         <Route path='/member/other_home' element={<OtherHome/>}></Route>
                         <Route path='/member/follow_form' element={<FollowForm/>}></Route>
-                        {/* <Route path='/member/follow_confirm' element={}></Route> */}
+                        <Route path='/member/follow_list' element={<FollowList/>}></Route>
+                        <Route path='/member/follow_request_list' element={<FollowRequestList/>}></Route>
                         <Route path='/*' element={<Error/>}></Route>
                     </Routes>
                 </section>            

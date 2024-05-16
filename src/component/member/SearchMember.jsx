@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getCookie, removeCookie } from '../../util/cookie';
+import { session_check } from '../../util/session_check';
 
 axios.defaults.withCredentials = true;
 
@@ -18,8 +19,20 @@ const SearchMember = () => {
 
     useEffect(() => {
         console.log("searchMember useEffect()");
-        $('#search_member_wrap input[name="search_member"]').focus();
-        setSearchId('');
+
+        let session = session_check();
+        if(session !== null){
+            console.log('[SearchMember] session_check enter!!');
+            $('#search_member_wrap input[name="search_member"]').focus();
+            setSearchId('');            
+        }else{
+            console.log('[SearchMember] session_check expired!!');
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+            });
+        }
+
     },[]);
 
     const searchBtnClickHandler = () => {
@@ -44,10 +57,11 @@ const SearchMember = () => {
 
     const searchMemberFollowBtnClickHandler = (e) => {
         console.log("searchMemberFollowBtnClickHandler()");
-        let m_id = e.target.dataset.m_id;
+        let memberinfo = e.target;
         dispatch({
             type:'follow_btn_click',
-            m_id : m_id,
+            m_id : memberinfo.dataset.m_id,
+            m_profile_thumbnail: memberinfo.dataset.m_profile_thumbnail,
         });
         navigate('/member/follow_form');
     }
@@ -146,7 +160,10 @@ const SearchMember = () => {
                                             member.result === 0
                                             ?
                                             <div className="follow_btn">
-                                                <img data-m_id={member.M_ID} onClick={(e) => searchMemberFollowBtnClickHandler(e)} src='/imgs/follow_btn_icon_b.png'/>
+                                                <img data-m_id={member.M_ID} 
+                                                    data-m_profile_thumbnail={member.M_PROFILE_THUMBNAIL} 
+                                                    onClick={(e) => searchMemberFollowBtnClickHandler(e)} 
+                                                    src='/imgs/follow_btn_icon_b.png'/>
                                             </div>
                                             :
                                             <div className="un_follow_btn">

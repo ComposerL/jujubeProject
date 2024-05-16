@@ -41,7 +41,7 @@ const Home = () => {
 
         const handleWheel = (event) => {
             event.preventDefault();
-            const scrollAmount = event.deltaY > 0 ? 270 : -270;
+            const scrollAmount = event.deltaY > 0 ? 220 : -220;
             scrollRef.current.scrollTop += scrollAmount;
             console.log('Scroll position:', scrollRef.current.scrollTop);
         };
