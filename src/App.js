@@ -26,6 +26,7 @@ const reducer = (currentState = initial_state , action) => {
         case 'follow_btn_click':
             return {...currentState,
                 m_id: action.m_id,
+                m_profile_thumbnail:action.m_profile_thumbnail,
             };
 
         //story 관련
