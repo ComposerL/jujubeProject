@@ -20,6 +20,8 @@ const MyProfile = (props) => {
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [mystory, setMystory] = useState([]);
+    const member_info = JSON.parse(localStorage.getItem('member_info'));
+
 
     console.log('button: ', button);
 
@@ -78,6 +80,8 @@ const MyProfile = (props) => {
 
         );
             
+      
+        
     }
 
     const openStoryClickHandler = (story, e) => {
@@ -109,9 +113,7 @@ const MyProfile = (props) => {
         });
     }
     
-    console.log('friend: ', friend);
-    console.log('mId: ', mId);
-
+    
     return (
         <div id='my_profile_wrap'>
 
@@ -134,10 +136,10 @@ const MyProfile = (props) => {
                 </div>
             </div>
             <div className='profile_member_name'>
-                <p>{mId}</p>
+                <p>{member_info.M_ID}</p>
             </div>
             <div className='profile_self_intro'>
-                <p>{mSelfIntroduction ? mSelfIntroduction : '자기소개가 없습니다.'}</p>
+                <p>{member_info.M_SELF_INTRODUCTION ? member_info.M_SELF_INTRODUCTION : '자기소개가 없습니다.'}</p>
             </div>
             <div className='profile_follow_btn'>
             
@@ -165,7 +167,7 @@ const MyProfile = (props) => {
                                                 ?
                                                 <img src="#" alt="" />
                                                 :
-                                                <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
+                                                <img src={`${process.env.REACT_APP_HOST}/${member_info.M_ID}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
                                             }
                                             
                                         </div>

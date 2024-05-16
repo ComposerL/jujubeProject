@@ -92,7 +92,7 @@ const SearchMember = () => {
     const searchMemberInfoHandler = (member) => {/////////////////////////
         console.log('testClickHandler()');
 
-
+        localStorage.setItem('member_info', JSON.stringify(member));
 
         dispatch({
             type:'get_other_id',
