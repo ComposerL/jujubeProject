@@ -38,10 +38,7 @@ const MyProfile = (props) => {
             setMProfileThumbnail('');
         }
 
-        // dispatch({
-        //     type:'story_open_btn',
-        //     storymodal: false,
-        // });
+
 
     },[member_info, props.setStoryFlag]);
 
