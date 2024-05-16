@@ -68,7 +68,7 @@ const Home = () => {
                     console.log("member_id: " + respones.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
-
+                    sessionStorage.setItem('member_info', JSON.stringify(respones.data));
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,

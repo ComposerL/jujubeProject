@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import StoryUi from '../story/StoryUi';
 import StoryReplyUI from '../story/StoryReplyUI';
 
@@ -61,12 +61,16 @@ const MyProfile = (props) => {
         return (
             <div>
                 {button.is_friend === true ? (
-                    <input type="button" value="친구 삭제" onClick={'deleteFriendClickHandler'} /> 
+                    <input type="button" value="친구 삭제" onClick={deleteFriendClickHandler} /> 
                 ) : (
                     button.is_friend_request === true ? (
-                        <input type="button" value="친구 요청 취소" onClick={'cancelFriendRequestHandler'} />
+                        <input type="button" value="친구 요청 취소" onClick={cancelFriendRequestHandler} />
                     ) : (
-                        button.is_friend === false && button.is_friend_request === false ? <input type="button" value="친구 추가" onClick={'addFriendClickHandler'} /> : null
+                        button.is_friend === false && button.is_friend_request === false ? (
+                            <div>
+                                <Link to="/member/follow_form"><input type="button" value="친구 추가" onClick={addFriendClickHandler}/></Link>
+                            </div>
+                        ) : null
                         
                     )
                 )}
@@ -108,9 +112,39 @@ const MyProfile = (props) => {
     }
     
     const deleteFriendClickHandler = () => {
+        console.log('deleteFriendClickHandler()');
 
+        const isConfirmed = window.confirm("정말로 계정을 삭제하시겠습니까?");
+
+        if (isConfirmed) {
+            console.log("delete()");
+            // axios_delete_member();
+            sessionStorage.removeItem('sessionID');
+            sessionStorage.removeItem('member_info');
+            dispatch({
+                type:'session_out',
+                sessionID: null,
+                loginedMember: '',
+            });
+            // navigate('/');
+        }
     }
     
+    const addFriendClickHandler = () => {
+        console.log('addFriendClickHandler()');
+
+        dispatch({
+            
+        })
+    }
+
+    const cancelFriendRequestHandler = () => {
+        console.log('deleteFriendClickHandler()');
+
+
+    }
+
+
     return (
         <div id='my_profile_wrap'>
 

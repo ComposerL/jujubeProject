@@ -15,6 +15,8 @@ const SearchMember = () => {
     const navigate = useNavigate();
     const [searchId, setSearchId] = useState('');
     const [memberList, setMemberList] = useState([]);
+    const member_info = JSON.parse(sessionStorage.getItem('member_info'));
+
 
 
     useEffect(() => {
@@ -101,12 +103,20 @@ const SearchMember = () => {
     
     }
     
+    
     const searchMemberInfoHandler = (member) => {/////////////////////////
         console.log('testClickHandler()');
-       
-        sessionStorage.setItem('member_info', JSON.stringify(member));
-        navigate('/member/other_home');
-
+        
+        if (member.M_ID === member_info.M_ID) {
+            
+            navigate('/member/my_home');
+            
+        } else {
+            
+            sessionStorage.setItem('member_info', JSON.stringify(member));
+            navigate('/member/other_home');
+            
+        }
     }
 
     return (
