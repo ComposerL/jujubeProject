@@ -1,4 +1,5 @@
 import React, { useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
 import '../../css/member/search_member.css';
 import $ from 'jquery';
 import axios from 'axios';
@@ -41,9 +42,14 @@ const SearchMember = () => {
         }
     };
 
-    const searchMemberFollowBtnClickHandler = () => {
+    const searchMemberFollowBtnClickHandler = (e) => {
         console.log("searchMemberFollowBtnClickHandler()");
-
+        let m_id = e.target.dataset.m_id;
+        dispatch({
+            type:'follow_btn_click',
+            m_id : m_id,
+        });
+        navigate('/member/follow_form');
     }
 
     //비동기 통신
@@ -140,12 +146,12 @@ const SearchMember = () => {
                                         {
                                             true
                                             ?
-                                            <div className="follow_btn" onClick={searchMemberFollowBtnClickHandler}>
-                                                <img className='follow_btn' src='/imgs/follow_btn_icon_b.png'/>
+                                            <div className="follow_btn">
+                                                <img data-m_id={member.M_ID} onClick={(e) => searchMemberFollowBtnClickHandler(e)} src='/imgs/follow_btn_icon_b.png'/>
                                             </div>
                                             :
                                             <div className="un_follow_btn">
-                                                <img className='follow_btn' src='/imgs/follow_btn_icon.png'/>
+                                                <img src='/imgs/follow_btn_icon.png'/>
                                             </div>
                                         }
                                     </div>

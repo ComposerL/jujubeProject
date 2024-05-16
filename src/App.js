@@ -22,6 +22,12 @@ const reducer = (currentState = initial_state , action) => {
     console.log("App reducer()");
 
     switch(action.type){
+        //follow 관련
+        case 'follow_btn_click':
+            return {...currentState,
+                m_id: action.m_id,
+            };
+
         //story 관련
         case'story_btn_click': //reply_modal_open
             return {...currentState, 
