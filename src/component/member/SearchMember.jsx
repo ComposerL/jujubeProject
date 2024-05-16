@@ -43,7 +43,7 @@ const SearchMember = () => {
 
     const searchMemberFollowBtnClickHandler = () => {
         console.log("searchMemberFollowBtnClickHandler()");
-        
+
     }
 
     //비동기 통신
@@ -121,7 +121,7 @@ const SearchMember = () => {
                         memberList.map((member, index) => {
                             return (
                                 <li key={index}>
-                                    <div onClick={() => searchMemberInfoHandler(member)}>
+                                    <div className='search_member_info_btn_wrap' onClick={() => searchMemberInfoHandler(member)}>
                                         <div className='search_result_frofile_thum_wrap'>
                                             {
                                                 member.M_PROFILE_THUMBNAIL !== null

@@ -66,9 +66,12 @@
     padding: 10px;
     border-radius: 7px;
     &:hover {
-        cursor: pointer;
         background-color: #eee;
     }
+}
+#search_member_wrap div.search_result_wrap ul.search_result li>div.search_member_info_btn_wrap {
+    display: flex;
+    cursor: pointer;
 }
 #search_member_wrap div.search_result_wrap ul.search_result li div.search_result_frofile_thum_wrap {
     width: 50px;
@@ -100,6 +103,7 @@
         border-radius: 7px;
         overflow: hidden;
         text-align: center;
+        cursor: pointer;
         img{
             height: 100%;
         }
