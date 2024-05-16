@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import MyProfile from './myprofile';
 import { getCookie, removeCookie } from '../../util/cookie';
-import { data } from 'jquery';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
@@ -25,7 +24,6 @@ const OtherHome = () => {
             
     },[]);
 
-    console.log('member otherHome: ', member.M_ID);
 
     const axios_get_other_profile = () => {
         console.log('axios_get_other_profile()');
