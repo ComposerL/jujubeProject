@@ -78,7 +78,7 @@ const reducer = (currentState = initial_state , action) => {
 
         case 'set_my_stories'://내 스토리 가져오기
             console.log("set_my_stories: ", action.story);
-            return {...currentState, story:action.story};
+            return {...currentState, story:action.story, storyMemberInfo:action.storyMemberInfo};
 
         case 'set_my_friend':// 내 친구 수
             console.log('set_my_friend', action.friend);

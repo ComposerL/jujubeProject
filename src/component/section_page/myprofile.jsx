@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import StoryReplyUI from '../story/StoryReplyUI';
 import StoryUi from '../story/StoryUi';
+import axios from 'axios';
+import { removeCookie } from '../../util/cookie';
+import { useNavigate } from 'react-router-dom';
 
 const MyProfile = (props) => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const loginedMember = useSelector(store => store.loginedMember);
     const otherMember = useSelector(store => store.member);    
@@ -13,19 +17,22 @@ const MyProfile = (props) => {
     const friend = useSelector(store => store.friend);
     const modal = useSelector(store => store.modal);
     const storymodal = useSelector(store => store.storymodal);
+    const storyMemberInfo = useSelector(store => store.storyMemberInfo);
     
-    // const [storyFlag , setStoryFlag] = useState(false);
+    const [storyFlag, setStoryFlag] = useState(false);
     const [mId, setMId] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
+    const [storys,setStorys] = useState([]);
     const [mystory, setMystory] = useState([]);
+    const [storyModal, setStoryModal] = useState('');
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
 
     console.log('button: ', button);
 
     useEffect(() => {
-
+        console.log('myprofile useEffct222222222222222');
         if (member_info) {
             setMId(member_info.M_ID);
             setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
@@ -36,23 +43,12 @@ const MyProfile = (props) => {
             setMSelfIntroduction('');
             setMProfileThumbnail('');
         }
+        setStorys(story);
+        // dispatch({ type: 'story_open_btn', storymodal: false });
+        // dispatch({ type: 'reply_modal_close', modal: false });
 
-        dispatch({
-            type:'story_open_btn',
-            storymodal:false
-        })
-
-        dispatch({
-            type:'reply_modal_close',
-            modal:false
-        })
-
-    },[loginedMember, otherMember, props.setStoryFlag]);
-        
-    // if (!loginedMember || !otherMember || !story || !friend) {
-    //      // 데이터가 없는 경우 처리
-    //     return <div>Loading...</div>;
-    // }  
+    },[member_info, storys, storyModal, props.setStoryFlag]);
+    
 
 
     //버튼 분기
@@ -110,6 +106,121 @@ const MyProfile = (props) => {
 
     }
     
+    const cancelFriendRequestHandler = () => {
+        console.log('deleteFriendClickHandler()');
+
+        const isConfirmed = window.confirm("정말로 일촌 요청을 취소하시겠습니까?");
+
+        if (isConfirmed) {
+            console.log("delete()");
+            axios_request_cancel();
+            
+        }
+
+    }
+
+    const axios_request_cancel = () => {
+        console.log('axios_request_cancel()');
+
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/friend_request_cancel`,
+            method: 'get',
+            data: {
+                f_id: member_info.M_ID
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
+        })
+        .then(response => {
+                console.log('AXIOS GET MY FRIEND COMMUNICATION SUCCESS');
+                console.log(response.data);
+                if (response.data === -1) {
+                    console.log("Home session out!!");
+                    sessionStorage.removeItem('sessionID');
+                    removeCookie('accessToken');
+                    dispatch({
+                        type: 'session_out',
+                    });
+                    navigate('/');
+                } else {
+                    if (response.data === null) {
+                        console.log("undefined member");
+                        
+                        alert('일촌요청 취소를 실패했습니다. 다시 시도해주세요.');
+                    } else {
+                        
+                        alert('일촌요청을 취소했습니다.');
+
+                        dispatch({
+                            type: 'set_my_button',
+                            friend: response.data,
+                        });
+                        
+                    }
+                }
+                
+            })
+            .catch(error => {
+                console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
+            })
+            .finally(() => {
+                console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+                
+            });
+    
+
+    }
+
+    const axios_delete_member = () => {
+        console.log('axios_delete_member()');
+
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/friend_delete_confirm`,
+            method: 'post',
+            data: {
+                f_id: member_info.M_ID,
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),      
+            }, 
+        })
+        .then(response => {
+                console.log('AXIOS DELETE FRIEND COMMUNICATION SUCCESS');
+                console.log(response.data);
+                if (response.data === -1) {
+                    console.log("Home session out!!");
+                    sessionStorage.removeItem('sessionID');
+                    dispatch({
+                        type: 'session_out',
+                    });
+                    navigate('/');
+                } else {
+                    if (response.data === null) {
+                        console.log("undefined member");
+                        alert('일촌 삭제에 실패했습니다. 다시 시도해주세요.');
+                    } else {
+                        alert("일촌 삭제가 완료되었습니다.");
+                        dispatch({
+                            type:'set_my_button',
+                            button:response.data
+                        });
+                        dispatch({
+                            type: 'set_my_friend',
+                            friend: response.data,
+                        });
+                    }
+                }
+            
+            })
+            .catch(error => {
+                console.log('AXIOS GET FRIEND DELETE COMMUNICATION ERROR', error);
+            })
+            .finally(() => {
+                console.log('AXIOS GET FRIEND DELETE COMMUNICATION COMPLETE');
+            });
+        }
+
     return (
         <div id='my_profile_wrap'>
 
@@ -123,7 +234,7 @@ const MyProfile = (props) => {
             }
 
                 <div className='post'>
-                    <div>{story.length > 0 ? story.length : 0}</div>
+                    <div>{story.length > 1 ? story.length : 0}</div>
                     <div>post</div>
                 </div>
                 <div className='friend'>
@@ -148,18 +259,24 @@ const MyProfile = (props) => {
             <div id='profile_img'>
                 
                     {
-                        story.length === 0 
+                        storys === null || storys.length === 0
                         ? 
                         '내용이 없습니다.' 
                         : 
                         <div className='profile_item'>
                             {
-                                story.map((story, idx) => {
+                                storys.map((story, idx) => {
                                     return (
-                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>
-                                            <div key={idx} onClick={() => openStoryClickHandler(story)}>                                   
-                                            <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_SAVE_DIR}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />                                            
-                                            </div>
+                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>                                   
+                                            
+                                            {
+                                                story.length === 1
+                                                ?
+                                                <img src="#" alt="" />
+                                                :
+                                                <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_SAVE_DIR}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
+                                            }
+
                                         </div>
                                     )
                                 })

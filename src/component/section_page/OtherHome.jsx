@@ -15,20 +15,16 @@ const OtherHome = () => {
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const member = useSelector(store => store.member);
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
-
 
         let session  = session_check();
         if(session !== null){
             console.log('[home] session_check enter!!');
 
-            axios_get_friend(member_info.M_ID);
             axios_get_other_profile(member_info.M_ID);
-            axios_list_friend(member_info.M_ID);
-
+            
         }else{
 
             console.log('[home] session_check expired!!');
@@ -43,6 +39,7 @@ const OtherHome = () => {
 
     const axios_get_other_profile = () => {
         console.log('axios_get_other_profile()');
+        console.log('m_id===================>', member_info.M_ID);
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
@@ -76,10 +73,22 @@ const OtherHome = () => {
                 } else {
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
-                    dispatch({
-                        type: 'set_my_stories',
-                        story: response.data,
-                    });
+                    if(response.data[0].S_NO === undefined){
+                        dispatch({
+                            type: 'set_my_stories',
+                            storyMemberInfo: response.data.memberInfos,                      
+                            story: null,                      
+                        });
+                    }else{
+                        
+                        dispatch({
+                            type: 'set_my_stories',
+                            storyMemberInfo: response.data.memberInfos,  
+                            story: response.data,                      
+                        });
+                    }
+
+                    axios_list_friend(member_info.M_ID);
                     
                 }
             }
@@ -90,9 +99,7 @@ const OtherHome = () => {
         })
         .finally(() => {
             console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
-            sessionStorage.removeItem('sessionID');//
-            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
-            removeCookie('accessToken');//
+        
         });
     }
 
@@ -122,27 +129,28 @@ const OtherHome = () => {
                 } else {
                     if (response.data === null) {
                         console.log("undefined member");
-                        
+                        sessionStorage.removeItem('sessionID');//
+                        sessionStorage.setItem('sessionID',getCookie('accessToken'));//
                         alert('친구목록을 불러오지 못했습니다. 다시 시도해주세요.');
                     } else {
-                       
+                        sessionStorage.removeItem('sessionID');//
+                        sessionStorage.setItem('sessionID',getCookie('accessToken'));//
                         dispatch({
                             type: 'set_my_friend',
                             friend: response.data,
                         });
                         
+                        axios_get_friend(member_info.M_ID);
                     }
                 }
             
             })
             .catch(error => {
-                console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
+                console.log('AXIOS GET MY FRIEND COMMUNICATION ERROR', error);
             })
             .finally(() => {
-                console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
-                sessionStorage.removeItem('sessionID');//
-                sessionStorage.setItem('sessionID',getCookie('accessToken'));//
-                removeCookie('accessToken');//
+                console.log('AXIOS GET MY FRIEND COMMUNICATION COMPLETE');
+                
             });
         }
 
