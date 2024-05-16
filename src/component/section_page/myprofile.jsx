@@ -158,15 +158,9 @@ const MyProfile = (props) => {
                                 story.map((story, idx) => {
                                     return (
                                         <div key={idx} onClick={() => openStoryClickHandler(story)}>
-                                            
-                                            {
-                                                story.pictures.length === 0
-                                                ?
-                                                <img src="#" alt="" />
-                                                :
-                                                <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
-                                            }
-                                            
+                                            <div key={idx} onClick={() => openStoryClickHandler(story)}>                                   
+                                            <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_SAVE_DIR}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />                                            
+                                            </div>
                                         </div>
                                     )
                                 })
