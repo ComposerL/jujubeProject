@@ -58,12 +58,13 @@ const ModifySwiper = ({ imagePreviews, setImagePreviews, setUpdatePictures, upda
                     imagePreviews.map((image, index) =>
                         <SwiperSlide key={index}>
                             <div className='swiper_img_wrap'>
-                                <div className='delete_btn' data-idx={`${index}`}
-                                    data-name={image}
-                                    onClick={(e) => imgDelBtnClick(e)}
-                                >    
+                                <div className='delete_btn'>    
                                     <span className='pic_num'>{index + 1}번</span>
-                                    <span className='pic_del'>DEL</span>
+                                    <span className='pic_del' 
+                                        data-name={image}
+                                        data-idx={`${index}`}   
+                                        onClick={(e) => imgDelBtnClick(e)}
+                                    >DEL</span>
                                 </div>
                                 <div className='swiper_img'>
                                     <img src={image} alt="" />

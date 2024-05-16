@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import StoryUi from '../story/StoryUi';
+import { useDispatch, useSelector } from 'react-redux';
 import StoryReplyUI from '../story/StoryReplyUI';
+import StoryUi from '../story/StoryUi';
 
 const MyProfile = (props) => {
 
