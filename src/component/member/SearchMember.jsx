@@ -41,6 +41,11 @@ const SearchMember = () => {
         }
     };
 
+    const searchMemberFollowBtnClickHandler = () => {
+        console.log("searchMemberFollowBtnClickHandler()");
+        
+    }
+
     //비동기 통신
     const axios_get_search_member = () => {
         console.log('axios_get_search_member()');
@@ -131,7 +136,7 @@ const SearchMember = () => {
                                         {
                                             true
                                             ?
-                                            <div className="follow_btn">
+                                            <div className="follow_btn" onClick={searchMemberFollowBtnClickHandler}>
                                                 <img className='follow_btn' src='/imgs/follow_btn_icon_b.png'/>
                                             </div>
                                             :
