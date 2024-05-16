@@ -109,6 +109,15 @@
         }
     }
     div.un_follow_btn {
-        
+        margin-top: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+        overflow: hidden;
+        text-align: center;
+        cursor: pointer;
+        img{
+            height: 100%;
+        }        
     }
 }

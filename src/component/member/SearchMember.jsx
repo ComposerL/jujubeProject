@@ -83,7 +83,6 @@ const SearchMember = () => {
             }else{
                 if (response.data !== null) {
                     console.log("회원 정보 조회 성공!!");
-                    
                     setMemberList(response.data);
                 } else {
                     alert('회원 정보 조회 실패!!');
@@ -151,14 +150,14 @@ const SearchMember = () => {
                                     </div>
                                     <div className="search_result_btn_area">
                                         {
-                                            true
+                                            member.result === 0
                                             ?
                                             <div className="follow_btn">
                                                 <img data-m_id={member.M_ID} onClick={(e) => searchMemberFollowBtnClickHandler(e)} src='/imgs/follow_btn_icon_b.png'/>
                                             </div>
                                             :
                                             <div className="un_follow_btn">
-                                                <img src='/imgs/follow_btn_icon.png'/>
+                                                <img src='/imgs/follow_btn_icon_r.png'/>
                                             </div>
                                         }
                                     </div>
