@@ -27,12 +27,6 @@ const MyProfile = (props) => {
 
     useEffect(() => {
 
-        // if (loginedMember) {
-        //     setMId(loginedMember.M_ID);
-        //     setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
-        //     setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
-
-        // } 
         if (member_info) {
             setMId(member_info.M_ID);
             setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
