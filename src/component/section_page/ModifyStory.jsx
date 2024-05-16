@@ -2,6 +2,7 @@ import axios from 'axios';
 import $ from 'jquery';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -16,6 +17,7 @@ axios.defaults.withCredentials = true;
 const ModifyStory = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const [currentPictures, setCurrentPictures] = useState([]);
     const [updatePictures, setUpdatePictures] = useState([]);
@@ -136,6 +138,16 @@ const ModifyStory = () => {
         .then((response) => {
             console.log('AXIOS MODIFY STORY COMMUNICATION SUCCESS', response.data);
 
+            if (response.data === null || response.data.length === 0) {
+                alert('스토리 수정에 실패하였습니다. 다시 시도해 주세요.');
+                return;
+            }
+
+            if (response.data > 0) {
+                alert('스토리 수정이 완료되었습니다.');
+                return navigate('/');
+            } 
+
         })
         .catch(error => {
             console.log('AXIOS MODIFY STORY COMMUNICATION ERROR', error);
@@ -145,8 +157,6 @@ const ModifyStory = () => {
 
     const axios_get_story = () => {
         console.log('ModifyStory axios_get_story() called');
-
-        console.log('s_no---', s_no);
 
         axios({
             url:`${process.env.REACT_APP_HOST}/story/story/get_story`,
