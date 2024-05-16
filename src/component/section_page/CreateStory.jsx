@@ -105,6 +105,13 @@ const CreateStory = () => {
 
     }
 
+    const inputLabelBtnClick = () => {
+        console.log('inputLabelBtnClick()')
+
+        $('#create_story_wrap .input_file_img label').click();
+
+    }
+
     const axios_write_story = () => {
         console.log('axios_write_story()');
 
@@ -306,8 +313,10 @@ const CreateStory = () => {
                         ?
                         <ImageSwiper imagePreviews={imagePreviews} setImagePreviews={setImagePreviews} setUploadImage={setUploadImage} />
                         :
-                        <div className='label_img'>
-                            <label for="file">사진첨부</label> 
+                        <div className='label_img'
+                            onClick={inputLabelBtnClick}
+                        >
+                            <label>사진첨부</label> 
                         </div>
                     }
 
