@@ -89,8 +89,10 @@ const SearchMember = () => {
     
     }
     
-    const testClickHandler = (member) => {/////////////////////////
+    const searchMemberInfoHandler = (member) => {/////////////////////////
         console.log('testClickHandler()');
+
+
 
         dispatch({
             type:'get_other_id',
@@ -113,19 +115,21 @@ const SearchMember = () => {
                     {   
                         memberList.map((member, index) => {
                             return (
-                                <li key={index} onClick={() => testClickHandler(member)}>
-                                    <div className='search_result_frofile_thum_wrap'>
-                                        {
-                                            member.M_PROFILE_THUMBNAIL !== null
-                                            ?
-                                            <img src={`${process.env.REACT_APP_HOST}/${member.M_ID}/${member.M_PROFILE_THUMBNAIL}`} />
-                                            :
-                                            <img src="/imgs/profile_default.png" />
-                                        }
-                                    </div>
-                                    <div className='search_result_frofile_info_wrap'>
-                                        <p>{member.M_ID}</p>
-                                        <p>{member.M_NAME}</p>
+                                <li key={index}>
+                                    <div onClick={() => searchMemberInfoHandler(member)}>
+                                        <div className='search_result_frofile_thum_wrap'>
+                                            {
+                                                member.M_PROFILE_THUMBNAIL !== null
+                                                ?
+                                                <img src={`${process.env.REACT_APP_HOST}/${member.M_ID}/${member.M_PROFILE_THUMBNAIL}`} />
+                                                :
+                                                <img src="/imgs/profile_default.png" />
+                                            }
+                                        </div>
+                                        <div className='search_result_frofile_info_wrap'>
+                                            <p>{member.M_ID}</p>
+                                            <p>{member.M_NAME}</p>
+                                        </div>
                                     </div>
                                     <div className="search_result_btn_area">
                                         {
