@@ -240,7 +240,7 @@ const ModifyStory = () => {
             </div>
 
             <div className='input_file_img'>
-                <label for="file">사진추가</label> 
+                <label htmlFor="file">사진추가</label> 
                 <input 
                     type="file"
                     id="file"

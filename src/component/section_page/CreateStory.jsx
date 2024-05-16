@@ -191,6 +191,7 @@ const CreateStory = () => {
                 sessionStorage.setItem('sessionID', getCookie('accessToken'));
                 dispatch({
                     type:'session_enter',
+                    loginedMember: response.data.loginedMember
                 })
             }
 
@@ -362,7 +363,7 @@ const CreateStory = () => {
             </div>
 
             <div className='input_file_img'>
-                <label for="file">사진첨부</label> 
+                <label htmlFor="file">사진첨부</label> 
                 <input 
                     type="file"
                     id="file"
