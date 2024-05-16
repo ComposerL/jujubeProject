@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/story/create_story.css';
 import { getCookie } from '../../util/cookie';
-import ImageSwiper from './ImageSwiper';
 import { session_check } from './../../util/session_check';
+import ImageSwiper from './ImageSwiper';
 
 axios.defaults.withCredentials = true;
 
@@ -52,8 +52,11 @@ const CreateStory = () => {
             // FileList 객체는 읽기 전용이므로 새로운 DataTransfer 객체를 생성하여 수정
             const dataTransfer = new DataTransfer();
         
-            for (let i = 0; i < maxFiles; i++) {
-                dataTransfer.items.add(imageFiles[i]);
+            for (let i = 0; i < (maxFiles - imagePreviews.length); i++) {
+                // 파일인지 아닌지 유효성 검사.
+                if (imageFiles[i] instanceof File) {
+                    dataTransfer.items.add(imageFiles[i]);
+                }
             }
 
             // input 태그의 파일 목록을 업데이트
@@ -75,8 +78,8 @@ const CreateStory = () => {
             for(let i = 0; i < files.length; i++) {
                 const imgUrl = URL.createObjectURL(files[i]);
                 newImgUrls.push(imgUrl);
-                return newImgUrls;
             }
+            return newImgUrls;
         });
 
     }
