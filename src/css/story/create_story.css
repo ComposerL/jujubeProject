@@ -9,13 +9,13 @@
     border: solid 1px #888;
 }
 
-#create_story_wrap .input_file_img {
+#create_story_wrap .label_img {
     height: 400px;
     display: flex;
     align-items: center;
 }
 
-#create_story_wrap .input_file_img label {
+#create_story_wrap .label_img label {
     display: inline-block;
     padding: 3px 10px;
     font-weight: bold;
@@ -26,6 +26,10 @@
     height: 40px;
     margin: 0 auto;
     line-height: 40px;
+}
+
+#create_story_wrap .input_file_img {
+    display: none;
 }
 
 #create_story_wrap .input_file_img input[type="file"] {

@@ -34,7 +34,6 @@ const ModifyStory = () => {
     console.log('ModifyStory useEffect() called');
 
         let session = session_check();
-        console.log("session: ",session);
         if(session !== null){
             console.log('[home] session_check enter!!');
             axios_get_access_token();
