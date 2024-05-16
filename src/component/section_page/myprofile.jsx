@@ -18,7 +18,7 @@ const MyProfile = (props) => {
     const modal = useSelector(store => store.modal);
     const storymodal = useSelector(store => store.storymodal);
     
-    // const [storyFlag , setStoryFlag] = useState(false);
+    const [storyFlag , setStoryFlag] = useState(false);
     const [mId, setMId] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
@@ -37,12 +37,10 @@ const MyProfile = (props) => {
             setMSelfIntroduction('');
             setMProfileThumbnail('');
         }
-
-
+        
 
     },[member_info, props.setStoryFlag]);
 
-        
     //버튼 분기
     const FriendButton = () => {
         return (
