@@ -108,7 +108,7 @@ const SearchMember = () => {
             member:member,
         })
         navigate('/member/other_home');
-        localStorage.setItem('member_info', JSON.stringify(member));
+        sessionStorage.setItem('member_info', JSON.stringify(member));
     }
 
     return (

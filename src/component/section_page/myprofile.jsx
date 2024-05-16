@@ -20,23 +20,17 @@ const MyProfile = (props) => {
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [mystory, setMystory] = useState([]);
-    const member_info = JSON.parse(localStorage.getItem('member_info'));
+    const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
 
     console.log('button: ', button);
 
     useEffect(() => {
 
-        if (loginedMember) {
-            setMId(loginedMember.M_ID);
-            setMSelfIntroduction(loginedMember.M_SELF_INTRODUCTION);
-            setMProfileThumbnail(loginedMember.M_PROFILE_THUMBNAIL);
-
-        } 
-        else  if (otherMember) {
-            setMId(otherMember.M_ID);
-            setMSelfIntroduction(otherMember.M_SELF_INTRODUCTION);
-            setMProfileThumbnail(otherMember.M_PROFILE_THUMBNAIL);
+        if (member_info) {
+            setMId(member_info.M_ID);
+            setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
+            setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
 
         } else {
             setMId('');
@@ -113,6 +107,9 @@ const MyProfile = (props) => {
         });
     }
     
+    const deleteFriendClickHandler = () => {
+
+    }
     
     return (
         <div id='my_profile_wrap'>
@@ -136,10 +133,10 @@ const MyProfile = (props) => {
                 </div>
             </div>
             <div className='profile_member_name'>
-                <p>{member_info.M_ID}</p>
+                <p>{mId}</p>
             </div>
             <div className='profile_self_intro'>
-                <p>{member_info.M_SELF_INTRODUCTION ? member_info.M_SELF_INTRODUCTION : '자기소개가 없습니다.'}</p>
+                <p>{mSelfIntroduction ? mSelfIntroduction : '자기소개가 없습니다.'}</p>
             </div>
             <div className='profile_follow_btn'>
             
@@ -167,7 +164,7 @@ const MyProfile = (props) => {
                                                 ?
                                                 <img src="#" alt="" />
                                                 :
-                                                <img src={`${process.env.REACT_APP_HOST}/${member_info.M_ID}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
+                                                <img src={`${process.env.REACT_APP_HOST}/${mId}/${story.pictures[0].SP_PICTURE_NAME}`} alt="" />
                                             }
                                             
                                         </div>

@@ -27,6 +27,7 @@ const Nav = () => {
         console.log("signOutBtnClickHandler()");
         axios_sign_out_confirm();
         sessionStorage.removeItem('sessionID');
+        sessionStorage.removeItem('member_info');
         dispatch({
             type:'session_out',
             sessionID: null,
@@ -45,6 +46,7 @@ const Nav = () => {
         .then(response => {
             console.log('AXIOS SIGN OUT COMMUNICATION SUCCESS');
             removeCookie('accessToken');
+            
         })
         .catch(error => {
             console.log('AXIOS SIGN OUT COMMUNICATION ERROR');

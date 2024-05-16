@@ -11,7 +11,7 @@ axios.defaults.withCredentials = true;
 
 const OtherHome = () => {
 
-    const member_info = JSON.parse(localStorage.getItem('member_info'));
+    const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const member = useSelector(store => store.member);

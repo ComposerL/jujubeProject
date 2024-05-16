@@ -24,6 +24,7 @@ const ModifyStory = () => {
 
     const [sTxt, setSTxt] = useState('');
     const [sIsPublic, setSIsPublic] = useState('0');
+    const [spSaveDir, setSpSaveDir] = useState('')
 
 	const s_no = useSelector(store => store.s_no);
 
@@ -59,7 +60,9 @@ const ModifyStory = () => {
 
             const dataTransfer = new DataTransfer();
             for (let i = 0; i < (maxFiles - imagePreviews.length); i++) {
-                dataTransfer.items.add(imageFiles[i]);
+                if (imageFiles[i] instanceof File) {
+                    dataTransfer.items.add(imageFiles[i]);
+                }
             }
             fileInputRef.current.files = dataTransfer.files;
         }
@@ -117,6 +120,7 @@ const ModifyStory = () => {
         formData.append('s_is_public', sIsPublic);
         formData.append('curImg', currentPictures);
         formData.append('keepImg', updatePictures);
+        formData.append('sp_save_dir', spSaveDir);
         for (let i = 0; i < uploadImgFiles.length; i++) {
             formData.append('files', uploadImgFiles[i]);
         }
@@ -170,6 +174,7 @@ const ModifyStory = () => {
             setImagePreviews(previews);
             setCurrentPictures(pictures);
             setUpdatePictures(pictures);
+            setSpSaveDir(response.data[0].pictures[0].SP_SAVE_DIR)
 
         })
         .catch(error => {
