@@ -45,8 +45,9 @@
         box-sizing: border-box;
         font-weight: 900;
         border-radius: 7px;
+        display: flex;
         &:hover {
-            background-color: #e8e8e8;
+            background-color: #eee;
         }
 
         div.Follow_list_info_btn_wrap {
@@ -54,7 +55,6 @@
             padding: 10px;
             border-radius: 7px;
             &:hover {
-                background-color: #eee;
                 cursor: pointer;
             }
 
@@ -77,20 +77,21 @@
                     line-height: 25px;
                 }
             }
-            div.Follow_list_result_btn_area {
-                margin-left: auto;
-                line-height: 50px;
-                div.un_follow_btn {
-                    margin-top: 10px;
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 7px;
-                    overflow: hidden;
-                    text-align: center;
-                    cursor: pointer;
-                    img{
-                        height: 100%;
-                    }
+        }
+
+        div.Follow_list_result_btn_area {
+            margin-left: auto;
+            line-height: 50px;
+            div.un_follow_btn {
+                margin-top: 20px;
+                width: 30px;
+                height: 30px;
+                border-radius: 7px;
+                overflow: hidden;
+                text-align: center;
+                cursor: pointer;
+                img{
+                    height: 100%;
                 }
             }
         }

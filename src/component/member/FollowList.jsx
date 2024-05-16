@@ -41,7 +41,7 @@ const FollowList = () => {
 		})
 		.then(response => {	
 			console.log("axios get friend list success!!");
-			console.log("response: ",response.data.friend_list);
+			console.log("response: ",response.data);
             if(response.data !== null){
                 setFollowMembers(response.data.friend_list);
             }else{
@@ -80,18 +80,22 @@ const FollowList = () => {
                                     <li>
                                         <div className='Follow_list_info_btn_wrap'>
                                             <div className='Follow_list_result_frofile_thum_wrap'>
-                                                {                                        
+                                                {
+                                                    followMember.memberInfo[0].M_PROFILE_THUMBNAIL !== null
+                                                    ?                                                    
+                                                    <img src={`${process.env.REACT_APP_HOST}/${followMember.F_ID}/${followMember.memberInfo[0].M_PROFILE_THUMBNAIL}`} />
+                                                    :                         
                                                     <img src="/imgs/profile_default.png" />
                                                 }
                                             </div>
                                             <div className='Follow_list_result_frofile_info_wrap'>
-                                                <p>gildong</p>
-                                                <p>순대국</p>
+                                                <p>{followMember.F_ID}</p>
+                                                <p>{followMember.F_ILCHON_NAME}</p>
                                             </div>
-                                            <div className="Follow_list_result_btn_area">                                        
-                                                <div className="un_follow_btn">
-                                                    <img src='/imgs/follow_btn_icon_r.png'/>
-                                                </div>
+                                        </div>
+                                        <div className="Follow_list_result_btn_area">                                        
+                                            <div className="un_follow_btn">
+                                                <img src='/imgs/follow_btn_icon_r.png'/>
                                             </div>
                                         </div>
                                     </li>
