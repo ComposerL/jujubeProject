@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getCookie, removeCookie } from '../../util/cookie';
+import OtherHome from '../section_page/OtherHome';
 
 axios.defaults.withCredentials = true;
 
@@ -103,8 +104,8 @@ const SearchMember = () => {
     }
     
     
-    const searchMemberInfoHandler = (member) => {/////////////////////////
-        console.log('testClickHandler()');
+    const searchMemberInfoHandler = (member) => {
+        console.log('searchMemberInfoHandler()');
         
         if (member.M_ID === member_info.M_ID) {
             

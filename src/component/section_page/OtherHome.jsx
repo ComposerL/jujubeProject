@@ -5,25 +5,40 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import MyProfile from './myprofile';
 import { getCookie, removeCookie } from '../../util/cookie';
+import { session_check } from '../../util/session_check';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
 
-const OtherHome = () => {
+const OtherHome = (props) => {
 
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const member = useSelector(store => store.member);
-    const [storyFlag , setStoryFlag] = useState(false);
+    // const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
 
-        axios_get_friend(member_info.M_ID);
-        axios_get_other_profile(member_info.M_ID);
-        axios_list_friend(member_info.M_ID)
-            
-    },[]);
+
+        let session  = session_check();
+        if(session !== null){
+            console.log('[home] session_check enter!!');
+
+            axios_get_friend(member_info.M_ID);
+            axios_get_other_profile(member_info.M_ID);
+            axios_list_friend(member_info.M_ID);
+
+        }else{
+
+            console.log('[home] session_check expired!!');
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+            });
+        }
+        
+    },[props.setStoryFlag]);
 
 
     const axios_get_other_profile = () => {
@@ -184,7 +199,7 @@ const OtherHome = () => {
 
     return (
         <div>
-            <MyProfile setStoryFlag={setStoryFlag}/>
+            <MyProfile setStoryFlag={props.setStoryFlag}/>
         </div>
         
     )

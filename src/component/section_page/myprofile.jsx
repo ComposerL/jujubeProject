@@ -3,9 +3,12 @@ import {useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import StoryUi from '../story/StoryUi';
 import StoryReplyUI from '../story/StoryReplyUI';
+import axios from 'axios';
+import { getCookie, removeCookie } from '../../util/cookie';
 
 const MyProfile = (props) => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const loginedMember = useSelector(store => store.loginedMember);
     const otherMember = useSelector(store => store.member);    
@@ -21,9 +24,6 @@ const MyProfile = (props) => {
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [mystory, setMystory] = useState([]);
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
-
-
-    console.log('button: ', button);
 
     useEffect(() => {
 
@@ -48,8 +48,10 @@ const MyProfile = (props) => {
             modal:false
         })
 
-    },[loginedMember, otherMember, props.setStoryFlag]);
+    },[member_info, props.setStoryFlag]);
         
+
+    console.log('asgadshadfhfsdh:', loginedMember);
     // if (!loginedMember || !otherMember || !story || !friend) {
     //      // 데이터가 없는 경우 처리
     //     return <div>Loading...</div>;
@@ -68,7 +70,7 @@ const MyProfile = (props) => {
                     ) : (
                         button.is_friend === false && button.is_friend_request === false ? (
                             <div>
-                                <Link to="/member/follow_form"><input type="button" value="친구 추가" onClick={addFriendClickHandler}/></Link>
+                                <Link to="/member/follow_form"><input type="button" value="친구 추가"/></Link>
                             </div>
                         ) : null
                         
@@ -114,35 +116,130 @@ const MyProfile = (props) => {
     const deleteFriendClickHandler = () => {
         console.log('deleteFriendClickHandler()');
 
-        const isConfirmed = window.confirm("정말로 계정을 삭제하시겠습니까?");
+        const isConfirmed = window.confirm("정말로 친구을 삭제하시겠습니까?");
 
         if (isConfirmed) {
             console.log("delete()");
-            // axios_delete_member();
-            sessionStorage.removeItem('sessionID');
-            sessionStorage.removeItem('member_info');
-            dispatch({
-                type:'session_out',
-                sessionID: null,
-                loginedMember: '',
-            });
-            // navigate('/');
+            axios_delete_member();
+            
         }
     }
     
-    const addFriendClickHandler = () => {
-        console.log('addFriendClickHandler()');
-
-        dispatch({
-            
-        })
-    }
-
     const cancelFriendRequestHandler = () => {
         console.log('deleteFriendClickHandler()');
 
+        const isConfirmed = window.confirm("정말로 친구요청을 취소하시겠습니까?");
+
+        if (isConfirmed) {
+            console.log("delete()");
+            axios_request_cancel();
+            
+        }
 
     }
+
+    const axios_request_cancel = () => {
+        console.log('axios_request_cancel()');
+
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/friend_request_cancel`,
+            method: 'get',
+            params: {
+                'id': member_info.M_ID
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
+        })
+        .then(response => {
+                console.log('AXIOS GET MY FRIEND COMMUNICATION SUCCESS');
+                console.log(response.data);
+                if (response.data === -1) {
+                    console.log("Home session out!!");
+                    sessionStorage.removeItem('sessionID');
+                    removeCookie('accessToken');
+                    dispatch({
+                        type: 'session_out',
+                    });
+                    navigate('/');
+                } else {
+                    if (response.data === null) {
+                        console.log("undefined member");
+                        
+                        alert('친구요청 취소를 실패했습니다. 다시 시도해주세요.');
+                    } else {
+                        
+                        alert('친구요청을 취소했습니다.');
+
+                        dispatch({
+                            type: 'set_my_button',
+                            friend: response.data,
+                        });
+                        
+                    }
+                }
+                
+            })
+            .catch(error => {
+                console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
+            })
+            .finally(() => {
+                console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+                
+            });
+    
+
+    }
+
+    const axios_delete_member = () => {
+        console.log('axios_delete_member()');
+
+        axios({
+            url: `${process.env.REACT_APP_HOST}/member/friend_delete_confirm`,
+            method: 'post',
+            data: {
+                m_id: member_info.M_ID,
+            },
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),      
+            }, 
+        })
+        .then(response => {
+                console.log('AXIOS DELETE FRIEND COMMUNICATION SUCCESS');
+                console.log(response.data);
+                if (response.data === -1) {
+                    console.log("Home session out!!");
+                    sessionStorage.removeItem('sessionID');
+                    dispatch({
+                        type: 'session_out',
+                    });
+                    navigate('/');
+                } else {
+                    if (response.data === null) {
+                        console.log("undefined member");
+                        alert('친구삭제에 실패했습니다. 다시 시도해주세요.');
+                    } else {
+                        dispatch({
+                            type:'set_my_button',
+                            button:response.data
+                        });
+                        dispatch({
+                            type: 'set_my_friend',
+                            friend: response.data,
+                        });
+                        alert("친구 삭제가 완료되었습니다.");
+                    }
+                }
+            
+            })
+            .catch(error => {
+                console.log('AXIOS GET FRIEND DELETE COMMUNICATION ERROR', error);
+            })
+            .finally(() => {
+                console.log('AXIOS GET FRIEND DELETE COMMUNICATION COMPLETE');
+            });
+        }
+
 
 
     return (

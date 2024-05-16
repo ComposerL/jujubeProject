@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import MyProfile from './myprofile';
 import { getCookie, removeCookie } from '../../util/cookie';
+import { session_check } from '../../util/session_check';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
@@ -18,8 +19,18 @@ const MyHome = () => {
     useEffect(() => {
         console.log("MyHome useEffect()");
         
+        let session  = session_check();
+        if(session !== null){
+            console.log('[home] session_check enter!!');
             axios_get_member();
-            
+        }else{
+            console.log('[home] session_check expired!!');
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+            });
+        }
+        
     },[]);
 
     
