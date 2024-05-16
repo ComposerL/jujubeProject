@@ -103,13 +103,13 @@ const SearchMember = () => {
     const searchMemberInfoHandler = (member) => {/////////////////////////
         console.log('testClickHandler()');
 
-
-
+        
         dispatch({
             type:'get_other_id',
             member:member,
         })
         navigate('/member/other_home');
+        localStorage.setItem('member_info', JSON.stringify(member));
     }
 
     return (
