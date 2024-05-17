@@ -18,9 +18,6 @@ const SearchMember = () => {
     const [memberList, setMemberList] = useState([]);
     const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
 
-
-
-
     useEffect(() => {
         console.log("searchMember useEffect()");
 

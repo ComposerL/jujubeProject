@@ -43,8 +43,6 @@ const MyProfile = (props) => {
         setStorys(story);
         setStoryModal(storyFlag);
 
-       
-
     },[member_info, storys, storyModal]);
     
     // props.setStoryFlag
@@ -97,6 +95,7 @@ const MyProfile = (props) => {
     
     const replyModalCloseBtnClickHandler = () => {
         console.log('replyModalCloseBtnClickHandler()');
+        
         dispatch({
             type:'reply_modal_close',
             modal: false,
@@ -316,7 +315,7 @@ const MyProfile = (props) => {
                                         replysCnt={story.replysCnt}
                                         s_mod_date={story.S_MOD_DATE}
                                         memberInfors={story.memberInfors[0]}
-                                        setStoryFlag = {props.setStoryFlag}
+                                        setStoryFlag = {setStoryFlag}
                                     />
                                 ))
                             }
