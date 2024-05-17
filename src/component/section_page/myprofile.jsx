@@ -34,10 +34,10 @@ const MyProfile = (props) => {
             setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
 
             setStorys(story);
-
+            
     },[member_info, storys, storyModal, storyFlag]);
     
-    // member_info, storys, storyModal
+    // member_info, storys, storyModal, storyFlag
     // props.setStoryFlag
     //버튼 분기
     const FriendButton = () => {

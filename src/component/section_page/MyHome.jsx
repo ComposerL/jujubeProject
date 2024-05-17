@@ -15,7 +15,7 @@ const MyHome = () => {
     // const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const storyModal = useSelector(store => store.storyModal);
+    const story = useSelector(store => store.story);
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
@@ -30,9 +30,8 @@ const MyHome = () => {
             });
         }
         
-    },[storyModal]);
+    },[story]);
 
-    
     const axios_get_member = () => {
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
             headers: {
