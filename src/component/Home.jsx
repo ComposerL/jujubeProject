@@ -41,7 +41,7 @@ const Home = () => {
 
         const handleWheel = (event) => {
             event.preventDefault();
-            const scrollAmount = event.deltaY > 0 ? 220 : -220;
+            const scrollAmount = event.deltaY > 0 ? 50 : -50;
             scrollRef.current.scrollTop += scrollAmount;
             console.log('Scroll position:', scrollRef.current.scrollTop);
         };
@@ -86,7 +86,7 @@ const Home = () => {
                     // console.log("member_id: " + respones.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
-
+                    sessionStorage.setItem('member_info', JSON.stringify(respones.data));
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,

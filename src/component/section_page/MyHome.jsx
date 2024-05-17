@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import MyProfile from './myprofile';
 import { getCookie, removeCookie } from '../../util/cookie';
+import { session_check } from '../../util/session_check';
 
 axios.defaults.baseURL = process.env.REACT_APP_HOST;
 axios.defaults.withCredentials = true;
@@ -16,15 +17,21 @@ const MyHome = () => {
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
-        console.log("MyHome useEffect()");
         
+        let session  = session_check();
+        if(session !== null){
             axios_get_member();
-            
+        }else{
+            sessionStorage.removeItem('sessionID');
+            dispatch({
+                type:'session_out',
+            });
+        }
+
     },[]);
 
     
     const axios_get_member = () => {
-        console.log("axios_get_member()");
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
             headers: {
                 'Authorization': sessionStorage.getItem('sessionID'),
@@ -48,19 +55,15 @@ const MyHome = () => {
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     alert("로그인한 멤머 정보가 없습니다. 다시 시도해주세요.")
                 }else{
-                    console.log("member_id: " + response.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     sessionStorage.setItem('member_info', JSON.stringify(response.data.member));
-
                     dispatch({
                         type:'session_enter',
                         loginedMember: response.data.member,
                     });
 
                     axios_get_profile(response.data.member.M_ID);
-                    axios_list_friend(response.data.member.M_ID);
-                    axios_get_friend(response.data.member.M_ID);
 
                 }
 
@@ -76,7 +79,7 @@ const MyHome = () => {
     }
     
     const axios_get_profile = (m_id) => {
-        console.log('axios_get_profile()');
+        console.log('axios_get_profile()111111111111111111');
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
@@ -106,13 +109,31 @@ const MyHome = () => {
                    
                     navigate('/');
                 } else {
-                    console.log(response.data);
-                    dispatch({
-                        type: 'set_my_stories',
-                        story: response.data,
-                  
-                    });
-                    
+                    console.log('stoysdf:', response.data);
+                    console.log('storyResult===============: ',response.data[0].S_NO);
+                    sessionStorage.removeItem('sessionID');
+                    sessionStorage.setItem('sessionID',getCookie('accessToken'));
+                    if(response.data[0].S_NO === undefined){
+                        dispatch({
+                            type: 'set_my_stories',
+                            storyMemberInfo: response.data.memberInfos,                      
+                            story: null,                      
+                        });
+                    }else{
+                        dispatch({
+                            type: 'set_my_stories',
+                            storyMemberInfo: response.data.memberInfos,  
+                            story: response.data,                      
+                        });
+                    }
+                    // dispatch({
+                    //     type: 'set_my_stories',
+                    //     storyResult: response.data[0].S_NO,
+                    //     story: response.data,
+                        
+                    // });
+                    axios_list_friend(response.data.member.M_ID);
+
                 }
             }
             
@@ -122,9 +143,7 @@ const MyHome = () => {
         })
         .finally(() => {
             console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
-            sessionStorage.removeItem('sessionID');
-            sessionStorage.setItem('sessionID',getCookie('accessToken'));
-            removeCookie('accessToken');
+            
         });
     }
 
@@ -157,11 +176,14 @@ const MyHome = () => {
                         
                         alert('친구목록을 불러오지 못했습니다. 다시 시도해주세요.');
                     } else {
-                       
+                        sessionStorage.removeItem('sessionID');
+                        sessionStorage.setItem('sessionID',getCookie('accessToken'));
                         dispatch({
                             type: 'set_my_friend',
                             friend: response.data,
                         });
+                        
+                    axios_get_friend(response.data.member.M_ID);
                         
                     }
                 }
@@ -171,10 +193,8 @@ const MyHome = () => {
                 console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
             })
             .finally(() => {
-                console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
-                sessionStorage.removeItem('sessionID');//
-                sessionStorage.setItem('sessionID',getCookie('accessToken'));//
-                removeCookie('accessToken');//
+                console.log('AXIOS GET MY friend COMMUNICATION COMPLETE');
+                
             });
         }
 
@@ -219,10 +239,11 @@ const MyHome = () => {
                     console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
                 })
                 .finally(() => {
-                    console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+                    console.log('AXIOS GET MY friend_status COMMUNICATION COMPLETE');
                     sessionStorage.removeItem('sessionID');//
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));//
                     removeCookie('accessToken');//
+
                 });
             }
     
