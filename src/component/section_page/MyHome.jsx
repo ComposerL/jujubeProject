@@ -12,7 +12,7 @@ axios.defaults.withCredentials = true;
 
 const MyHome = () => {
     
-    const member_info = JSON.parse(sessionStorage.getItem('member_info'));
+    // const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [storyFlag , setStoryFlag] = useState(false);
@@ -107,13 +107,14 @@ const MyHome = () => {
                     console.log("undefined member");
                     
                     alert("스토리를 불러올수 없습니다. 다시 시도해 주세요.");
-                   
+                    
                     navigate('/');
                 } else {
                     console.log('stoysdf:', response.data);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
-                    
+                    JSON.parse(sessionStorage.getItem('member_info'));
+
                     if(response.data[0].S_NO === undefined){
                         response.data.forEach(item => {
                             delete item.memberInfors;
@@ -123,16 +124,16 @@ const MyHome = () => {
                             storyMemberInfo: response.data.memberInfors,                      
                             story: [],                      
                         });
+                        
                     }else{
-                        dispatch({
-                            
+                        dispatch({  
                             type: 'set_my_stories',
                             storyMemberInfo: response.data.memberInfors,  
                             story: response.data,                      
                         });
                     }
 
-                    axios_list_friend(member_info.M_ID);
+                    axios_list_friend(m_id);
 
                 }
             }
@@ -147,13 +148,13 @@ const MyHome = () => {
         });
     }
 
-    const axios_list_friend = () => {
+    const axios_list_friend = (m_id) => {
         console.log('axios_get_friend()');
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_friend_count`,
             method: 'get',
             params: {
-                'id': member_info.M_ID
+                'id': m_id
             },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),
@@ -183,7 +184,7 @@ const MyHome = () => {
                             friend: response.data,
                         });
                         
-                    axios_get_friend(member_info.M_ID);
+                    axios_get_friend();
                         
                     }
                 }
@@ -198,14 +199,13 @@ const MyHome = () => {
             });
         }
 
-        const axios_get_friend = () => {
+        const axios_get_friend = (m_id) => {
             console.log('axios_get_friend()');
-    
             axios({
                 url: `${process.env.REACT_APP_HOST}/member/get_friend_status`,
                 method: 'post',
                 data: {
-                    'f_id': member_info.M_ID,
+                    'f_id': m_id,
                 },
                 headers: {
                     'authorization': sessionStorage.getItem('sessionID'),      
@@ -246,8 +246,7 @@ const MyHome = () => {
 
                 });
             }
-    
-
+        
     return (
         <div>
             <MyProfile setStoryFlag={setStoryFlag} />

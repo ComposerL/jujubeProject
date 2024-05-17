@@ -4,7 +4,7 @@ import StoryReplyUI from '../story/StoryReplyUI';
 import StoryUi from '../story/StoryUi';
 import axios from 'axios';
 import { removeCookie } from '../../util/cookie';
-import { useNavigate } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 const MyProfile = (props) => {
 
@@ -23,26 +23,29 @@ const MyProfile = (props) => {
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [storys,setStorys] = useState([]);
     const [mystory, setMystory] = useState([]);
-    const [storyModal, setStoryModal] = useState(false);
+    const [storyModal, setStoryModal] = useState([]);
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
     useEffect(() => {
+
+        dispatch({ type: 'story_open_btn', storymodal: false });
+        dispatch({ type: 'reply_modal_close', modal: false });
+
+    }, [])
+
+    useEffect(() => {
         console.log('myprofile useEffct');
-      
+        
             setMId(member_info.M_ID);
             setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
             setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
 
-        
-
         setStorys(story);
+        setStoryModal(storyFlag);
 
-        setStoryModal(true);
+       
 
-        // dispatch({ type: 'story_open_btn', storymodal: false });
-        // dispatch({ type: 'reply_modal_close', modal: false });
-
-    },[member_info, storys, props.setStoryModal]);
+    },[member_info, storys, storyModal]);
     
     // props.setStoryFlag
     //버튼 분기
@@ -50,22 +53,26 @@ const MyProfile = (props) => {
         return (
             <div>
                 {button.is_friend === true ? (
-                    <input type="button" value="친구 삭제" onClick={'deleteFriendClickHandler'} /> 
+                    <input type="button" value="친구 삭제" onClick={deleteFriendClickHandler} /> 
                 ) : (
                     button.is_friend_request === true ? (
-                        <input type="button" value="친구 요청 취소" onClick={'cancelFriendRequestHandler'} />
+                        <input type="button" value="친구 요청 취소" onClick={cancelFriendRequestHandler} />
                     ) : (
-                        button.is_friend === false && button.is_friend_request === false ? <input type="button" value="친구 추가" onClick={'addFriendClickHandler'} /> : null
+                        button.is_friend === false && button.is_friend_request === false 
+                        ? 
+
+                        <Link to="/member/follow_form">
+                            <input type="button" value="친구 추가" />
+                        </Link>: null
                         
                     )
                 )}
             </div>
 
         );
-            
-      
-        
+
     }
+
 
     const openStoryClickHandler = (story, e) => {
         console.log('openStoryClickHandler()');
@@ -77,11 +84,9 @@ const MyProfile = (props) => {
         });
         
     }
-    
+
     const ModalCloseBtnClickHandler = () => {
         console.log('closeStoryClickHandler()');
-
-        setStoryModal(false);
 
         dispatch({
             type:'story_open_btn',
@@ -97,9 +102,16 @@ const MyProfile = (props) => {
             modal: false,
         });
     }
-    
+
     const deleteFriendClickHandler = () => {
 
+        const isConfirmed = window.confirm("정말로 일촌을 삭제하시겠습니까?");
+
+        if (isConfirmed) {
+            console.log("delete()");
+            axios_delete_member();
+            
+        }
     }
     
     const cancelFriendRequestHandler = () => {
@@ -199,7 +211,7 @@ const MyProfile = (props) => {
                         alert("일촌 삭제가 완료되었습니다.");
                         dispatch({
                             type:'set_my_button',
-                            button:response.data
+                            button:false
                         });
                         dispatch({
                             type: 'set_my_friend',
