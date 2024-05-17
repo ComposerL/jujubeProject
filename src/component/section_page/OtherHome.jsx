@@ -18,11 +18,11 @@ const OtherHome = () => {
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
-
+        
         let session  = session_check();
         if(session !== null){
             console.log('[home] session_check enter!!');
-
+            
             axios_get_other_profile(member_info.M_ID);
             
         }else{
@@ -35,11 +35,11 @@ const OtherHome = () => {
         }
         
     },[]);
-
-
+    
+    
     const axios_get_other_profile = () => {
         console.log('axios_get_other_profile()');
-        console.log('m_id===================>', member_info.M_ID);
+        const member_info = JSON.parse(sessionStorage.getItem('member_info'));
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
@@ -74,19 +74,25 @@ const OtherHome = () => {
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     if(response.data[0].S_NO === undefined){
+                        response.data.forEach(item => {
+                            delete item.memberInfors;
+                        });
+
                         dispatch({
                             type: 'set_my_stories',
-                            storyMemberInfo: response.data.memberInfos,                      
-                            story: null,                      
+                            storyMemberInfo: response.data.memberInfors,                      
+                            story: [],                      
                         });
+
                     }else{
                         
                         dispatch({
                             type: 'set_my_stories',
-                            storyMemberInfo: response.data.memberInfos,  
+                            storyMemberInfo: response.data.memberInfors,  
                             story: response.data,                      
                         });
                     }
+                    console.log('storyMemberInfo =======>: ', response.data.memberInfors);
 
                     axios_list_friend(member_info.M_ID);
                     
@@ -156,8 +162,6 @@ const OtherHome = () => {
 
     const axios_get_friend = () => {
         console.log('axios_get_friend()');
-
-
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_friend_status`,
