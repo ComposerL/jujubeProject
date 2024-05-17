@@ -48,6 +48,7 @@ const reducer = (currentState = initial_state , action) => {
 
         //session 관련
         case 'session_out': //서버 세션토큰 만료
+            sessionStorage.removeItem('sessionID');
             return {...currentState, 
                 sessionID: null, //session 토큰 체크
                 loginedMember: '',

@@ -7,6 +7,9 @@ import Header from '../include/Header';
 import Nav from '../include/Nav';
 import Error from './Error';
 import Home from './Home';
+import FollowForm from './member/FollowForm';
+import FollowList from './member/FollowList';
+import FollowRequestList from './member/FollowRequestList';
 import Modify from './member/Modify';
 import SearchMember from './member/SearchMember';
 import SignIn from './member/SignIn';
@@ -15,15 +18,12 @@ import CreateStory from './section_page/CreateStory';
 import ModifyStory from './section_page/ModifyStory';
 import MyHome from './section_page/MyHome';
 import OtherHome from './section_page/OtherHome';
-import FollowForm from './member/FollowForm';
-import FollowList from './member/FollowList';
-import FollowRequestList from './member/FollowRequestList';
 
 const Wrap = () => {
     const session = useSelector(store => store.sessionID);
 
     useEffect(() => {
-        // console.log("Wrap useEffect()");
+        console.log("Wrap useEffect()");
     },[session]);
 
     return (

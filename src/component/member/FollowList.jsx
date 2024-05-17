@@ -1,8 +1,8 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../../css/member/follow_list.css';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { session_check } from '../../util/session_check';
 
@@ -85,9 +85,9 @@ const FollowList = () => {
                                         <div className='Follow_list_info_btn_wrap'>
                                             <div className='Follow_list_result_frofile_thum_wrap'>
                                                 {
-                                                    followMember.memberInfo[0].M_PROFILE_THUMBNAIL !== null
+                                                    followMember.M_PROFILE_THUMBNAIL !== null
                                                     ?                                                    
-                                                    <img src={`${process.env.REACT_APP_HOST}/${followMember.F_ID}/${followMember.memberInfo[0].M_PROFILE_THUMBNAIL}`} />
+                                                    <img src={`${process.env.REACT_APP_HOST}/${followMember.F_ID}/${followMember.M_PROFILE_THUMBNAIL}`} />
                                                     :                         
                                                     <img src="/imgs/profile_default.png" />
                                                 }

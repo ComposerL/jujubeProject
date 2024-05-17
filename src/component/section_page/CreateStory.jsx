@@ -1,6 +1,7 @@
 import axios from 'axios';
 import $ from 'jquery';
 import React, { useEffect, useRef, useState } from 'react';
+import Resizer from 'react-image-file-resizer';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -42,6 +43,7 @@ const CreateStory = () => {
 
     const navigate = useNavigate();
 
+    /* 
     const onImageHandler = (e) => {
 
         const imageFiles = e.target.files;
@@ -83,6 +85,7 @@ const CreateStory = () => {
         });
 
     }
+    */
 
     const writeStoryClickBtn = () => {
         console.log('writeStoryClickBtn()')
@@ -229,8 +232,8 @@ const CreateStory = () => {
             const compressedFile = await resizeFile(e.target.files[0]);
             console.log('image incoding after : ', compressedFile);
 
-            setImagePreview(String(compressedFile));
-            setUploadImage(String(compressedFile));
+            // setImagePreview(String(compressedFile));
+            // setUploadImage(String(compressedFile));
 
 
         } catch (error) {
@@ -251,40 +254,49 @@ const CreateStory = () => {
                 (uri) => {
                     resolve(uri);
                 },
-                "base64",   // output format. base64 or blob
+                "blob",   // output format. base64 or blob
             )
         })
     */
 
-    /*
+    
     // multiple resizing
     const onImageHandler = async (e) => {
+        console.log('onImageHandler()')
 
         const files = e.target.files;
-        console.log('files---', files);
-        const supportedFormats = ["image/jpeg", "image/png", "image/svg+xml"];
-        const compressedFiles = [];
 
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
+        if ((imagePreviews.length + files.length) > maxFiles) {
+            alert(`최대 ${maxFiles}개의 파일을 업로드 할 수 있습니다.`);
+            return;
+        }
 
-            if (!supportedFormats.includes(file.type)) {
-                alert(`${file.name}은 지원되지 않는 이미지 형식입니다. JPEG, PNG, SVG형식의 이미지를 업로드해주세요.`);
-                continue;
-            }
+        for (let i = 0; i < (maxFiles - files.length); i++) {
+            let file = files[i];
 
             try {
 
                 const compressedFile = await resizeFile(file);
-                compressedFiles.push(compressedFile);
+                const imgUrl = URL.createObjectURL(file);
+
+                setImagePreviews((preImgUrls) => {
+                    const newImgUrls = [...preImgUrls];
+                    newImgUrls.push(imgUrl);
+                    console.log('newImgUrls---', newImgUrls);
+                    return newImgUrls;
+                });
+                
+                setUploadImage((preCompressedFiles) => {
+                    const newCompressedFiles = [...preCompressedFiles];
+                    newCompressedFiles.push(compressedFile);
+                    console.log('newCompressedFiles---', newCompressedFiles);
+                    return newCompressedFiles;
+                });
 
             } catch (error) {
                 console.log("file resizing failed:", error);
             }
         }
-        setUploadImage(compressedFiles);
-        setImagePreviews(compressedFiles);
-        console.log('compressedFiles---', compressedFiles);
 
     }
 
@@ -300,11 +312,11 @@ const CreateStory = () => {
                 (uri) => {
                 resolve(uri); 
                 },
-                "base64"        // output format. base64 or blob
+                "blob"        // output format. base64 or blob
             );
         }
     );
-    */
+    
 
     return (
         <div id='create_story_wrap'>
