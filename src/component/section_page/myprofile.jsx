@@ -255,13 +255,13 @@ const MyProfile = (props) => {
             <div id='profile_img'>
                 
                     {
-                        story === null || story .length === 0
+                        storys === null || storys.length === 0
                         ? 
                         '내용이 없습니다.' 
                         : 
                         <div className='profile_item'>
                             {
-                                story .map((story, idx) => {
+                                storys.map((story, idx) => {
                                     return (
                                         <div key={idx} onClick={() => openStoryClickHandler(story)}>                                   
                                             
