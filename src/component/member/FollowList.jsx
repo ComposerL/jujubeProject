@@ -40,8 +40,8 @@ const FollowList = () => {
             }
 		})
 		.then(response => {	
-			console.log("axios get friend list success!!");
-			console.log("response: ",response.data);
+			// console.log("axios get friend list success!!");
+			// console.log("response: ",response.data);
             if(response.data !== null){
                 setFollowMembers(response.data.friend_list);
             }else{
