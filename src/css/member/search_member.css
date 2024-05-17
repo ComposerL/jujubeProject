@@ -66,19 +66,27 @@
     padding: 10px;
     border-radius: 7px;
     &:hover {
-        cursor: pointer;
         background-color: #eee;
     }
+}
+#search_member_wrap div.search_result_wrap ul.search_result li>div.search_member_info_btn_wrap {
+    display: flex;
+    cursor: pointer;
 }
 #search_member_wrap div.search_result_wrap ul.search_result li div.search_result_frofile_thum_wrap {
     width: 50px;
     height: 50px;
+    line-height: 50px;
     border-radius: 50px;
     background-color: #ddd;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #search_member_wrap div.search_result_wrap ul.search_result li div.search_result_frofile_thum_wrap img {
-    width: 100%;
+    max-width: 50px;
+    max-height: 50px;
 }
 #search_member_wrap div.search_result_wrap ul.search_result li div.search_result_frofile_info_wrap {
     font: none;
@@ -100,11 +108,21 @@
         border-radius: 7px;
         overflow: hidden;
         text-align: center;
+        cursor: pointer;
         img{
             height: 100%;
         }
     }
     div.un_follow_btn {
-        
+        margin-top: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+        overflow: hidden;
+        text-align: center;
+        cursor: pointer;
+        img{
+            height: 100%;
+        }        
     }
 }

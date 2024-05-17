@@ -1,15 +1,15 @@
+import axios from 'axios';
 import $ from 'jquery';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import axios from 'axios';
-import { getCookie, removeCookie} from '../../util/cookie';
+import { getCookie, removeCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true
 
@@ -26,6 +26,8 @@ const StoryUi = (props) => {
 		console.log("pictures: ",props.pictures);
         setPictures(props.pictures);
     },[modal,props.pictures]);
+
+
 
 	const storyTextBtnClickHandler = (e) => {
         console.log("storyTextBtnClickHandler()");

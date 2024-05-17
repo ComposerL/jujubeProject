@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../css/home.css';
 
@@ -20,6 +20,8 @@ const Home = () => {
 
     const [allStorys,setAllStorys] = useState([]);
 
+    const scrollRef = useRef(null);
+
     useEffect(() => {
         console.log("Home useEffect()");       
 
@@ -31,11 +33,28 @@ const Home = () => {
         }else{
             console.log('[home] session_check expired!!');
             sessionStorage.removeItem('sessionID');
+            sessionStorage.removeItem('member_info');
             dispatch({
                 type:'session_out',
             });
         }
-        
+
+        const handleWheel = (event) => {
+            event.preventDefault();
+            const scrollAmount = event.deltaY > 0 ? 50 : -50;
+            scrollRef.current.scrollTop += scrollAmount;
+            console.log('Scroll position:', scrollRef.current.scrollTop);
+        };
+    
+        const scrollableElement = scrollRef.current;
+        scrollableElement.addEventListener('wheel', handleWheel, { passive: false });
+        console.log('Event listener added');
+    
+        return () => {
+        scrollableElement.removeEventListener('wheel', handleWheel);
+        console.log('Event listener removed');
+        };
+
     },[modal,storyFlag]);
 
     //비동기 통신
@@ -67,6 +86,7 @@ const Home = () => {
                     console.log("member_id: " + respones.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
+                    sessionStorage.setItem('member_info', JSON.stringify(respones.data));
                     dispatch({
                         type:'session_enter',
                         loginedMember: respones.data.member,
@@ -130,7 +150,7 @@ const Home = () => {
 
     return (
         <>  
-        <div id='home_wrap'>
+        <div id='home_wrap' ref={scrollRef} >
             <ul id='story_wrap'>
                 {   
                     allStorys.map((allStory,idx) => {

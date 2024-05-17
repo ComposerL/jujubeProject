@@ -2,6 +2,7 @@ import axios from 'axios';
 import $ from 'jquery';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -16,6 +17,7 @@ axios.defaults.withCredentials = true;
 const ModifyStory = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const [currentPictures, setCurrentPictures] = useState([]);
     const [updatePictures, setUpdatePictures] = useState([]);
@@ -24,6 +26,7 @@ const ModifyStory = () => {
 
     const [sTxt, setSTxt] = useState('');
     const [sIsPublic, setSIsPublic] = useState('0');
+    const [spSaveDir, setSpSaveDir] = useState('')
 
 	const s_no = useSelector(store => store.s_no);
 
@@ -34,7 +37,6 @@ const ModifyStory = () => {
     console.log('ModifyStory useEffect() called');
 
         let session = session_check();
-        console.log("session: ",session);
         if(session !== null){
             console.log('[home] session_check enter!!');
             axios_get_access_token();
@@ -60,7 +62,9 @@ const ModifyStory = () => {
 
             const dataTransfer = new DataTransfer();
             for (let i = 0; i < (maxFiles - imagePreviews.length); i++) {
-                dataTransfer.items.add(imageFiles[i]);
+                if (imageFiles[i] instanceof File) {
+                    dataTransfer.items.add(imageFiles[i]);
+                }
             }
             fileInputRef.current.files = dataTransfer.files;
         }
@@ -118,6 +122,7 @@ const ModifyStory = () => {
         formData.append('s_is_public', sIsPublic);
         formData.append('curImg', currentPictures);
         formData.append('keepImg', updatePictures);
+        formData.append('sp_save_dir', spSaveDir);
         for (let i = 0; i < uploadImgFiles.length; i++) {
             formData.append('files', uploadImgFiles[i]);
         }
@@ -133,6 +138,16 @@ const ModifyStory = () => {
         .then((response) => {
             console.log('AXIOS MODIFY STORY COMMUNICATION SUCCESS', response.data);
 
+            if (response.data === null || response.data.length === 0) {
+                alert('스토리 수정에 실패하였습니다. 다시 시도해 주세요.');
+                return;
+            }
+
+            if (response.data > 0) {
+                alert('스토리 수정이 완료되었습니다.');
+                return navigate('/');
+            } 
+
         })
         .catch(error => {
             console.log('AXIOS MODIFY STORY COMMUNICATION ERROR', error);
@@ -142,8 +157,6 @@ const ModifyStory = () => {
 
     const axios_get_story = () => {
         console.log('ModifyStory axios_get_story() called');
-
-        console.log('s_no---', s_no);
 
         axios({
             url:`${process.env.REACT_APP_HOST}/story/story/get_story`,
@@ -171,6 +184,7 @@ const ModifyStory = () => {
             setImagePreviews(previews);
             setCurrentPictures(pictures);
             setUpdatePictures(pictures);
+            setSpSaveDir(response.data[0].pictures[0].SP_SAVE_DIR)
 
         })
         .catch(error => {
@@ -226,7 +240,7 @@ const ModifyStory = () => {
             </div>
 
             <div className='input_file_img'>
-                <label for="file">사진추가</label> 
+                <label htmlFor="file">사진추가</label> 
                 <input 
                     type="file"
                     id="file"

@@ -27,6 +27,7 @@ const Nav = () => {
         console.log("signOutBtnClickHandler()");
         axios_sign_out_confirm();
         sessionStorage.removeItem('sessionID');
+        sessionStorage.removeItem('member_info');
         dispatch({
             type:'session_out',
             sessionID: null,
@@ -45,6 +46,7 @@ const Nav = () => {
         .then(response => {
             console.log('AXIOS SIGN OUT COMMUNICATION SUCCESS');
             removeCookie('accessToken');
+            
         })
         .catch(error => {
             console.log('AXIOS SIGN OUT COMMUNICATION ERROR');
@@ -64,7 +66,7 @@ const Nav = () => {
             <ul className='nav_menu'>
                 <NavLi command="/" img_src="/imgs/nav_home_icon.png" text="HOME"/>
                 <NavLi command="/member/search_member_form" img_src="/imgs/nav_search_icon.png" text="SEARCH"/>
-                <NavLi command="/member/message" img_src="/imgs/nav_messege_icon.png" text="MESSAGE"/>
+                <NavLi command="/member/follow_list" img_src="/imgs/nav_messege_icon.png" text="ILCHON"/>
                 <NavLi command="/story/create_story" img_src="/imgs/nav_create_icon.png" text="CREATE"/>
                 <NavLi command="/member/my_home" img_src="/imgs/nav_my_icon.png" text="MY"/>
             </ul>

@@ -22,6 +22,13 @@ const reducer = (currentState = initial_state , action) => {
     console.log("App reducer()");
 
     switch(action.type){
+        //follow 관련
+        case 'follow_btn_click':
+            return {...currentState,
+                m_id: action.m_id,
+                m_profile_thumbnail:action.m_profile_thumbnail,
+            };
+
         //story 관련
         case'story_btn_click': //reply_modal_open
             return {...currentState, 
@@ -71,7 +78,7 @@ const reducer = (currentState = initial_state , action) => {
 
         case 'set_my_stories'://내 스토리 가져오기
             console.log("set_my_stories: ", action.story);
-            return {...currentState, story:action.story};
+            return {...currentState, story:action.story, storyMemberInfo:action.storyMemberInfo};
 
         case 'set_my_friend':// 내 친구 수
             console.log('set_my_friend', action.friend);
