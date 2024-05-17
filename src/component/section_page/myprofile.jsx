@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import StoryReplyUI from '../story/StoryReplyUI';
 import StoryUi from '../story/StoryUi';
 import axios from 'axios';
+import '../../css/story/story.css';
+
 import { removeCookie } from '../../util/cookie';
 import { Link,useNavigate } from 'react-router-dom';
 
@@ -24,6 +26,7 @@ const MyProfile = (props) => {
     const [storys,setStorys] = useState([]);
     const [mystory, setMystory] = useState([]);
     const [storyModal, setStoryModal] = useState([]);
+    
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
     useEffect(() => {
@@ -35,7 +38,7 @@ const MyProfile = (props) => {
 
             setStorys(story);
             
-    },[member_info, storys]);
+    },[member_info, storys, storyFlag, modal]);
     
     // member_info, storys, storyModal, storyFlag
     // props.setStoryFlag
@@ -311,6 +314,7 @@ const MyProfile = (props) => {
                                         replysCnt={story.replysCnt}
                                         s_mod_date={story.S_MOD_DATE}
                                         memberInfors={story.memberInfors[0]}
+                                        storyIdx = {idx}
                                         setStoryFlag = {setStoryFlag}
                                     />
                                 ))

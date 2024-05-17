@@ -17,9 +17,7 @@ const Home = () => {
     const loginedMember = useSelector(store => store.loginedMember);
     const modal = useSelector(store => store.modal);
     const [storyFlag,setStoryFlag] = useState(false);
-
     const [allStorys,setAllStorys] = useState([]);
-
     const scrollRef = useRef(null);
 
     useEffect(() => {

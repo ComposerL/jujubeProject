@@ -15,7 +15,6 @@ const MyHome = () => {
     // const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const story = useSelector(store => store.story);
     const storymodal = useSelector(store => store.storymodal);
     const [storyFlag , setStoryFlag] = useState(false);
 
@@ -30,6 +29,7 @@ const MyHome = () => {
                 type:'session_out',
             });
         }
+        
         
     },[storymodal]);
 
