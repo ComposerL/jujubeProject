@@ -71,6 +71,7 @@ const SignIn = () => {
         })
         .then(response => {
             console.log('axios_google_sign_in communication success', response.data);
+            // eslint-disable-next-line default-case
             switch(response.data.result) {
                 case null:
                     alert('서버 통신에 문제가 있습니다. 다시 시도해주세요.');
@@ -84,7 +85,7 @@ const SignIn = () => {
                 case -5:
                     alert('탈퇴한 계정입니다. 관리자에게 문의하세요.');
                     break;
-                default: 
+                case 'success': 
                     alert('로그인 성공');
                     sessionStorage.setItem('sessionID', getCookie('accessToken'));
                     
@@ -97,10 +98,6 @@ const SignIn = () => {
             console.log('axios_google_sign_in communication error', error);
             
         })
-        .finally((data) => {
-            console.log('axios_google_sign_in communication complete', data);
-            
-        });
     }
 
     const axios_member_login = () => {
