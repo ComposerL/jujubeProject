@@ -12,6 +12,7 @@ axios.defaults.withCredentials = true;
 
 const MyHome = () => {
     
+    const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [storyFlag , setStoryFlag] = useState(false);
@@ -79,7 +80,7 @@ const MyHome = () => {
     }
     
     const axios_get_profile = (m_id) => {
-        console.log('axios_get_profile()111111111111111111');
+        console.log('axios_get_profile()');
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
@@ -110,29 +111,28 @@ const MyHome = () => {
                     navigate('/');
                 } else {
                     console.log('stoysdf:', response.data);
-                    console.log('storyResult===============: ',response.data[0].S_NO);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
+                    
                     if(response.data[0].S_NO === undefined){
+                        response.data.forEach(item => {
+                            delete item.memberInfors;
+                        });
                         dispatch({
                             type: 'set_my_stories',
-                            storyMemberInfo: response.data.memberInfos,                      
-                            story: null,                      
+                            storyMemberInfo: response.data.memberInfors,                      
+                            story: [],                      
                         });
                     }else{
                         dispatch({
+                            
                             type: 'set_my_stories',
-                            storyMemberInfo: response.data.memberInfos,  
+                            storyMemberInfo: response.data.memberInfors,  
                             story: response.data,                      
                         });
                     }
-                    // dispatch({
-                    //     type: 'set_my_stories',
-                    //     storyResult: response.data[0].S_NO,
-                    //     story: response.data,
-                        
-                    // });
-                    axios_list_friend(response.data.member.M_ID);
+
+                    axios_list_friend(member_info.M_ID);
 
                 }
             }
@@ -147,13 +147,13 @@ const MyHome = () => {
         });
     }
 
-    const axios_list_friend = (m_id) => {
+    const axios_list_friend = () => {
         console.log('axios_get_friend()');
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_friend_count`,
             method: 'get',
             params: {
-                'id': m_id
+                'id': member_info.M_ID
             },
             headers: {
                 'authorization': sessionStorage.getItem('sessionID'),
@@ -183,7 +183,7 @@ const MyHome = () => {
                             friend: response.data,
                         });
                         
-                    axios_get_friend(response.data.member.M_ID);
+                    axios_get_friend(member_info.M_ID);
                         
                     }
                 }
@@ -198,14 +198,14 @@ const MyHome = () => {
             });
         }
 
-        const axios_get_friend = (m_id) => {
+        const axios_get_friend = () => {
             console.log('axios_get_friend()');
     
             axios({
                 url: `${process.env.REACT_APP_HOST}/member/get_friend_status`,
                 method: 'post',
                 data: {
-                    f_id: m_id,
+                    'f_id': member_info.M_ID,
                 },
                 headers: {
                     'authorization': sessionStorage.getItem('sessionID'),      

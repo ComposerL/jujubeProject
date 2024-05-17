@@ -10,8 +10,6 @@ const MyProfile = (props) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const loginedMember = useSelector(store => store.loginedMember);
-    const otherMember = useSelector(store => store.member);    
     const story = useSelector(store => store.story);
     const button = useSelector(store => store.button);
     const friend = useSelector(store => store.friend);
@@ -25,32 +23,28 @@ const MyProfile = (props) => {
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [storys,setStorys] = useState([]);
     const [mystory, setMystory] = useState([]);
-    const [storyModal, setStoryModal] = useState('');
+    const [storyModal, setStoryModal] = useState(false);
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
-
-    console.log('button: ', button);
-
     useEffect(() => {
-        console.log('myprofile useEffct222222222222222');
-        if (member_info) {
+        console.log('myprofile useEffct');
+      
             setMId(member_info.M_ID);
             setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
             setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
 
-        } else {
-            setMId('');
-            setMSelfIntroduction('');
-            setMProfileThumbnail('');
-        }
+        
+
         setStorys(story);
+
+        setStoryModal(true);
+
         // dispatch({ type: 'story_open_btn', storymodal: false });
         // dispatch({ type: 'reply_modal_close', modal: false });
 
-    },[member_info, storys, storyModal, props.setStoryFlag]);
+    },[member_info, storys, props.setStoryModal]);
     
-
-
+    // props.setStoryFlag
     //버튼 분기
     const FriendButton = () => {
         return (
@@ -86,6 +80,8 @@ const MyProfile = (props) => {
     
     const ModalCloseBtnClickHandler = () => {
         console.log('closeStoryClickHandler()');
+
+        setStoryModal(false);
 
         dispatch({
             type:'story_open_btn',
@@ -234,7 +230,7 @@ const MyProfile = (props) => {
             }
 
                 <div className='post'>
-                    <div>{story.length > 1 ? story.length : 0}</div>
+                    <div>{story.length > 0 ? story.length : 0}</div>
                     <div>post</div>
                 </div>
                 <div className='friend'>
@@ -243,7 +239,7 @@ const MyProfile = (props) => {
                 </div>
             </div>
             <div className='profile_member_name'>
-                <p>{mId}</p>
+                <p>{member_info.M_ID}</p>
             </div>
             <div className='profile_self_intro'>
                 <p>{mSelfIntroduction ? mSelfIntroduction : '자기소개가 없습니다.'}</p>
