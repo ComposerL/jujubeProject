@@ -18,6 +18,7 @@ const StoryUi = (props) => {
 	const dispatch = useDispatch();
 	const [pictures,setPictures] = useState([]);
 	
+	const storymodal = useSelector(store => store.storymodal);
 	const modal = useSelector(store => store.modal);
 	const loginedMember = useSelector(store => store.loginedMember);
 
@@ -95,7 +96,10 @@ const StoryUi = (props) => {
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data > 0){
-				
+				dispatch({
+					type:'story_open_btn',
+					storymodal: false,
+				});
 				props.setStoryFlag(pv => !pv);
 			}else{
 				console.log("database delete fail!!");

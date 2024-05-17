@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../css/myHome.css';
 import MyProfile from './myprofile';
@@ -15,6 +15,7 @@ const MyHome = () => {
     // const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const storyModal = useSelector(store => store.storyModal);
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
@@ -28,8 +29,8 @@ const MyHome = () => {
                 type:'session_out',
             });
         }
-
-    },[]);
+        
+    },[storyModal]);
 
     
     const axios_get_member = () => {

@@ -27,22 +27,15 @@ const MyProfile = (props) => {
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
     useEffect(() => {
-
-        dispatch({ type: 'story_open_btn', storymodal: false });
-        dispatch({ type: 'reply_modal_close', modal: false });
-
-    }, [])
-
-    useEffect(() => {
-        console.log('myprofile useEffct');
+        console.log('myprofile useEffct22');
         
             setMId(member_info.M_ID);
             setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
             setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
 
-        setStorys(story);
+            setStorys(story);
 
-    },[member_info, storys, storyModal]);
+    },[member_info, storys, storyModal, storyFlag]);
     
     // member_info, storys, storyModal
     // props.setStoryFlag
@@ -71,6 +64,7 @@ const MyProfile = (props) => {
 
     }
 
+    
 
     const openStoryClickHandler = (story, e) => {
         console.log('openStoryClickHandler()');
@@ -228,6 +222,8 @@ const MyProfile = (props) => {
             });
         }
 
+        
+ 
     return (
         <div id='my_profile_wrap'>
 
