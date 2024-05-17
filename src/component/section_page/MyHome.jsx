@@ -131,7 +131,7 @@ const MyHome = () => {
                             story: response.data,                      
                         });
                     }
-                    console.log('storyMemberInfo =======>: ',response.data.memberInfors);
+
                     axios_list_friend(member_info.M_ID);
 
                 }
@@ -198,7 +198,7 @@ const MyHome = () => {
             });
         }
 
-        const axios_get_friend = (m_id) => {
+        const axios_get_friend = () => {
             console.log('axios_get_friend()');
     
             axios({
