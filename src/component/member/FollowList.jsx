@@ -13,14 +13,14 @@ const FollowList = () => {
     const [followMembers,setFollowMembers] = useState([]);
 
     useEffect(() => {
-        console.log("[FollowList] useEffect()");
+        // console.log("[FollowList] useEffect()");
 
         let session = session_check();
         if(session !== null){
-            console.log('[FollowList] session_check enter!!');
+            // console.log('[FollowList] session_check enter!!');
             axios_get_friend_list();
         }else{
-            console.log('[FollowList] session_check expired!!');
+            // console.log('[FollowList] session_check expired!!');
             sessionStorage.removeItem('sessionID');
             dispatch({
                 type:'session_out',
@@ -30,7 +30,7 @@ const FollowList = () => {
     },[]);
 
     const axios_get_friend_list = () => {
-        console.log("[FollowList] axios_get_friend_list()");
+        // console.log("[FollowList] axios_get_friend_list()");
 
 		axios({
 			url: `${process.env.REACT_APP_HOST}/member/get_friend_list`,
@@ -53,7 +53,7 @@ const FollowList = () => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios get friend list finally!!");
+            // console.log("axios get friend list finally!!");
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
             removeCookie('accessToken');//
@@ -77,7 +77,7 @@ const FollowList = () => {
                         {
                             followMembers.map((followMember,idx) => {
                                 return(
-                                    <li>
+                                    <li key={idx}>
                                         <div className='Follow_list_info_btn_wrap'>
                                             <div className='Follow_list_result_frofile_thum_wrap'>
                                                 {

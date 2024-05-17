@@ -12,7 +12,6 @@ import SearchMember from './member/SearchMember';
 import SignIn from './member/SignIn';
 import SignUp from './member/SignUp';
 import CreateStory from './section_page/CreateStory';
-import Message from './section_page/Message';
 import ModifyStory from './section_page/ModifyStory';
 import MyHome from './section_page/MyHome';
 import OtherHome from './section_page/OtherHome';
@@ -24,8 +23,7 @@ const Wrap = () => {
     const session = useSelector(store => store.sessionID);
 
     useEffect(() => {
-        console.log("Wrap useEffect()");
-        console.log("session: ",session);
+        // console.log("Wrap useEffect()");
     },[session]);
 
     return (

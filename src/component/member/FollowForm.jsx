@@ -17,14 +17,14 @@ const FollowForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("FollowForm useEffect()");
+        // console.log("FollowForm useEffect()");
 
         let session = session_check();
         if(session !== null){
-            console.log('[FollowForm] session_check enter!!');
+            // console.log('[FollowForm] session_check enter!!');
             setFollowID(m_id);
         }else{
-            console.log('[FollowForm] session_check expired!!');
+            // console.log('[FollowForm] session_check expired!!');
             sessionStorage.removeItem('sessionID');
             dispatch({
                 type:'session_out',
@@ -34,14 +34,14 @@ const FollowForm = () => {
     },[]);
 
     const followFormSubmitBtnClickHandler = () => {
-        console.log("followFormSubmitBtnClickHandler()");
+        // console.log("followFormSubmitBtnClickHandler()");
         // console.log("followID: ",followID);
         // console.log("followNickName: ",followNickName);
         axios_friend_request(followID,followNickName);
     }
 
     const axios_friend_request = (followID,followNickName) => {
-		console.log("axios_friend_request()");
+		// console.log("axios_friend_request()");
 
 		let requestData = {
             fr_res_id : followID,
@@ -58,8 +58,8 @@ const FollowForm = () => {
             }
 		})
 		.then(response => {	
-			console.log("axios friend request success!!");
-			console.log("response: ",response.data.result);
+			// console.log("axios friend request success!!");
+			// console.log("response: ",response.data.result);
             if(response.data.result === 3){
                 alert("이미 일촌입니다.");
             }else if(response.data.result === null){
@@ -72,11 +72,11 @@ const FollowForm = () => {
             }
 		})
 		.catch(err => {
-            console.log("axios friend request error!!");
+            // console.log("axios friend request error!!");
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios friend request finally!!");
+            // console.log("axios friend request finally!!");
             setFollowNickName('');
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//

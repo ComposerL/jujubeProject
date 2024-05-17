@@ -14,7 +14,7 @@ const ReReplyUI = (props) => {
     },[]);
 
     const axios_reply_delete_confirm = () => {
-		console.log("axios_reply_delete_confirm()");
+		// console.log("axios_reply_delete_confirm()");
 
 		let requestData = {
             'r_no' : props.reReply.R_NO,
@@ -31,8 +31,8 @@ const ReReplyUI = (props) => {
             }
 		})
 		.then(response => {	
-			console.log("axios reply delete confirm success!!");
-			console.log("response: ",response.data);
+			// console.log("axios reply delete confirm success!!");
+			// console.log("response: ",response.data);
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data > 0){
@@ -47,7 +47,7 @@ const ReReplyUI = (props) => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios reply delete confirm finally!!");
+            // console.log("axios reply delete confirm finally!!");
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 		});
@@ -57,7 +57,7 @@ const ReReplyUI = (props) => {
     const reReplyDeleteBtnClickHAndler = () => {
         console.log("reReplyDeleteBtnClickHAndler()");
         if(window.confirm("댓글을 삭제하시겠습니까?")){
-            console.log(`${props.s_no}번 게시물 ${props.reReply.R_NO}번 댓글 삭제 요청`);
+            // console.log(`${props.s_no}번 게시물 ${props.reReply.R_NO}번 댓글 삭제 요청`);
             axios_reply_delete_confirm();
         }
     }

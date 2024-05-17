@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../../css/member/follow_request_list.css';
 
 const FollowRequestList = () => {
+
+    useEffect(() => {
+        console.log("[FollowRequestList] useEffect()");
+        
+    },[]);
+
     return (
         <>
             <div id='follow_request_list_wrap'>
@@ -11,7 +17,7 @@ const FollowRequestList = () => {
                 <div className='follow_request_list_section_wrap'>
                     <div className='follow_request_list_section1'>
                         <div className="follow_request_list_section1_header">
-                            일촌목록
+                            보낸요청
                         </div>
                         <div className="follow_request_list_section1_article">
                             

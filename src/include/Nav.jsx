@@ -24,7 +24,7 @@ const Nav = () => {
     }
 
     const signOutBtnClickHandler = () => {
-        console.log("signOutBtnClickHandler()");
+        // console.log("signOutBtnClickHandler()");
         axios_sign_out_confirm();
         sessionStorage.removeItem('sessionID');
         sessionStorage.removeItem('member_info');
@@ -37,7 +37,7 @@ const Nav = () => {
     }
 
     const axios_sign_out_confirm = () => {
-        console.log('axios_sign_out_confirm()');
+        // console.log('axios_sign_out_confirm()');
         
         axios({
             url: `${process.env.REACT_APP_HOST}/member/sign_out_confirm`, 

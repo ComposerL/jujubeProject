@@ -23,21 +23,21 @@ const StoryUi = (props) => {
 
 	useEffect(() => {
         console.log("StoryUi useEffect()");
-		console.log("pictures: ",props.pictures);
+		// console.log("pictures: ",props.pictures);
         setPictures(props.pictures);
     },[modal,props.pictures]);
 
 
 
 	const storyTextBtnClickHandler = (e) => {
-        console.log("storyTextBtnClickHandler()");
+        // console.log("storyTextBtnClickHandler()");
 		let story_text_btn = e.target;
         $(story_text_btn).parent('p').css({'width': '100%','white-space': 'initial', 'cursor':'inherit', 'word-break': 'break-all'});
         $(story_text_btn).css({'cursor':'inherit'});
     }
 
 	const storyReplyBtnClickHandler = (e) => {
-		console.log("storyReplyBtnClickHandler()");
+		// console.log("storyReplyBtnClickHandler()");
 		dispatch({
 			type:'story_btn_click',
 			modal: true,
@@ -46,8 +46,8 @@ const StoryUi = (props) => {
 	}
 
 	const storyModifyBtnClickHandler = () => {
-		console.log("storyModifyBtnClickHandler()");
-		console.log(`${props.s_no}.no story Modify confirm!!`);
+		// console.log("storyModifyBtnClickHandler()");
+		// console.log(`${props.s_no}.no story Modify confirm!!`);
 
 		dispatch({
 			type:'story_modify_btn_click',
@@ -57,24 +57,24 @@ const StoryUi = (props) => {
 	}
 
 	const storyDeleteBtnClickHandler = () => {
-		console.log("storyDeleteBtnClickHandler()");
+		// console.log("storyDeleteBtnClickHandler()");
 		
 		if(window.confirm("게시물을 삭제하시겠습니까?")){
-			console.log(`${props.s_no}.no story Delete confirm!!`);
+			// console.log(`${props.s_no}.no story Delete confirm!!`);
 			axios_story_delete_confirm();
 		}
 	}
 
 	const storyLikeBtnClickHandler = () => {
-		console.log("storyLikeBtnClickHandler()");
-		console.log("s_no: " + props.s_no);
-		console.log("m_id: " + loginedMember.M_ID);
-		console.log("sl_is_like: " + props.storyIsLike);
+		// console.log("storyLikeBtnClickHandler()");
+		// console.log("s_no: " + props.s_no);
+		// console.log("m_id: " + loginedMember.M_ID);
+		// console.log("sl_is_like: " + props.storyIsLike);
 		axios_story_like_update();
 	}
 
 	const axios_story_delete_confirm = () => {
-		console.log("axios_story_delete_confirm()");
+		// console.log("axios_story_delete_confirm()");
 
 		let requestData = {
 			's_no': props.s_no
@@ -90,8 +90,8 @@ const StoryUi = (props) => {
             }
 		})
 		.then(response => {	
-			console.log("axios story delete confirm success!!");
-			console.log("response: ",response.data);
+			// console.log("axios story delete confirm success!!");
+			// console.log("response: ",response.data);
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data > 0){
@@ -107,7 +107,7 @@ const StoryUi = (props) => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios story delete confirm finally!!");
+            // console.log("axios story delete confirm finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 			removeCookie('accessToken');//
@@ -116,7 +116,7 @@ const StoryUi = (props) => {
 	}
 
 	const axios_story_like_update = () => {
-		console.log("axios_story_like_update()");
+		// console.log("axios_story_like_update()");
 
 		let requestData = {
 			s_no: props.s_no,
@@ -134,8 +134,8 @@ const StoryUi = (props) => {
             },
 		})
 		.then(response => {	
-			console.log("axios story like update success!!");
-			console.log("response: ",response.data);
+			// console.log("axios story like update success!!");
+			// console.log("response: ",response.data);
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data > 0){
@@ -150,7 +150,7 @@ const StoryUi = (props) => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios story like update finally!!");
+            // console.log("axios story like update finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 			removeCookie('accessToken');//

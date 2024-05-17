@@ -23,11 +23,11 @@ const SearchMember = () => {
 
         let session = session_check();
         if(session !== null){
-            console.log('[SearchMember] session_check enter!!');
+            // console.log('[SearchMember] session_check enter!!');
             $('#search_member_wrap input[name="search_member"]').focus();
             setSearchId('');            
         }else{
-            console.log('[SearchMember] session_check expired!!');
+            // console.log('[SearchMember] session_check expired!!');
             sessionStorage.removeItem('sessionID');
             dispatch({
                 type:'session_out',
@@ -37,7 +37,7 @@ const SearchMember = () => {
     },[]);
 
     const searchBtnClickHandler = () => {
-        console.log("searchBtnClickHandler()");
+        // console.log("searchBtnClickHandler()");
         if(searchId !== ''){
             $('#search_member_wrap div.search_result_wrap').show();
             axios_get_search_member();
@@ -57,7 +57,7 @@ const SearchMember = () => {
     };
 
     const searchMemberFollowBtnClickHandler = (e) => {
-        console.log("searchMemberFollowBtnClickHandler()");
+        // console.log("searchMemberFollowBtnClickHandler()");
         let memberinfo = e.target;
         dispatch({
             type:'follow_btn_click',
@@ -69,7 +69,7 @@ const SearchMember = () => {
 
     //비동기 통신
     const axios_get_search_member = () => {
-        console.log('axios_get_search_member()');
+        // console.log('axios_get_search_member()');
         
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_search_member`, 
@@ -82,7 +82,7 @@ const SearchMember = () => {
             },
         })
         .then(response => {
-            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
+            // console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
             
             if(response.data === -1){
@@ -107,7 +107,7 @@ const SearchMember = () => {
             
         })
         .finally(() => {
-            console.log('AXIOS GET SEARCH MEMBER COMMUNICATION COMPLETE');
+            // console.log('AXIOS GET SEARCH MEMBER COMMUNICATION COMPLETE');
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
         });

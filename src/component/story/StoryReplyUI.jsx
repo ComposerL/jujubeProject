@@ -27,9 +27,9 @@ const StoryReplyUI = () => {
   	},[s_no,replyFlag,modal]);
 
 	const axios_get_story_reply_list = (s_no) => {
-		console.log("axios_get_story_reply_list()");
-		console.log("get story reply S_NO: ",s_no);
-		console.log("get story reply sessionID: ",sessionStorage.getItem('sessionID'));
+		// console.log("axios_get_story_reply_list()");
+		// console.log("get story reply S_NO: ",s_no);
+		// console.log("get story reply sessionID: ",sessionStorage.getItem('sessionID'));
 		axios({
 			url: `${process.env.REACT_APP_HOST}/story/reply/get_replys`,
 			method: 'get',
@@ -41,7 +41,7 @@ const StoryReplyUI = () => {
             }
 		})
 		.then(response => {	
-			console.log("axios get story reply list success!!");
+			// console.log("axios get story reply list success!!");
             setResplys(response.data);	
 		})
 		.catch(err => {
@@ -49,7 +49,7 @@ const StoryReplyUI = () => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios get story reply list finally!!");
+            // console.log("axios get story reply list finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 			removeCookie('accessToken');
@@ -58,7 +58,7 @@ const StoryReplyUI = () => {
 	}
 
 	const axios_reply_write_confirm = (s_no,r_txt) => {
-		console.log("axios_reply_write_confirm()");
+		// console.log("axios_reply_write_confirm()");
 
 		let requestData = {
 			"m_id": loginedMember.M_ID,
@@ -76,8 +76,8 @@ const StoryReplyUI = () => {
             }
 		})
 		.then(response => {	
-			console.log("axios reply write confirm success!!");
-			console.log("response: ",response.data);
+			// console.log("axios reply write confirm success!!");
+			// console.log("response: ",response.data);
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data === 0){
@@ -93,7 +93,7 @@ const StoryReplyUI = () => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios reply write confirm finally!!");
+            // console.log("axios reply write confirm finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 			removeCookie('accessToken');//

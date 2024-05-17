@@ -19,7 +19,7 @@ const initial_state = {
 }
 
 const reducer = (currentState = initial_state , action) => {
-    console.log("App reducer()");
+    // console.log("App reducer()");
 
     switch(action.type){
         //follow 관련
@@ -54,7 +54,6 @@ const reducer = (currentState = initial_state , action) => {
             };
 
         case 'session_enter': //서버 세션토큰 유지
-            console.log("session_enter loginedMember: ", action.loginedMember);
             return {...currentState, 
                 sessionID: sessionStorage.getItem('sessionID'), //session 토큰 체크
                 loginedMember: action.loginedMember, //loginedMember 로그인한 멤버 ID

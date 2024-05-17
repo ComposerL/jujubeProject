@@ -26,12 +26,12 @@ const Home = () => {
         console.log("Home useEffect()");       
 
         let session = session_check();
-        console.log("session: ",session);
+        // console.log("session: ",session);
         if(session !== null){
-            console.log('[home] session_check enter!!');
+            // console.log('[home] session_check enter!!');
             axios_get_member();
         }else{
-            console.log('[home] session_check expired!!');
+            // console.log('[home] session_check expired!!');
             sessionStorage.removeItem('sessionID');
             sessionStorage.removeItem('member_info');
             dispatch({
@@ -59,15 +59,15 @@ const Home = () => {
 
     //비동기 통신
     const axios_get_member = () => {
-        console.log("axios_get_member()");
+        // console.log("axios_get_member()");
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
             headers: {
                 'Authorization': sessionStorage.getItem('sessionID'),
             }
         })
         .then(respones => {
-            console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(respones.data);
+            // console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
+            // console.log(respones.data);
             if(respones.data === -1){
                 console.log("Home server session out!!");
                 sessionStorage.removeItem('sessionID');
@@ -83,7 +83,7 @@ const Home = () => {
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     alert("로그인한 멤머 정보가 없습니다. 다시 시도해주세요.")
                 }else{
-                    console.log("member_id: " + respones.data.member.M_ID);
+                    // console.log("member_id: " + respones.data.member.M_ID);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
 
@@ -102,15 +102,15 @@ const Home = () => {
             
         })
         .finally(() => {
-            console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
+            // console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
         });
     }
     
     //axios get all storys
     const axios_get_all_storys = (m_id) => {
-        console.log("axios_get_all_storys()");
-        console.log("sessionID: ",sessionStorage.getItem('sessionID'));
-        console.log("cookie: ",getCookie('accessToken'));
+        // console.log("axios_get_all_storys()");
+        // console.log("sessionID: ",sessionStorage.getItem('sessionID'));
+        // console.log("cookie: ",getCookie('accessToken'));
         axios({
 			url: `${process.env.REACT_APP_HOST}/story/story/get_all_storys`,
 			method: 'get',
@@ -122,8 +122,8 @@ const Home = () => {
             }
 		})
 		.then(response => {	
-			console.log("axios get all storys success!!");
-			console.log("get all storys data: ",response.data);
+			// console.log("axios get all storys success!!");
+			// console.log("get all storys data: ",response.data);
             setAllStorys(response.data);
             
 		})
@@ -132,7 +132,7 @@ const Home = () => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios get all storys finally!!");
+            // console.log("axios get all storys finally!!");
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
             removeCookie('accessToken');//
@@ -141,7 +141,7 @@ const Home = () => {
 
     //hadler
     const replyModalCloseBtnClickHandler = () => {
-        console.log('replyModalCloseBtnClickHandler()');
+        // console.log('replyModalCloseBtnClickHandler()');
         dispatch({
             type:'reply_modal_close',
             modal: false,

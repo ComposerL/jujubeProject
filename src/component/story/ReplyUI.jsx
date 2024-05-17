@@ -19,13 +19,13 @@ const ReplyUI = (props) => {
     const loginedMember = useSelector(store => store.loginedMember);
 
     useEffect(() => {
-        console.log("ReplyUI useEffect()");
+        // console.log("ReplyUI useEffect()");
         setReReplyWriteView(!modal);
         setReResplys([]);
     },[props.reply,modal]);
 
     const axios_get_story_re_reply_list = (r_no) => {
-		console.log("axios_get_story_re_reply_list()");
+		// console.log("axios_get_story_re_reply_list()");
 
 		axios({
 			url: `${process.env.REACT_APP_HOST}/story/reply/get_re_replys`,
@@ -38,7 +38,7 @@ const ReplyUI = (props) => {
             }
 		})
 		.then(response => {	
-			console.log("axios get story re_reply list success!!");
+			// console.log("axios get story re_reply list success!!");
             if(response.data !== null){                
                 setReResplys(response.data);
             }else{
@@ -51,7 +51,7 @@ const ReplyUI = (props) => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios get story re_reply list finally!!");
+            // console.log("axios get story re_reply list finally!!");
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
             removeCookie('accessToken');//
@@ -60,7 +60,7 @@ const ReplyUI = (props) => {
 	}
 
     const axios_re_reply_write_confirm = () => {
-		console.log("axios_re_reply_write_confirm()");
+		// console.log("axios_re_reply_write_confirm()");
 
 		let requestData = {
             's_no' : props.s_no,
@@ -79,7 +79,7 @@ const ReplyUI = (props) => {
             }
 		})
 		.then(response => {	
-			console.log("axios re_reply write confirm success!!");
+			// console.log("axios re_reply write confirm success!!");
 			console.log("response: ",response.data);
 			if(response.data === null){
 				console.log("database error!!");
@@ -102,7 +102,7 @@ const ReplyUI = (props) => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios re_reply write confirm finally!!");
+            // console.log("axios re_reply write confirm finally!!");
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
             removeCookie('accessToken');//
@@ -112,7 +112,7 @@ const ReplyUI = (props) => {
 	}
 
     const axios_reply_delete_confirm = () => {
-		console.log("axios_reply_delete_confirm()");
+		// console.log("axios_reply_delete_confirm()");
 
 		let requestData = {
             'r_no' : props.reply.R_NO,
@@ -129,8 +129,8 @@ const ReplyUI = (props) => {
             }
 		})
 		.then(response => {	
-			console.log("axios reply delete confirm success!!");
-			console.log("response: ",response.data);
+			// console.log("axios reply delete confirm success!!");
+			// console.log("response: ",response.data);
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data > 0){
@@ -151,7 +151,7 @@ const ReplyUI = (props) => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            console.log("axios reply delete confirm finally!!");
+            // console.log("axios reply delete confirm finally!!");
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 		});
@@ -159,13 +159,13 @@ const ReplyUI = (props) => {
 	}
 
     const reReplyListBtnClickHandler = (e) => {
-		console.log("reReplyListBtnClickHandler()");
+		// console.log("reReplyListBtnClickHandler()");
 		let r_no = e.target.dataset.r_no;
 		axios_get_story_re_reply_list(r_no);
 	}
 
     const reReplyWriteViewBtnClickHandler = (e) => {
-        console.log("reReplyWriteViewBtnClickHandler()");
+        // console.log("reReplyWriteViewBtnClickHandler()");
         // let target = e.target;
         setReReplyWriteView(true);
         setRTxt('');
@@ -173,21 +173,21 @@ const ReplyUI = (props) => {
     }
 
     const reReplyWriteViewCloseBtnClickHandler = () => {
-        console.log("reReplyWriteViewCloseBtnClickHandler()");
+        // console.log("reReplyWriteViewCloseBtnClickHandler()");
         setReReplyWriteView(false);
         setRTxt('');
     }
 
     const reReplyWriteSendBtnClickHandler = () => {
-        console.log("reReplyWriteSendBtnClickHandler");    
+        // console.log("reReplyWriteSendBtnClickHandler");    
         axios_re_reply_write_confirm();
         setRTxt('');    
     }
 
     const replyDeleteBtnClickHandler = (e) => {
-        console.log("replyDeleteBtnClickHandler()");
+        // console.log("replyDeleteBtnClickHandler()");
         if(window.confirm("댓글을 삭제하시겠습니까?")){
-            console.log(`${props.s_no}번 게시물 ${props.reply.R_NO}번 댓글 삭제 요청`);
+            // console.log(`${props.s_no}번 게시물 ${props.reply.R_NO}번 댓글 삭제 요청`);
             axios_reply_delete_confirm();
         }
     }
