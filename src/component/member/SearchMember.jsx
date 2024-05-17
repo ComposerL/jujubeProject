@@ -19,9 +19,6 @@ const SearchMember = () => {
     // const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
     const loginedMemberID = sessionStorage.getItem('sessionID').M_ID;
 
-
-
-
     useEffect(() => {
         console.log("searchMember useEffect()");
 
@@ -38,7 +35,7 @@ const SearchMember = () => {
             });
         }
 
-    },[memberList]);
+    },[]);
 
     const searchBtnClickHandler = () => {
         // console.log("searchBtnClickHandler()");

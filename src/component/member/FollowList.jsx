@@ -27,7 +27,7 @@ const FollowList = () => {
             });
         }
 
-    },[followMembers]);
+    },[]);
 
     const axios_get_friend_list = () => {
         console.log("[FollowList] axios_get_friend_list()");
@@ -40,7 +40,7 @@ const FollowList = () => {
             }
 		})
 		.then(response => {	
-			// console.log("axios get friend list success!!");
+			console.log("axios get friend list success!!");
 			// console.log("response: ",response.data);
             if(response.data !== null){
                 setFollowMembers(response.data.friend_list);
@@ -53,7 +53,7 @@ const FollowList = () => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            // console.log("axios get friend list finally!!");
+            console.log("axios get friend list finally!!");
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
             removeCookie('accessToken');//
