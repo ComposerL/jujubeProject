@@ -42,7 +42,7 @@ const MyProfile = (props) => {
         // dispatch({ type: 'story_open_btn', storymodal: false });
         // dispatch({ type: 'reply_modal_close', modal: false });
 
-    },[member_info, storys, ]);
+    },[member_info, storys, props.setStoryModal]);
     
     // props.setStoryFlag
     //버튼 분기
