@@ -45,6 +45,7 @@ const MyProfile = (props) => {
 
     },[member_info, storys, storyModal]);
     
+    // member_info, storys, storyModal
     // props.setStoryFlag
     //버튼 분기
     const FriendButton = () => {
@@ -95,7 +96,7 @@ const MyProfile = (props) => {
     
     const replyModalCloseBtnClickHandler = () => {
         console.log('replyModalCloseBtnClickHandler()');
-        
+
         dispatch({
             type:'reply_modal_close',
             modal: false,
