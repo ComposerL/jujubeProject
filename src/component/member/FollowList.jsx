@@ -27,10 +27,10 @@ const FollowList = () => {
             });
         }
 
-    },[]);
+    },[followMembers]);
 
     const axios_get_friend_list = () => {
-        // console.log("[FollowList] axios_get_friend_list()");
+        console.log("[FollowList] axios_get_friend_list()");
 
 		axios({
 			url: `${process.env.REACT_APP_HOST}/member/get_friend_list`,
