@@ -123,6 +123,7 @@ const SignIn = () => {
             console.log('AXIOS MEMBER_LOGIN COMMUNICATION SUCCESS');
             console.log('data ---> ', response.data);
             
+            // eslint-disable-next-line default-case
             switch(response.data.result) {
                 case null:
                     alert('서버 통신에 문제가 있습니다. 다시 시도해주세요.');
@@ -136,13 +137,14 @@ const SignIn = () => {
                 case -4:
                     alert('비밀번호가 틀렸습니다.');
                     break;
-                default: 
+                case "success": 
                     alert('로그인 성공');
                     sessionStorage.setItem('sessionID', getCookie('accessToken'));
                     
                     dispatch({
                         type: 'sign_in_success',
                     });
+                    break;
             }
         
         })
