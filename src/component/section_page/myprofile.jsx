@@ -41,7 +41,6 @@ const MyProfile = (props) => {
             setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
 
         setStorys(story);
-        setStoryModal(storyFlag);
 
     },[member_info, storys, storyModal]);
     
@@ -300,7 +299,7 @@ const MyProfile = (props) => {
                     </div>
                     <div id='story_wrap' >    
                         <ul>
-                            
+                        
                             {
                                 mystory.map((story, idx) => (
                                     <StoryUi

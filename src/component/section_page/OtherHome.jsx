@@ -179,6 +179,7 @@ const OtherHome = () => {
                 if (response.data === -1) {
                     console.log("Home session out!!");
                     sessionStorage.removeItem('sessionID');
+                    sessionStorage.setItem('sessionID',getCookie('accessToken'));//
                     dispatch({
                         type: 'session_out',
                     });
