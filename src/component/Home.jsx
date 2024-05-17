@@ -59,7 +59,7 @@ const Home = () => {
 
     //비동기 통신
     const axios_get_member = () => {
-        // console.log("axios_get_member()");
+        console.log("axios_get_member()");
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
             headers: {
                 'Authorization': sessionStorage.getItem('sessionID'),

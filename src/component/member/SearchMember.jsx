@@ -16,7 +16,8 @@ const SearchMember = () => {
     const navigate = useNavigate();
     const [searchId, setSearchId] = useState('');
     const [memberList, setMemberList] = useState([]);
-    const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
+    // const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
+    const loginedMemberID = sessionStorage.getItem('sessionID').M_ID;
 
 
 
@@ -72,7 +73,7 @@ const SearchMember = () => {
 
     //비동기 통신
     const axios_get_search_member = () => {
-        // console.log('axios_get_search_member()');
+        console.log('axios_get_search_member()');
         
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_search_member`, 
@@ -86,7 +87,7 @@ const SearchMember = () => {
         })
         .then(response => {
             // console.log('AXIOS GET SEARCH MEMBER COMMUNICATION SUCCESS');
-            console.log('data ---> ', response.data);
+            // console.log('data ---> ', response.data);
             
             if(response.data === -1){
                 alert('session out!!');
@@ -137,7 +138,10 @@ const SearchMember = () => {
             </div>
             <div className='search_result_wrap'>
                 <ul className='search_result'>
-                    {   
+                    {   memberList.length === 0
+                        ?
+                        "검색 정보가 없습니다."
+                        :
                         memberList.map((member, index) => {
                             return (
                                 <li key={index}>
