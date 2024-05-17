@@ -171,7 +171,7 @@ const ModifyStory = () => {
         .then(response => {
             console.log('AXIOS GET STORY COMMUNICATION SUCCESS', response.data);
 
-            setSIsPublic(response.data[0].S_IS_PUBLIC);
+            setSIsPublic(String(response.data[0].S_IS_PUBLIC));
             setSTxt(response.data[0].S_TXT);
 
             let pictures = [];
@@ -258,19 +258,19 @@ const ModifyStory = () => {
                 </div>
                 <div className="select_public">
                     <label>
-                        <input type="radio" name="s_is_public" value="0" checked={sIsPublic === 0} onChange={(e) =>setSIsPublic(e.target.value)}/> 
+                        <input type="radio" name="s_is_public" value="0" checked={sIsPublic === "0"} onChange={(e) =>setSIsPublic(e.target.value)}/> 
                         <span> 전체공개 </span>
                     </label>
                 </div>
                 <div className="select_friend_public">
                     <label>
-                        <input type="radio" name="s_is_public" value="1" checked={sIsPublic === 1} onChange={(e) =>setSIsPublic(e.target.value)}/> 
+                        <input type="radio" name="s_is_public" value="1" checked={sIsPublic === "1"} onChange={(e) =>setSIsPublic(e.target.value)}/> 
                         <span> 일촌공개 </span>
                     </label>
                 </div>
                 <div className="select_private">
                     <label>
-                        <input type="radio" name="s_is_public" value="-1" checked={sIsPublic === -1} onChange={(e) =>setSIsPublic(e.target.value)}/> 
+                        <input type="radio" name="s_is_public" value="-1" checked={sIsPublic === "-1"} onChange={(e) =>setSIsPublic(e.target.value)}/> 
                         <span> 비공개 </span>
                     </label>
                 </div>
