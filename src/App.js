@@ -16,7 +16,6 @@ const initial_state = {
     button: [],
     story: "",
     friend: 0,
-    storymodal: false,
 }
 
 const reducer = (currentState = initial_state , action) => {

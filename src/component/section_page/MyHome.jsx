@@ -16,6 +16,7 @@ const MyHome = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const story = useSelector(store => store.story);
+    const storymodal = useSelector(store => store.storymodal);
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
@@ -30,7 +31,7 @@ const MyHome = () => {
             });
         }
         
-    },[story]);
+    },[storymodal]);
 
     const axios_get_member = () => {
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {

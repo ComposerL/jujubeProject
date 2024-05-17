@@ -35,7 +35,7 @@ const MyProfile = (props) => {
 
             setStorys(story);
             
-    },[member_info, storys, storyModal, storyFlag]);
+    },[member_info, storys]);
     
     // member_info, storys, storyModal, storyFlag
     // props.setStoryFlag
