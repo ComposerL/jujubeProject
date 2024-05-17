@@ -35,7 +35,7 @@ const SearchMember = () => {
             });
         }
 
-    },[memberList]);
+    },[]);
 
     const searchBtnClickHandler = () => {
         // console.log("searchBtnClickHandler()");
