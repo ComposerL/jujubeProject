@@ -74,7 +74,11 @@ const FollowList = () => {
                         </div>
                     </Link>
                     <ul id="Follow_list">
-                        {
+                        {   
+                            followMembers.length === 0
+                            ?
+                            <div style={{"textAlign":"center"}}>"당신은 일촌이 없습니다. ㅉㅉ.."</div>
+                            :
                             followMembers.map((followMember,idx) => {
                                 return(
                                     <li key={idx}>
