@@ -102,7 +102,11 @@
 #my_profile_wrap #story_wrap li {
 margin-bottom: 40px;    
 margin-top: 0;
-
+height: 620px;
+overflow-y: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }   
 }
 
 #my_profile_wrap #open_story_wrap {

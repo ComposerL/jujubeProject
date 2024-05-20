@@ -41,6 +41,18 @@ const MyProfile = (props) => {
 
         setStorys(story);
     }, [member_info, story]);
+    useEffect(() => {
+
+        dispatch({
+            type: 'story_open_btn',
+            storymodal: false,
+        });
+        dispatch({
+            type: 'reply_modal_close',
+            modal: false,
+        });
+
+    }, []);
 
     const FriendButton = () => {
         return (
@@ -66,11 +78,13 @@ const MyProfile = (props) => {
     const openStoryClickHandler = (idx) => {
         // console.log('openStoryClickHandler()', idx);
 
-        const storyWrap = document.getElementById('li');
-        const scrollTopValue = idx * 655; // 인덱스에 따라 620px씩 이동
+        const storyWrap = document.getElementById('story_wrap');
+        const scrollTopValue = idx * 660; // 인덱스에 따라 620px씩 이동
         if (storyWrap) {
             storyWrap.scrollTop = scrollTopValue;
         }
+
+         
 
         dispatch({
             type: 'story_open_btn',
