@@ -29,7 +29,52 @@ const FollowRequestListSection2 = (props) => {
         axios_friend_request_confirm();
     }
 
+    const followRequestRejectBtnClickHandler = () => {
+        console.log("followRequestRejectBtnClickHandler()");        
+        axios_friend_request_reject();
+    }
+
     //비동기통신
+
+    const axios_friend_request_reject = () => {
+        console.log("axios_friend_request_reject()");
+
+        let requestData = {
+            'f_id': friendRes.FR_REQ_ID,
+        }
+
+        axios({
+			url: `${process.env.REACT_APP_HOST}/member/friend_request_reject`,
+			method: 'delete',
+            data: requestData,
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
+		})
+		.then(response => {	
+			console.log("axios friend request reject success!!");
+            
+            if(response.data !== null){
+                console.log("response: ",response.data);               
+
+            }else{
+                console.log("axios friend request reject response data is null!");
+            }
+		})
+		.catch(err => {
+            console.log("axios friend request reject error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios friend request reject finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+            removeCookie('accessToken');//
+            props.setFollowRequestListFlag(pv => !pv);
+		});
+
+    }
+
     const axios_friend_request_confirm = () => {
         console.log("axios_friend_request_confirm()");
 
@@ -87,7 +132,7 @@ const FollowRequestListSection2 = (props) => {
                     <div className="follow_btn" onClick={(e) => followRequestAcceptBtnClickHandler(e)}>
                         수락
                     </div>                                                 
-                    <div className="un_follow_btn">
+                    <div className="un_follow_btn" onClick={(e) => followRequestRejectBtnClickHandler(e)}>
                         거절
                     </div>
                 </div>

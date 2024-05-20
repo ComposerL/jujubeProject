@@ -68,10 +68,49 @@ const FollowRequestList = () => {
 
     }
 
+    const axios_friend_request_cancel = (friendReq) => {
+        console.log("[FollowRequestList] axios_friend_request_cancel()");
+
+        let requestData = {
+            "f_id":friendReq.FR_RES_ID
+        }
+
+        axios({
+			url: `${process.env.REACT_APP_HOST}/member/friend_request_cancel`,
+			method: 'post',
+            data:requestData,
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
+		})
+		.then(response => {	
+			console.log("axios friend request cancel success!!");
+            setFollowRequestListFlag(pv => !pv);
+            if(response.data !== null){
+                console.log("response: ",response.data);
+            }else{
+                console.log("axios get friend request list response data is null!");
+            }
+		})
+		.catch(err => {
+            console.log("axios friend request cancel error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios friend request cancel finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+            removeCookie('accessToken');//
+		});
+
+    }
+
     //handler
     const followRequestCancelBtnClickHandler = (e,friendReq) => {
         console.log('followRequestCancelBtnClickHandler()');
-        console.log("friendReq: ===>",friendReq);
+        if(window.confirm("일촌 신청을 취소하시겠습니까?")){
+            axios_friend_request_cancel(friendReq);
+        }
     }
 
     return (
