@@ -1,5 +1,5 @@
 #my_profile_wrap {
-    /* height: 620px; */
+    /* position: relative; */
     height: 620px;
     overflow-y: scroll;
     &::-webkit-scrollbar{
@@ -90,13 +90,18 @@
 } 
 
 #my_profile_wrap #story_wrap {
+    height: 620px;
     margin: auto;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        display: none;
+    }  
     
 }
 
-#my_profile_wrap #story_wrap ul {
-    /* margin-top: 10px; */
-    
+#my_profile_wrap #story_wrap li {
+margin-bottom: 40px;    
+margin-top: 0;
 
 }
 
@@ -110,9 +115,9 @@
     box-sizing: border-box;
     z-index: 1;
     overflow-y: scroll;
-    /* &::-webkit-scrollbar{
+    &::-webkit-scrollbar{
         display: none;
-    }    */
+    }   
     
 }
 

@@ -28,7 +28,7 @@ const StoryUi = (props) => {
         console.log("StoryUi useEffect()");
 		// console.log("pictures: ",props.pictures);
         setPictures(props.pictures);
-    },[modal, props.pictures, props.onClick]);
+    },[modal, props.pictures]);
 
 
 

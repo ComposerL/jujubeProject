@@ -33,7 +33,7 @@ const OtherHome = () => {
             
         }else{
 
-            console.log('[home] session_check expired!!');
+            // console.log('[home] session_check expired!!');
             sessionStorage.removeItem('sessionID');
             dispatch({
                 type:'session_out',
@@ -44,7 +44,7 @@ const OtherHome = () => {
     
     
     const axios_get_other_profile = () => {
-        console.log('axios_get_other_profile()');
+        // console.log('axios_get_other_profile()');
         const member_info = JSON.parse(sessionStorage.getItem('member_info'));
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
@@ -57,8 +57,8 @@ const OtherHome = () => {
             },
         })
         .then(response => {
-            console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
-            console.log(response.data);
+            // console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
+            // console.log(response.data);
             if (response.data === -1) {
                 console.log("Home session out!!");
                 sessionStorage.removeItem('sessionID');
@@ -98,7 +98,6 @@ const OtherHome = () => {
                             story: response.data,                      
                         });
                     }
-                    console.log('storyMemberInfo =======>: ', response.data.memberInfors);
 
                     axios_list_friend(member_info.M_ID);
                     
@@ -110,13 +109,13 @@ const OtherHome = () => {
             console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
         })
         .finally(() => {
-            console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+            // console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
         
         });
     }
 
     const axios_list_friend = () => {
-        console.log('axios_get_friend()');
+        // console.log('axios_get_friend()');
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_friend_count`,
             method: 'get',
@@ -128,8 +127,8 @@ const OtherHome = () => {
             }
         })
         .then(response => {
-                console.log('AXIOS GET MY FRIEND COMMUNICATION SUCCESS');
-                console.log(response.data);
+                // console.log('AXIOS GET MY FRIEND COMMUNICATION SUCCESS');
+                // console.log(response.data);
                 if (response.data === -1) {
                     console.log("Home session out!!");
                     sessionStorage.removeItem('sessionID');
@@ -161,13 +160,13 @@ const OtherHome = () => {
                 console.log('AXIOS GET MY FRIEND COMMUNICATION ERROR', error);
             })
             .finally(() => {
-                console.log('AXIOS GET MY FRIEND COMMUNICATION COMPLETE');
+                // console.log('AXIOS GET MY FRIEND COMMUNICATION COMPLETE');
                 
             });
         }
 
     const axios_get_friend = () => {
-        console.log('axios_get_friend()');
+        // console.log('axios_get_friend()');
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_friend_status`,
@@ -180,8 +179,8 @@ const OtherHome = () => {
             }, 
         })
         .then(response => {
-                console.log('AXIOS GET MY friend COMMUNICATION SUCCESS');
-                console.log(response.data);
+                // console.log('AXIOS GET MY friend COMMUNICATION SUCCESS');
+                // console.log(response.data);
                 if (response.data === -1) {
                     console.log("Home session out!!");
                     sessionStorage.removeItem('sessionID');
@@ -208,7 +207,7 @@ const OtherHome = () => {
                 console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
             })
             .finally(() => {
-                console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+                // console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
                 sessionStorage.removeItem('sessionID');//
                 sessionStorage.setItem('sessionID',getCookie('accessToken'));//
                 removeCookie('accessToken');//

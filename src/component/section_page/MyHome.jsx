@@ -21,7 +21,7 @@ const MyHome = () => {
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
-        console.log('myprofile useEffct11');
+        // console.log('myprofile useEffct11');
         
         let session  = session_check();
         if(session !== null){
@@ -43,8 +43,8 @@ const MyHome = () => {
             }
         })
         .then(response => {
-            console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
-            console.log(response.data);
+            // console.log('AXIOS GET MEMBER COMMUNICATION SUCCESS');
+            // console.log(response.data);
             if(response.data === -1){
                 console.log("Home server session out!!");
                 sessionStorage.removeItem('sessionID');
@@ -79,12 +79,12 @@ const MyHome = () => {
             
         })
         .finally(() => {
-            console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
+            // console.log('AXIOS GET MEMBER COMMUNICATION COMPLETE');
         });
     }
     
     const axios_get_profile = (m_id) => {
-        console.log('axios_get_profile()');
+        // console.log('axios_get_profile()');
         axios({
             url: `${process.env.REACT_APP_HOST}/story/story/get_my_storys`,
             method: 'get',
@@ -96,8 +96,8 @@ const MyHome = () => {
             }
         })
         .then(response => {
-            console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
-            console.log(response.data);
+            // console.log('AXIOS GET MY STORY COMMUNICATION SUCCESS');
+            // console.log(response.data);
             if (response.data === -1) {
                 console.log("Home session out!!");
                 sessionStorage.removeItem('sessionID');
@@ -146,13 +146,13 @@ const MyHome = () => {
             console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
         })
         .finally(() => {
-            console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
+            // console.log('AXIOS GET MY STORY COMMUNICATION COMPLETE');
             
         });
     }
 
     const axios_list_friend = (m_id) => {
-        console.log('axios_get_friend()');
+        // console.log('axios_get_friend()');
         axios({
             url: `${process.env.REACT_APP_HOST}/member/get_friend_count`,
             method: 'get',
@@ -164,8 +164,8 @@ const MyHome = () => {
             }
         })
         .then(response => {
-                console.log('AXIOS GET MY FRIEND COMMUNICATION SUCCESS');
-                console.log(response.data);
+                // console.log('AXIOS GET MY FRIEND COMMUNICATION SUCCESS');
+                // console.log(response.data);
                 if (response.data === -1) {
                     console.log("Home session out!!");
                     sessionStorage.removeItem('sessionID');
@@ -197,13 +197,13 @@ const MyHome = () => {
                 console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
             })
             .finally(() => {
-                console.log('AXIOS GET MY friend COMMUNICATION COMPLETE');
+                // console.log('AXIOS GET MY friend COMMUNICATION COMPLETE');
                 
             });
         }
 
         const axios_get_friend = (m_id) => {
-            console.log('axios_get_friend()');
+            // console.log('axios_get_friend()');
             axios({
                 url: `${process.env.REACT_APP_HOST}/member/get_friend_status`,
                 method: 'post',
@@ -215,8 +215,8 @@ const MyHome = () => {
                 }, 
             })
             .then(response => {
-                    console.log('AXIOS GET MY friend COMMUNICATION SUCCESS');
-                    console.log(response.data);
+                    // console.log('AXIOS GET MY friend COMMUNICATION SUCCESS');
+                    // console.log(response.data);
                     if (response.data === -1) {
                         console.log("Home session out!!");
                         sessionStorage.removeItem('sessionID');
@@ -242,7 +242,7 @@ const MyHome = () => {
                     console.log('AXIOS GET MY STORY COMMUNICATION ERROR', error);
                 })
                 .finally(() => {
-                    console.log('AXIOS GET MY friend_status COMMUNICATION COMPLETE');
+                    // console.log('AXIOS GET MY friend_status COMMUNICATION COMPLETE');
                     sessionStorage.removeItem('sessionID');//
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));//
                     removeCookie('accessToken');//
