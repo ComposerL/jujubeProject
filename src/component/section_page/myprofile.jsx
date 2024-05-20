@@ -18,43 +18,28 @@ const MyProfile = (props) => {
     const modal = useSelector(store => store.modal);
     const storymodal = useSelector(store => store.storymodal);
     const storyMemberInfo = useSelector(store => store.storyMemberInfo);
-    const storylike = useSelector(store => store.storylike);
     
     const [storyFlag, setStoryFlag] = useState(false);
     const [mId, setMId] = useState('');
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
-    const [storys, setStorys] = useState([]);
-
-    // const [mystory, setMystory] = useState([]); // 내 스토리 보관
+    const [storys,setStorys] = useState([]);
+    const [mystory, setMystory] = useState([]);
     const [storyModal, setStoryModal] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-
+    
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
     useEffect(() => {
         console.log('myprofile useEffct22');
         
-        setMId(member_info.M_ID);
-        setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
-        setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
-        
-       
-        setStorys([story]);
-        
-        
-    },[member_info, storys, props.setStoryFlag]);
+            setMId(member_info.M_ID);
+            setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
+            setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
+
+            setStorys(story);
+            
+    },[member_info, storys, storyFlag, modal]);
     
-    useEffect(() => {
-        dispatch({
-            type:'story_open_btn',
-            storymodal: false,
-        });
-    }, []);
-    
-    console.log('story: ', story);
-    console.log('storys: ', storys);
     // member_info, storys, storyModal, storyFlag
     // props.setStoryFlag
     //버튼 분기
@@ -82,12 +67,12 @@ const MyProfile = (props) => {
 
     }
 
+    
 
     const openStoryClickHandler = (story, e) => {
         console.log('openStoryClickHandler()');
         
-        // setMystory([story]);
-        setStorys([story]);
+        setMystory([story]);
         dispatch({
             type:'story_open_btn',
             storymodal: true,
@@ -112,7 +97,6 @@ const MyProfile = (props) => {
             type:'reply_modal_close',
             modal: false,
         });
-
     }
 
     const deleteFriendClickHandler = () => {
@@ -240,7 +224,9 @@ const MyProfile = (props) => {
                 console.log('AXIOS GET FRIEND DELETE COMMUNICATION COMPLETE');
             });
         }
-    
+
+        
+ 
     return (
         <div id='my_profile_wrap'>
 
@@ -303,6 +289,7 @@ const MyProfile = (props) => {
                             }  
                         </div> 
                     }
+
             </div>
             <div>
                 <div id={storymodal ? "open_story_wrap" : "hide_story_wrap"}>
@@ -313,20 +300,20 @@ const MyProfile = (props) => {
                         <ul>
                         
                             {
-                                storys.map((storys, idx) => (
+                                mystory.map((story, idx) => (
                                     <StoryUi
                                         key={idx}
-                                        s_no={storys.S_NO}
-                                        m_id={storys.memberInfors[0].M_ID}
-                                        m_name={storys.memberInfors[0].M_NAME}
-                                        m_profile_thumbnail={storys.memberInfors[0].M_PROFILE_THUMBNAIL}
-                                        pictures={storys.pictures}
-                                        s_txt={storys.S_TXT}
-                                        storyLikeCnt={storys.storyLikeCnt}
-                                        storyIsLike={storys.storyIsLike}
-                                        replysCnt={storys.replysCnt}
-                                        s_mod_date={storys.S_MOD_DATE}
-                                        memberInfors={storys.memberInfors[0]}
+                                        s_no={story.S_NO}
+                                        m_id={story.memberInfors[0].M_ID}
+                                        m_name={story.memberInfors[0].M_NAME}
+                                        m_profile_thumbnail={story.memberInfors[0].M_PROFILE_THUMBNAIL}
+                                        pictures={story.pictures}
+                                        s_txt={story.S_TXT}
+                                        storyLikeCnt={story.storyLikeCnt}
+                                        storyIsLike={story.storyIsLike}
+                                        replysCnt={story.replysCnt}
+                                        s_mod_date={story.S_MOD_DATE}
+                                        memberInfors={story.memberInfors[0]}
                                         storyIdx = {idx}
                                         setStoryFlag = {setStoryFlag}
                                     />
@@ -337,9 +324,6 @@ const MyProfile = (props) => {
                     </div>
                 </div> 
             </div>
-            {
-                modal === true
-            ?
                 <div id={modal ? "reply_show_modal" : "reply_hide_modal"} >
                     <div className='reply_modal_close_btn' onClick={replyModalCloseBtnClickHandler}>
                         <div></div>
@@ -347,9 +331,6 @@ const MyProfile = (props) => {
                     </div>
                     <StoryReplyUI/>
                 </div>
-                :
-                null
-            }
         </div>
     );
 };

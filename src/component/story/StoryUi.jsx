@@ -21,7 +21,6 @@ const StoryUi = (props) => {
 	
 	const modal = useSelector(store => store.modal);
 	const loginedMember = useSelector(store => store.loginedMember);
-    const storylike = useSelector(store => store.storylike);
 	
 
 	useEffect(() => {

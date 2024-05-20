@@ -21,6 +21,7 @@ const MyHome = () => {
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
+        console.log('myprofile useEffct11');
         
         let session  = session_check();
         if(session !== null){
@@ -32,9 +33,8 @@ const MyHome = () => {
             });
         }
 
-        
-        
-    },[storymodal, modal, storylike]);
+    
+},[storymodal , modal, storylike, storyFlag]);
 
 
     const axios_get_member = () => {
