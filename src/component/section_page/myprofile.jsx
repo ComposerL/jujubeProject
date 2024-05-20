@@ -41,7 +41,8 @@ const MyProfile = (props) => {
         setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
         
         setStorys(story);
-        
+        // setMystory(storys);
+  
     },[member_info, story, storys]);
     
     useEffect(() => {
@@ -90,6 +91,7 @@ const MyProfile = (props) => {
         console.log('openStoryClickHandler()sssssssssssssssssssssssssssssssssssss');
         
         setMystory([storys]);
+
         dispatch({
             type:'story_open_btn',
             storymodal: true,
@@ -289,7 +291,7 @@ const MyProfile = (props) => {
                             {
                                 storys.map((story, idx) => {
                                     return (
-                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>                                   
+                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>                                     
                                             
                                             {
                                                 story.length === 1
