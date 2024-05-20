@@ -5,12 +5,15 @@ import { useDispatch } from 'react-redux';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { session_check } from '../../util/session_check';
 
+import FollowRequestListSection2 from './FollowRequestListSection2';
+
 const FollowRequestList = () => {
 
     const dispatch = useDispatch();
 
     const [friendRequestList, setFriendRequestList] = useState([]);
     const [friendResponseList, setFriendResponseList] = useState([]);
+    
 
     useEffect(() => {
         console.log("[FollowRequestList] useEffect()");
@@ -64,6 +67,8 @@ const FollowRequestList = () => {
 
     }
 
+    
+
     return (
         <>
             <div id='follow_request_list_wrap'>
@@ -81,17 +86,16 @@ const FollowRequestList = () => {
                                     friendRequestList.map((friendReq,idx) => {
                                         return (                                            
                                             <li key={idx}>
-                                                <div id="follow_request_list_section1_article_item">
+                                                <div className="follow_request_list_section1_article_item">
                                                     <div className="follow_request_list_section1_article_item_profile">
-                                                        <img src="" alt="" />
+                                                        <img src={`${process.env.REACT_APP_HOST}/${friendReq.FR_RES_ID}/${friendReq.M_PROFILE_THUMBNAIL}`} alt="" />
                                                     </div>
                                                     <div className='follow_request_list_section1_article_item_info'>
                                                         <p>{friendReq.FR_RES_ID}</p>
                                                         <p>{friendReq.FR_ILCHON_NAME}</p>
                                                     </div>                           
                                                 </div>
-                                                <div id="follow_request_list_section1_btn_area">
-                                                                                                   
+                                                <div className="follow_request_list_section1_btn_area">                                                                                                   
                                                     <div className="un_follow_btn">
                                                         취소
                                                     </div>
@@ -113,36 +117,10 @@ const FollowRequestList = () => {
                             {
                                 friendResponseList.map((friendRes,idx) => {
                                     return (
-                                        <>
-                                        <li key={idx}>
-                                            <div id="follow_request_list_section2_article_item">
-                                                <div className="follow_request_list_section2_article_item_profile">
-                                                    <img src="" alt="" />
-                                                </div>
-                                                <div className='follow_request_list_section2_article_item_info'>
-                                                    <p>{friendRes.FR_REQ_ID}</p>
-                                                    <p>{friendRes.FR_ILCHON_NAME}</p>
-                                                </div>
-                                            </div>
-                                            <div id="follow_request_list_section2_btn_area">
-                                                <div className="follow_btn">
-                                                    수락
-                                                </div>                                                 
-                                                <div className="un_follow_btn">
-                                                    거절
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <div id='follow_request_list_section2_accept_form'>
-                                            <p>
-                                                내 일촌명: 
-                                                <span>
-                                                    <input type="text" />
-                                                </span>
-                                                <button>전송</button>
-                                            </p>
-                                        </div>
-                                        </>
+                                        <FollowRequestListSection2
+                                            friendRes={friendRes}
+                                            key={idx}
+                                        />                                                     
                                     )
                                 })
                             }
