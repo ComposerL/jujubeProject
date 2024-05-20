@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import StoryReplyUI from '../story/StoryReplyUI';
 import StoryUi from '../story/StoryUi';
@@ -28,8 +28,6 @@ const MyProfile = (props) => {
 
     const [mystory, setMystory] = useState([]); // 내 스토리 보관
     const [storyModal, setStoryModal] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
 
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
@@ -39,29 +37,21 @@ const MyProfile = (props) => {
         setMId(member_info.M_ID);
         setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
         setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
-        
+    
         setStorys(story);
-        // setMystory(storys);
-  
+        // setMystory(storys); 
+        // openStoryClickHandler();
+
     },[member_info, story, storys]);
-    
-    useEffect(() => {
-        dispatch({
-            type:'story_open_btn',
-            storymodal: false,
-        });
-    }, []);
-    
-    if (story === undefined) {
-        return <div>Loading...</div>;
-    }
-    console.log('story: ', story);
-    console.log('storys: ', storys);
-    console.log('mystory: ', mystory);
+
+    // if (story === undefined) {
+    //     return <div>Loading...</div>;
+    // }
 
     // member_info, storys, storyModal, storyFlag
     // props.setStoryFlag
     //버튼 분기
+
     const FriendButton = () => {
         return (
             <div>
@@ -86,17 +76,26 @@ const MyProfile = (props) => {
 
     }
 
+    const openStoryClickHandler = (idx) => {
+        console.log('openStoryClickHandler()', idx);
 
-    const openStoryClickHandler = (storys, e) => {
-        console.log('openStoryClickHandler()sssssssssssssssssssssssssssssssssssss');
-        
-        setMystory([storys]);
+
+        const storyWrap = document.getElementById('#open_story_wrap');
+        const storyItem = storyWrap.querySelectorAll('#story_wrap')[idx];
+        if (storyItem) {
+            const storyItemOffsetTop = storyItem.offsetTop;
+            storyWrap.scrollTop = storyItemOffsetTop;
+        }
+
+        // window.scrollTo({
+        //     top: idx * 500,
+        //     behavior: 'smooth'
+        // });
 
         dispatch({
             type:'story_open_btn',
             storymodal: true,
         });
-        
     }
 
     const ModalCloseBtnClickHandler = () => {
@@ -291,7 +290,7 @@ const MyProfile = (props) => {
                             {
                                 storys.map((story, idx) => {
                                     return (
-                                        <div key={idx} onClick={() => openStoryClickHandler(story)}>                                     
+                                        <div key={idx} onClick={() => openStoryClickHandler(idx)}>                                     
                                             
                                             {
                                                 story.length === 1
@@ -315,9 +314,8 @@ const MyProfile = (props) => {
                     </div>
                     <div id='story_wrap' >    
                         <ul>
-                        
                             {
-                                mystory.map((storys, idx) => (
+                                storys.map((storys, idx) => (
                                     <StoryUi
                                         key={idx}
                                         s_no={storys.S_NO}

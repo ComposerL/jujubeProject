@@ -93,10 +93,7 @@ const reducer = (currentState = initial_state , action) => {
             return {...currentState, storymodal:action.storymodal};   
 
         case 'story_like_btn':
-            console.log('story_like_btn', currentState.storylike);
-
             return {...currentState, storylike:currentState.storylike === 0 ? 1 : 0,};   
-
         default:
             return currentState; 
     }

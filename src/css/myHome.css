@@ -1,4 +1,5 @@
 #my_profile_wrap {
+    /* height: 620px; */
     height: 620px;
     overflow-y: scroll;
     &::-webkit-scrollbar{
@@ -93,8 +94,10 @@
     
 }
 
-#my_profile_wrap #story_wrap li {
+#my_profile_wrap #story_wrap ul {
     /* margin-top: 10px; */
+    
+
 }
 
 #my_profile_wrap #open_story_wrap {
@@ -106,6 +109,10 @@
     /* transition: 0.5s; */
     box-sizing: border-box;
     z-index: 1;
+    overflow-y: scroll;
+    /* &::-webkit-scrollbar{
+        display: none;
+    }    */
     
 }
 
@@ -137,5 +144,6 @@ div.modal_close_btn div {
     top: 0; bottom: 0; left: 0; right: 0;
     margin: auto;
     background-color: #000  ;
+    
 }
 

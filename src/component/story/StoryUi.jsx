@@ -17,6 +17,7 @@ const StoryUi = (props) => {
 	
 	const dispatch = useDispatch();
 	const [pictures,setPictures] = useState([]);
+	const [onClick,setOnClick] = useState([]);
 	
 	
 	const modal = useSelector(store => store.modal);
@@ -27,7 +28,7 @@ const StoryUi = (props) => {
         console.log("StoryUi useEffect()");
 		// console.log("pictures: ",props.pictures);
         setPictures(props.pictures);
-    },[modal, props.pictures]);
+    },[modal, props.pictures, props.onClick]);
 
 
 
