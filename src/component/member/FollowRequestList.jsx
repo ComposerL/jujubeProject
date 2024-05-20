@@ -126,7 +126,11 @@ const FollowRequestList = () => {
                         </div>
                         <div id="follow_request_list_section1_article">
                             <ul>
-                                {
+                                {   
+                                    friendRequestList.length === 0
+                                    ?
+                                    <li style={{'display':'block'}}>보낸 요청이 없습니다.</li>
+                                    :
                                     friendRequestList.map((friendReq,idx) => {
                                         return (                                            
                                             <li key={idx}>
@@ -158,17 +162,21 @@ const FollowRequestList = () => {
                         </div>
                         <div id="follow_request_list_section2_article">
                             <ul>
-                            {
-                                friendResponseList.map((friendRes,idx) => {
-                                    return (
-                                        <FollowRequestListSection2
-                                            friendRes={friendRes}
-                                            key={idx}
-                                            setFollowRequestListFlag={setFollowRequestListFlag}
-                                        />                                                     
-                                    )
-                                })
-                            }
+                                {
+                                    friendResponseList.length === 0
+                                    ?
+                                    <li>받은 요청이 없습니다.</li>
+                                    :   
+                                    friendResponseList.map((friendRes,idx) => {
+                                        return (
+                                            <FollowRequestListSection2
+                                                friendRes={friendRes}
+                                                key={idx}
+                                                setFollowRequestListFlag={setFollowRequestListFlag}
+                                            />                                                     
+                                        )
+                                    })
+                                }
                             </ul>
                         </div>
                     </div>
