@@ -14,7 +14,7 @@ const initial_state = {
 
     info: "",
     button: [],
-    story: "",
+    story: [],
     friend: 0,
     storylike: 0,
 }
