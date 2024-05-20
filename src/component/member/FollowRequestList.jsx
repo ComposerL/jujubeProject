@@ -68,7 +68,11 @@ const FollowRequestList = () => {
 
     }
 
-    
+    //handler
+    const followRequestCancelBtnClickHandler = (e,friendReq) => {
+        console.log('followRequestCancelBtnClickHandler()');
+        console.log("friendReq: ===>",friendReq);
+    }
 
     return (
         <>
@@ -97,7 +101,7 @@ const FollowRequestList = () => {
                                                     </div>                           
                                                 </div>
                                                 <div className="follow_request_list_section1_btn_area">                                                                                                   
-                                                    <div className="un_follow_btn">
+                                                    <div className="un_follow_btn" onClick={(e) => followRequestCancelBtnClickHandler(e,friendReq)}>
                                                         취소
                                                     </div>
                                                 </div>

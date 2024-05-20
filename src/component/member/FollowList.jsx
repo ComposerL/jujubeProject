@@ -11,6 +11,7 @@ const FollowList = () => {
     const dispatch = useDispatch();
 
     const [followMembers,setFollowMembers] = useState([]);
+    const [followListFlag,setFollowListFlag] = useState(false);
 
     useEffect(() => {
         // console.log("[FollowList] useEffect()");
@@ -27,7 +28,7 @@ const FollowList = () => {
             });
         }
 
-    },[]);
+    },[followListFlag]);
 
     const axios_get_friend_list = () => {
         console.log("[FollowList] axios_get_friend_list()");
@@ -59,6 +60,51 @@ const FollowList = () => {
             removeCookie('accessToken');//
 		});
 
+    }
+
+    const axios_friend_delete_confirm = (followMember) => {
+        console.log("[FollowList] axios_friend_delete_confirm()");
+        
+        let reauestData = {
+            "f_id" : followMember.F_ID
+        }
+
+        axios({
+			url: `${process.env.REACT_APP_HOST}/member/friend_delete_confirm`,
+			method: 'post',
+            data: reauestData,
+            headers: {
+                'authorization': sessionStorage.getItem('sessionID'),
+            }
+		})
+		.then(response => {	
+			console.log("axios friend delete confirm success!!");
+
+            if(response.data !== null){
+                console.log("response: ",response.data.result); 
+                setFollowListFlag(pv => !pv);               
+            }else{
+                console.log("axios friend delete confirm response data is null!");
+            }
+		})
+		.catch(err => {
+            console.log("axios friend delete confirm error!!");
+            console.log("err: ",err);
+		})
+		.finally(data => {
+            console.log("axios friend delete confirm finally!!");
+            sessionStorage.removeItem('sessionID');//
+            sessionStorage.setItem('sessionID',getCookie('accessToken'));//
+            removeCookie('accessToken');//
+		});
+    }
+
+    const FollowListUnFollowBtnClickHandler = (e,followMember) => {
+        console.log("FollowListUnFollowBtnClickHandler()");
+        
+        if(window.confirm("정말 절교하시겠습니까?")){
+            axios_friend_delete_confirm(followMember);
+        }
     }
 
     return (
@@ -98,7 +144,7 @@ const FollowList = () => {
                                             </div>
                                         </div>
                                         <div className="Follow_list_result_btn_area">                                        
-                                            <div className="un_follow_btn">
+                                            <div className="un_follow_btn" onClick={(e) => {FollowListUnFollowBtnClickHandler(e,followMember)}}>
                                                 <img src='/imgs/follow_btn_icon_r.png'/>
                                             </div>
                                         </div>
