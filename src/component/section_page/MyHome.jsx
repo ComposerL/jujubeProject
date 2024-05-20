@@ -12,10 +12,12 @@ axios.defaults.withCredentials = true;
 
 const MyHome = () => {
     
-    // const member_info = JSON.parse(sessionStorage.getItem('member_info'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const storymodal = useSelector(store => store.storymodal);
+    const modal = useSelector(store => store.modal);
+    const storylike = useSelector(store => store.storylike);
+
     const [storyFlag , setStoryFlag] = useState(false);
 
     useEffect(() => {
@@ -29,9 +31,11 @@ const MyHome = () => {
                 type:'session_out',
             });
         }
+
         
         
-    },[storymodal]);
+    },[storymodal, modal, storylike]);
+
 
     const axios_get_member = () => {
         axios.get(`${process.env.REACT_APP_HOST}/member/get_member`, {
@@ -111,7 +115,6 @@ const MyHome = () => {
                     
                     navigate('/');
                 } else {
-                    console.log('stoysdf:', response.data);
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
                     JSON.parse(sessionStorage.getItem('member_info'));

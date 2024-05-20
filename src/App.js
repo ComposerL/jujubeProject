@@ -16,6 +16,7 @@ const initial_state = {
     button: [],
     story: "",
     friend: 0,
+    storylike: 0,
 }
 
 const reducer = (currentState = initial_state , action) => {
@@ -69,11 +70,11 @@ const reducer = (currentState = initial_state , action) => {
 
         // 프로필 관련    
         case 'get_other_id': //다른 사람 정보 가져오기
-            console.log('get_other_id: ', action.member);
+            // console.log('get_other_id: ', action.member);
             return {...currentState, member:action.member};    
 
         case 'set_other_info':// 다른 사람 정보 부려주기
-            console.log("set_other_info: ");
+            // console.log("set_other_info: ");
             return {...currentState, info:action.info};
 
         case 'set_my_stories'://내 스토리 가져오기
@@ -81,16 +82,21 @@ const reducer = (currentState = initial_state , action) => {
             return {...currentState, story:action.story, storyMemberInfo:action.storyMemberInfo};
 
         case 'set_my_friend':// 내 친구 수
-            console.log('set_my_friend', action.friend);
+            // console.log('set_my_friend', action.friend);
             return {...currentState, friend:action.friend}; 
 
         case 'set_my_button':// 친구 상태
-            console.log('set_my_button', action.button);
+            // console.log('set_my_button', action.button);
             return {...currentState, button:action.button}; 
 
         case 'story_open_btn':
-            return {...currentState, storymodal:action.storymodal}   
-                
+            return {...currentState, storymodal:action.storymodal};   
+
+        case 'story_like_btn':
+            console.log('story_like_btn', currentState.storylike);
+
+            return {...currentState, storylike:currentState.storylike === 0 ? 1 : 0,};   
+
         default:
             return currentState; 
     }

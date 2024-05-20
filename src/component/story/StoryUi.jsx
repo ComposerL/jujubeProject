@@ -18,15 +18,17 @@ const StoryUi = (props) => {
 	const dispatch = useDispatch();
 	const [pictures,setPictures] = useState([]);
 	
-	const storymodal = useSelector(store => store.storymodal);
+	
 	const modal = useSelector(store => store.modal);
 	const loginedMember = useSelector(store => store.loginedMember);
+    const storylike = useSelector(store => store.storylike);
+	
 
 	useEffect(() => {
         console.log("StoryUi useEffect()");
 		// console.log("pictures: ",props.pictures);
         setPictures(props.pictures);
-    },[modal,props.pictures]);
+    },[modal, props.pictures]);
 
 
 
@@ -71,7 +73,14 @@ const StoryUi = (props) => {
 		// console.log("s_no: " + props.s_no);
 		// console.log("m_id: " + loginedMember.M_ID);
 		// console.log("sl_is_like: " + props.storyIsLike);
+		// const newLikeState = props.storyIsLike;
+		
 		axios_story_like_update();
+		// dispatch({
+		// 	type:'story_like_btn',
+		// 	s_no: props.s_no,
+		// 	storylike: newLikeState,
+		// });
 	}
 
 	const axios_story_delete_confirm = () => {
@@ -138,12 +147,13 @@ const StoryUi = (props) => {
             },
 		})
 		.then(response => {	
-			// console.log("axios story like update success!!");
-			// console.log("response: ",response.data);
+			console.log("axios story like update success!!");
+			console.log("response: ",response.data);
 			if(response.data === null){
 				console.log("database error!!");
 			}else if(response.data > 0){
 				props.setStoryFlag(pv => !pv);
+				dispatch({ type: 'story_like_btn'});
 			}else{
 				console.log("database delete fail!!");
 			}
@@ -154,7 +164,7 @@ const StoryUi = (props) => {
             console.log("err: ",err);
 		})
 		.finally(data => {
-            // console.log("axios story like update finally!!");
+            console.log("axios story like update finally!!");
 			sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
 			removeCookie('accessToken');//

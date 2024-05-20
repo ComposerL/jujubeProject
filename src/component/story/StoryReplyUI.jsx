@@ -24,7 +24,7 @@ const StoryReplyUI = () => {
 		console.log("StoryReplyUI useEffect()");
 		axios_get_story_reply_list(s_no);
 		setR_txt('');
-  	},[s_no,replyFlag,modal]);
+  	},[s_no, replyFlag]);
 
 	const axios_get_story_reply_list = (s_no) => {
 		// console.log("axios_get_story_reply_list()");

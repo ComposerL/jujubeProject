@@ -16,7 +16,11 @@ const OtherHome = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [storyFlag , setStoryFlag] = useState(false);
-    const story = useSelector(store => store.story);
+    const storymodal = useSelector(store => store.storymodal);
+    const modal = useSelector(store => store.modal);
+    const storylike = useSelector(store => store.storylike);
+
+
 
 
     useEffect(() => {
@@ -36,7 +40,7 @@ const OtherHome = () => {
             });
         }
         
-    },[story]);
+    },[storymodal, modal, storylike]);
     
     
     const axios_get_other_profile = () => {
