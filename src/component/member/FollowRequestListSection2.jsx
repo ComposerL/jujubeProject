@@ -30,8 +30,12 @@ const FollowRequestListSection2 = (props) => {
     }
 
     const followRequestRejectBtnClickHandler = () => {
-        console.log("followRequestRejectBtnClickHandler()");        
-        axios_friend_request_reject();
+        console.log("followRequestRejectBtnClickHandler()"); 
+        
+        if(window.confirm("일촌 신청을 거부하시겠습니까?")){
+            axios_friend_request_reject();
+        }
+              
     }
 
     //비동기통신
