@@ -13,6 +13,7 @@ const FollowRequestList = () => {
 
     const [friendRequestList, setFriendRequestList] = useState([]);
     const [friendResponseList, setFriendResponseList] = useState([]);
+    const [followRequestListFlag,setFollowRequestListFlag] = useState(false);
     
 
     useEffect(() => {
@@ -30,7 +31,7 @@ const FollowRequestList = () => {
             });
         }
 
-    },[]);
+    },[followRequestListFlag]);
 
     const axios_get_friend_request_list = () => {
         console.log("[FollowRequestList] axios_get_friend_request()");
@@ -120,6 +121,7 @@ const FollowRequestList = () => {
                                         <FollowRequestListSection2
                                             friendRes={friendRes}
                                             key={idx}
+                                            setFollowRequestListFlag={setFollowRequestListFlag}
                                         />                                                     
                                     )
                                 })

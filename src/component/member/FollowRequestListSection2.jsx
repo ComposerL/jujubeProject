@@ -49,8 +49,9 @@ const FollowRequestListSection2 = (props) => {
 		})
 		.then(response => {	
 			console.log("axios get friend request confirm success!!");
+            
             if(response.data !== null){
-                console.log("response: ",response.data);
+                console.log("response: ",response.data);               
 
             }else{
                 console.log("axios get friend request confirm response data is null!");
@@ -65,6 +66,7 @@ const FollowRequestListSection2 = (props) => {
             sessionStorage.removeItem('sessionID');//
             sessionStorage.setItem('sessionID',getCookie('accessToken'));//
             removeCookie('accessToken');//
+            props.setFollowRequestListFlag(pv => !pv);
 		});
 
     }
