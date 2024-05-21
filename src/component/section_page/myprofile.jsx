@@ -25,7 +25,6 @@ const MyProfile = (props) => {
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [storys, setStorys] = useState([]);
-    const [storyScrollTop, setStoryScrollTop] = useState([]);
 
     const [mystory, setMystory] = useState([]); // 내 스토리 보관
     const [storyModal, setStoryModal] = useState([]);
@@ -83,13 +82,11 @@ const MyProfile = (props) => {
         // console.log('openStoryClickHandler()', idx);
 
         let storyWrap = document.getElementById('story_wrap');
-        let scrollTopValue = idx * 660; // 인덱스에 따라 620px씩 이동        
-        // storyWrap.scrollTop = scrollTopValue;
-        
-        console.log("storyWrap:",storyWrap);
-        console.log("scrollTopValue:",scrollTopValue);
-        console.log("storyWrap.scrollTop:",storyWrap.scrollTop);
-        setStoryScrollTop(scrollTopValue);
+        let storyHeight = document.querySelector(`#story_wrap > ul > li:nth-child(${(idx+1)})`).offsetTop;
+        let scrollTopValue = storyHeight; // 인덱스에 따라 620px씩 이동        
+        storyWrap.scrollTop = scrollTopValue - 15;  
+        console.log("storyHeight: ",storyHeight);      
+       
         dispatch({
             type: 'story_open_btn',
             storymodal: true,

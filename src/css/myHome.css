@@ -91,8 +91,9 @@
 
 #my_profile_wrap #story_wrap {
     height: 620px;
+    width: 100%;
     margin: auto;
-    overflow-y: scroll;
+    overflow-y: auto;
     &::-webkit-scrollbar{
         display: none;
     }  
@@ -108,19 +109,21 @@
 }
 
 #my_profile_wrap #story_wrap > ul > li{
-    margin-bottom: 40px;    
-    height: 620px;
+    margin:20px auto;
+    
 }
 
 #my_profile_wrap #open_story_wrap {
     width: 750px;
     height: 620px;
     position: absolute;
+    left: 0;
     bottom: 0px;
     background-color: rgba(255, 255, 255);
     /* transition: 0.5s; */
     box-sizing: border-box;
     z-index: 1;
+    visibility:visible;
     /* overflow-y: scroll;
     &::-webkit-scrollbar{
         display: none;
@@ -133,7 +136,9 @@
     height: 620px;
     position: absolute;
     bottom: 0px;
-    display: none;
+    left: 0;
+    /* display: none; */
+    visibility:hidden;
     /* background-color: rgba(0,0,0,0.6); */
     z-index: 1;
     /* transition: 0.5s; */
@@ -141,11 +146,11 @@
 }
 
 
-div.modal_close_btn img {
+#my_profile_wrap div.modal_close_btn img {
     width: 100%;
 }
 
-div.modal_close_btn {
+#my_profile_wrap div.modal_close_btn {
     /* margin: 20px;
     width: 10px;
     height: 10px;
@@ -155,9 +160,9 @@ div.modal_close_btn {
     background-color: #000  ; */
     width: 50px;
     height: 50px;
-    position: fixed;
-    top: 149px; 
-    right: 60px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
     cursor: pointer;
     
     
