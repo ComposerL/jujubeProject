@@ -164,13 +164,21 @@ const SignIn = () => {
                     <input type="text" name="m_id" value={mId} placeholder="아이디" onChange={(e) => setMId(e.target.value)}/><br />
                     <input type="password" name="m_pw" value={mPw} placeholder="비밀번호" onChange={(e) => setMPw(e.target.value)}/><br />
                     <input type="button" value="로그인" onClick={signInClickHandler}/><br />
-                    <div className="or_line">또는</div>
-                        
-                        <GoogleLogin
-                        width={350}
-                        onSuccess={handleGoogleLoginSuccess}
-                        onError={handleGoogleLoginError}
-                        />
+                    {
+                        process.env.REACT_APP_HOST === 'http://localhost:3001'
+                        ?
+                        <>
+                        <div className="or_line">또는</div>
+                            
+                            <GoogleLogin
+                            width={350}
+                            onSuccess={handleGoogleLoginSuccess}
+                            onError={handleGoogleLoginError}
+                            />
+                        </>
+                        :
+                        null
+                    }
                         
                     {/* <p><a href="#none">비밀번호 찾기</a></p> */}
                 </form>
