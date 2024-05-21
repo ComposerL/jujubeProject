@@ -10,18 +10,18 @@ import 'swiper/css/scrollbar';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getCookie, removeCookie } from '../../util/cookie';
+import { jwtDecode } from 'jwt-decode';
 
 axios.defaults.withCredentials = true
 
 const StoryUi = (props) => {
 	
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [pictures,setPictures] = useState([]);
 	const [onClick,setOnClick] = useState([]);
-	
-	
 	const modal = useSelector(store => store.modal);
-	const loginedMember = useSelector(store => store.loginedMember);
+	const loginedMember = jwtDecode(sessionStorage.getItem('sessionID')).m_id;
 	
 
 	useEffect(() => {
@@ -172,10 +172,25 @@ const StoryUi = (props) => {
 
 	}
 	
+	const HomeMemberInfoHandler = (member) => {
+        console.log('searchMemberInfoHandler()');
+        
+		if(member.m_id === loginedMember) {
+			sessionStorage.setItem('member_info', JSON.stringify(member));
+			navigate('/member/my_home');
+			
+		} else {
+			sessionStorage.setItem('member_info', JSON.stringify(member));
+            navigate('/member/other_home');
+		}
+
+    }
+	
 	return (
 		<li className={`story_li_${props.s_no}`}>
 			<div className='story_header'>
-				<div className='story_header_img'>
+
+				<div className='story_header_img' onClick={() => HomeMemberInfoHandler(props.memberInfors)}>
 			
 					{
 						props.memberInfors.M_PROFILE_THUMBNAIL !== null
