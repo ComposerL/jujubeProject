@@ -77,10 +77,8 @@ const MyProfile = (props) => {
         // console.log('openStoryClickHandler()', idx);
 
         let storyWrap = document.getElementById('story_wrap');
-        let storyHeight = document.querySelector(`#story_wrap > ul > li:nth-child(${(idx+1)})`).offsetTop;
-        let scrollTopValue = storyHeight; // 인덱스에 따라 620px씩 이동        
-        storyWrap.scrollTop = scrollTopValue - 15;  
-        console.log("storyHeight: ",storyHeight);      
+        let storyScrollTop = document.querySelector(`#story_wrap > ul > li:nth-child(${(idx+1)})`).offsetTop;
+        storyWrap.scrollTop = storyScrollTop - 15;     
        
         dispatch({
             type: 'story_open_btn',
