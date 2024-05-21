@@ -99,14 +99,17 @@
     
 }
 
-#my_profile_wrap #story_wrap li {
-margin-bottom: 40px;    
-margin-top: 0;
-height: 620px;
-overflow-y: scroll;
+#my_profile_wrap #story_wrap > ul{
+    /* overflow-y: scroll;
+    overflow: hidden;
     &::-webkit-scrollbar{
         display: none;
-    }   
+    }    */
+}
+
+#my_profile_wrap #story_wrap > ul > li{
+    margin-bottom: 40px;    
+    height: 620px;
 }
 
 #my_profile_wrap #open_story_wrap {
@@ -118,10 +121,10 @@ overflow-y: scroll;
     /* transition: 0.5s; */
     box-sizing: border-box;
     z-index: 1;
-    overflow-y: scroll;
+    /* overflow-y: scroll;
     &::-webkit-scrollbar{
         display: none;
-    }   
+    }    */
     
 }
 
@@ -129,30 +132,34 @@ overflow-y: scroll;
     width: 750px;
     height: 620px;
     position: absolute;
-    bottom: -620px;
+    bottom: 0px;
+    display: none;
     /* background-color: rgba(0,0,0,0.6); */
     z-index: 1;
     /* transition: 0.5s; */
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
 }
+
 
 div.modal_close_btn img {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    top: 0;right: 0;
-    cursor: pointer;
-    margin: 10px;
+    width: 100%;
 }
 
-div.modal_close_btn div {
-    margin: 20px;
+div.modal_close_btn {
+    /* margin: 20px;
     width: 10px;
     height: 10px;
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
     margin: auto;
-    background-color: #000  ;
+    background-color: #000  ; */
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    top: 149px; 
+    right: 60px;
+    cursor: pointer;
+    
     
 }
 

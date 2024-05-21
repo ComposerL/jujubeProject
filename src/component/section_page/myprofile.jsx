@@ -4,6 +4,7 @@ import StoryReplyUI from '../story/StoryReplyUI';
 import StoryUi from '../story/StoryUi';
 import axios from 'axios';
 import '../../css/story/story.css';
+import $ from 'jquery';
 
 import { removeCookie } from '../../util/cookie';
 import { Link, useNavigate } from 'react-router-dom';
@@ -24,6 +25,7 @@ const MyProfile = (props) => {
     const [mSelfIntroduction, setMSelfIntroduction] = useState('');
     const [mProfileThumbnail, setMProfileThumbnail] = useState('');
     const [storys, setStorys] = useState([]);
+    const [storyScrollTop, setStoryScrollTop] = useState([]);
 
     const [mystory, setMystory] = useState([]); // 내 스토리 보관
     const [storyModal, setStoryModal] = useState([]);
@@ -78,19 +80,21 @@ const MyProfile = (props) => {
     const openStoryClickHandler = (idx) => {
         // console.log('openStoryClickHandler()', idx);
 
-        const storyWrap = document.getElementById('story_wrap');
-        const scrollTopValue = idx * 660; // 인덱스에 따라 620px씩 이동
-        if (storyWrap) {
-            storyWrap.scrollTop = scrollTopValue;
-        }
-
-         
-
+        let storyWrap = document.getElementById('story_wrap');
+        let scrollTopValue = idx * 660; // 인덱스에 따라 620px씩 이동        
+        // storyWrap.scrollTop = scrollTopValue;
+        
+        console.log("storyWrap:",storyWrap);
+        console.log("scrollTopValue:",scrollTopValue);
+        console.log("storyWrap.scrollTop:",storyWrap.scrollTop);
+        setStoryScrollTop(scrollTopValue);
         dispatch({
             type: 'story_open_btn',
             storymodal: true,
         });
     };
+
+    
 
     const ModalCloseBtnClickHandler = () => {
         // console.log('closeStoryClickHandler()');
