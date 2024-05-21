@@ -37,9 +37,12 @@ const FollowForm = () => {
 
     const followFormSubmitBtnClickHandler = () => {
         // console.log("followFormSubmitBtnClickHandler()");
-        // console.log("followID: ",followID);
-        // console.log("followNickName: ",followNickName);
         axios_friend_request(followID,followNickName);
+    }
+
+    const followFormCancelBtnClickHandler = () => {
+        // console.log("followFormCancelBtnClickHandler()");
+        navigate('/');
     }
 
     const axios_friend_request = (followID,followNickName) => {
@@ -112,7 +115,7 @@ const FollowForm = () => {
                     <div className='follow_form_section4_subTxt'>상대방이 동의하시면 일촌이 맺어집니다.</div>
                     <div className='follow_form_section5_btn'>
                         <input type="button" value="보내기" onClick={followFormSubmitBtnClickHandler}/>
-                        <input type="button" value="취소"/>
+                        <input type="button" value="취소" onClick={followFormCancelBtnClickHandler} />
                     </div>
                 </div>
             </div>
