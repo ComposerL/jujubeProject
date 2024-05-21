@@ -32,8 +32,6 @@ const MyProfile = (props) => {
 
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
-    // const storyRefs = useRef([]);
-
     useEffect(() => {
         // console.log('myprofile useEffct22');
 
@@ -42,7 +40,7 @@ const MyProfile = (props) => {
         setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
 
         setStorys(story);
-    }, [member_info, story]);
+    }, [member_info, story, props.setStoryFlag]);
     useEffect(() => {
 
         dispatch({
@@ -56,8 +54,6 @@ const MyProfile = (props) => {
 
     }, []);
 
-    console.log('m_id: ', member_info.M_ID)
-
     const FriendButton = () => {
         return (
             <div>
@@ -69,10 +65,9 @@ const MyProfile = (props) => {
                     ) : (
                         button.is_friend === false && button.is_friend_request === false
                             ?
-                            <Link to="/member/follow_form">
-                                <input type="button" value="친구 추가" />
-                            </Link> : null
-
+                            <input type="button" value="친구 추가" onClick={() => followFriendBtnClickHandler()} />
+                            :
+                            null
                     )
                 )}
             </div>
@@ -116,8 +111,17 @@ const MyProfile = (props) => {
         });
     };
 
+    const followFriendBtnClickHandler = () => {
+        dispatch({
+            type:'follow_btn_click',
+            m_id : mId,
+            m_profile_thumbnail: mProfileThumbnail,
+        });
+        navigate('/member/follow_form');
+    }
+
     const deleteFriendClickHandler = () => {
-        const isConfirmed = window.confirm("정말로 일촌을 삭제하시겠습니까?");
+        const isConfirmed = window.confirm("정말로 절교하시겠습니까?");
 
         if (isConfirmed) {
             // console.log("delete()");
@@ -141,7 +145,7 @@ const MyProfile = (props) => {
 
         axios({
             url: `${process.env.REACT_APP_HOST}/member/friend_request_cancel`,
-            method: 'get',
+            method: 'post',
             data: {
                 f_id: member_info.M_ID
             },
@@ -151,7 +155,7 @@ const MyProfile = (props) => {
         })
             .then(response => {
                 // console.log('AXIOS GET MY FRIEND COMMUNICATION SUCCESS');
-                // console.log(response.data);
+                console.log('sdafsdagasdg', response.data);
                 if (response.data === -1) {
                     console.log("Home session out!!");
                     sessionStorage.removeItem('sessionID');
@@ -172,6 +176,10 @@ const MyProfile = (props) => {
                         dispatch({
                             type: 'set_my_button',
                             friend: response.data,
+                        });
+                        dispatch({
+                            type: 'set_my_button',
+                            button: {is_friend: false, is_friend_request: false} 
                         });
 
                     }
@@ -217,7 +225,7 @@ const MyProfile = (props) => {
                         alert("일촌 삭제가 완료되었습니다.");
                         dispatch({
                             type: 'set_my_button',
-                            button: false
+                            button: {is_friend: false, is_friend_request: false} 
                         });
                         dispatch({
                             type: 'set_my_friend',
@@ -234,7 +242,6 @@ const MyProfile = (props) => {
                 // console.log('AXIOS GET FRIEND DELETE COMMUNICATION COMPLETE');
             });
     };
-
     return (
         <div id='my_profile_wrap'>
             <div className='profile_header'>
@@ -306,7 +313,6 @@ const MyProfile = (props) => {
                                     memberInfors={storys.memberInfors[0]}
                                     storyIdx={idx}
                                     setStoryFlag={setStoryFlag}
-                                    // ref={(el) => storyRefs.current[idx] = el} // Add ref here
                                 />
                             ))}
                         </ul>

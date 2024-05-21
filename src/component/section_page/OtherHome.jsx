@@ -20,9 +20,6 @@ const OtherHome = () => {
     const modal = useSelector(store => store.modal);
     const storylike = useSelector(store => store.storylike);
 
-
-
-
     useEffect(() => {
         
         let session  = session_check();
