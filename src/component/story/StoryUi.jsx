@@ -173,7 +173,7 @@ const StoryUi = (props) => {
 	}
 	
 	const HomeMemberInfoHandler = (member) => {
-		
+
 		if(member.M_ID === loginedMember) {
 			sessionStorage.setItem('member_info', JSON.stringify(member));
 			navigate('/member/my_home');
@@ -228,7 +228,7 @@ const StoryUi = (props) => {
 					<a href="#none" >&#183; &#183; &#183;</a>
 					<div className="story_header_menu_modal">
 						{
-							props.m_id === loginedMember.M_ID
+							props.m_id === loginedMember
 							?
 							<ul>
 								<li onClick={(e) => storyModifyBtnClickHandler(e)}><Link to="/story/modify_story">게시물수정</Link></li>
