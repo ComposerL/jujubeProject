@@ -20,6 +20,10 @@
     padding: 10px;
     box-sizing: border-box;
     position: relative;
+    div.story_header_info_btn_wrap{
+        display: flex;
+        cursor: pointer;
+    }
 }
 
 #story_wrap li div.story_header_menu_modal {

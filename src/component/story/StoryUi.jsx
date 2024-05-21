@@ -189,21 +189,22 @@ const StoryUi = (props) => {
 	return (
 		<li className={`story_li_${props.s_no}`}>
 			<div className='story_header'>
-
-				<div className='story_header_img' onClick={() => HomeMemberInfoHandler(props.memberInfors)}>
-			
-					{
-						props.memberInfors.M_PROFILE_THUMBNAIL !== null
-						?
-						<img src={`${process.env.REACT_APP_HOST}/${props.memberInfors.M_ID}/${props.memberInfors.M_PROFILE_THUMBNAIL}`} alt=''/>
-						:
-						<img src="/imgs/profile_default.png" alt="" />
-					}
-					
-				</div>
-				<div className='story_header_member_info_wrap'>
-					<h4>{props.m_id}</h4>
-					<p>{props.m_name}</p>
+				<div className='story_header_info_btn_wrap' onClick={() => HomeMemberInfoHandler(props.memberInfors)}>
+					<div className='story_header_img' >
+				
+						{
+							props.memberInfors.M_PROFILE_THUMBNAIL !== null
+							?
+							<img src={`${process.env.REACT_APP_HOST}/${props.memberInfors.M_ID}/${props.memberInfors.M_PROFILE_THUMBNAIL}`} alt=''/>
+							:
+							<img src="/imgs/profile_default.png" alt="" />
+						}
+						
+					</div>
+					<div className='story_header_member_info_wrap'>
+						<h4>{props.m_id}</h4>
+						<p>{props.m_name}</p>
+					</div>
 				</div>
 				<div className='story_header_menu_btn'>
 					<a href="#none" >&#183; &#183; &#183;</a>
