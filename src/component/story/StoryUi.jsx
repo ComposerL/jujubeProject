@@ -133,7 +133,7 @@ const StoryUi = (props) => {
 
 		let requestData = {
 			s_no: props.s_no,
-			m_id: loginedMember.M_ID,
+			m_id: loginedMember,
 			sl_is_like: props.storyIsLike,
 		};
 
