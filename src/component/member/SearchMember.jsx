@@ -57,7 +57,7 @@ const SearchMember = () => {
             searchBtnClickHandler();
         }
     };
-
+    
     const searchMemberFollowBtnClickHandler = (e) => {
         // console.log("searchMemberFollowBtnClickHandler()");
         let memberinfo = e.target;

@@ -52,6 +52,8 @@ const Home = () => {
         scrollableElement.removeEventListener('wheel', handleWheel);
         console.log('Event listener removed');
         };
+        
+        
 
     },[modal,storyFlag]);
 

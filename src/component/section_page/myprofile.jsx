@@ -5,6 +5,7 @@ import StoryUi from '../story/StoryUi';
 import axios from 'axios';
 import '../../css/story/story.css';
 import $ from 'jquery';
+import { jwtDecode } from 'jwt-decode';
 
 import { removeCookie } from '../../util/cookie';
 import { Link, useNavigate } from 'react-router-dom';
@@ -19,6 +20,8 @@ const MyProfile = (props) => {
     const storymodal = useSelector(store => store.storymodal);
     const storyMemberInfo = useSelector(store => store.storyMemberInfo);
     const storylike = useSelector(store => store.storylike);
+    const loginedMember = jwtDecode(sessionStorage.getItem('sessionID')).m_id;
+
 
     const [storyFlag, setStoryFlag] = useState(false);
     const [mId, setMId] = useState('');
@@ -39,17 +42,30 @@ const MyProfile = (props) => {
         setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
 
         setStorys(story);
+
+        if (storymodal === true || modal === true) {
+
+            dispatch({
+                type: 'story_open_btn',
+                storymodal: false,
+            });
+            dispatch({
+                type: 'reply_modal_close',
+                modal: false,
+            });
+        }
+
     }, [member_info, story, props.setStoryFlag]);
     // useEffect(() => {
 
-    //     dispatch({
-    //         type: 'story_open_btn',
-    //         storymodal: false,
-    //     });
-    //     dispatch({
-    //         type: 'reply_modal_close',
-    //         modal: false,
-    //     });
+        // dispatch({
+        //     type: 'story_open_btn',
+        //     storymodal: false,
+        // });
+        // dispatch({
+        //     type: 'reply_modal_close',
+        //     modal: false,
+        // });
 
     // }, []);
 
@@ -237,6 +253,11 @@ const MyProfile = (props) => {
                 // console.log('AXIOS GET FRIEND DELETE COMMUNICATION COMPLETE');
             });
     };
+
+    const myprofileFollowInfoHandler = () => {
+
+        navigate('/member/follow_list');
+    }
     return (
         <div id='my_profile_wrap'>
             <div className='profile_header'>
@@ -251,7 +272,7 @@ const MyProfile = (props) => {
                     <div>{story.length > 0 ? story.length : 0}</div>
                     <div>post</div>
                 </div>
-                <div className='friend'>
+                <div className='friend' onClick={() => myprofileFollowInfoHandler()}>
                     <div>{friend.friend_count > 0 ? friend.friend_count : 0}</div>
                     <div>friend</div>
                 </div>
@@ -274,6 +295,7 @@ const MyProfile = (props) => {
                     : <div className='profile_item'>
                         {storys.map((story, idx) => {
                             return (
+
                                 <div key={idx} onClick={() => openStoryClickHandler(idx)}>
                                     {story.length === 1
                                         ? <img src="#" alt="" />

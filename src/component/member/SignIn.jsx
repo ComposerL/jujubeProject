@@ -172,7 +172,7 @@ const SignIn = () => {
                         onError={handleGoogleLoginError}
                         />
                         
-                    <p><a href="#none">비밀번호 찾기</a></p>
+                    {/* <p><a href="#none">비밀번호 찾기</a></p> */}
                 </form>
             </div>
             <div className="sign_up_box">

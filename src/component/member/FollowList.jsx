@@ -1,17 +1,22 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import '../../css/member/follow_list.css';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { session_check } from '../../util/session_check';
+import { jwtDecode } from 'jwt-decode';
+
 
 const FollowList = () => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [followMembers,setFollowMembers] = useState([]);
     const [followListFlag,setFollowListFlag] = useState(false);
+    const loginedMember = jwtDecode(sessionStorage.getItem('sessionID')).m_id;
+
 
     useEffect(() => {
         // console.log("[FollowList] useEffect()");
@@ -107,6 +112,35 @@ const FollowList = () => {
         }
     }
 
+    const followListMemberInfoHandler = (member) => {
+
+		if(member.M_ID === loginedMember) {
+			sessionStorage.setItem('member_info', JSON.stringify(member));
+			navigate('/member/my_home');
+			
+			dispatch({
+				type: 'story_open_btn',
+				storymodal: false,
+			});
+			dispatch({
+				type: 'reply_modal_close',
+				modal: false,
+			});
+
+		} else {
+			sessionStorage.setItem('member_info', JSON.stringify(member));
+            navigate('/member/other_home');
+
+			dispatch({
+				type: 'story_open_btn',
+				storymodal: false,
+			});
+			dispatch({
+				type: 'reply_modal_close',
+				modal: false,
+			});
+		}
+    }
     return (
         <>
             <div id='follow_list_wrap'>
@@ -129,18 +163,20 @@ const FollowList = () => {
                                 return(
                                     <li key={idx}>
                                         <div className='Follow_list_info_btn_wrap'>
-                                            <div className='Follow_list_result_frofile_thum_wrap'>
-                                                {
-                                                    followMember.M_PROFILE_THUMBNAIL !== null
-                                                    ?                                                    
-                                                    <img src={`${process.env.REACT_APP_HOST}/${followMember.F_ID}/${followMember.M_PROFILE_THUMBNAIL}`} />
-                                                    :                         
-                                                    <img src="/imgs/profile_default.png" />
-                                                }
-                                            </div>
-                                            <div className='Follow_list_result_frofile_info_wrap'>
-                                                <p>{followMember.F_ID}</p>
-                                                <p>{followMember.F_ILCHON_NAME}</p>
+                                            <div className='follow_list_info_btn_wrap' onClick={() => followListMemberInfoHandler(followMember)}>
+                                                <div className='Follow_list_result_frofile_thum_wrap'>
+                                                    {
+                                                        followMember.M_PROFILE_THUMBNAIL !== null
+                                                        ?                                                    
+                                                        <img src={`${process.env.REACT_APP_HOST}/${followMember.F_ID}/${followMember.M_PROFILE_THUMBNAIL}`} />
+                                                        :                         
+                                                        <img src="/imgs/profile_default.png" />
+                                                    }
+                                                </div>
+                                                <div className='Follow_list_result_frofile_info_wrap'>
+                                                    <p>{followMember.F_ID}</p>
+                                                    <p>{followMember.F_ILCHON_NAME}</p>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="Follow_list_result_btn_area">                                        
