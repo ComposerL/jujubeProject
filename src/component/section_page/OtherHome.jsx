@@ -19,6 +19,7 @@ const OtherHome = () => {
     const storymodal = useSelector(store => store.storymodal);
     const modal = useSelector(store => store.modal);
     const storylike = useSelector(store => store.storylike);
+    const loginedMember = useSelector(store=> store.loginedMember);
 
     useEffect(() => {
         
@@ -211,6 +212,8 @@ const OtherHome = () => {
             });
         }
     
+        console.log("loginedMember: ", loginedMember);
+
 
     return (
         <div>

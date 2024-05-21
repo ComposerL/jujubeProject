@@ -114,8 +114,8 @@ const MyProfile = (props) => {
     const followFriendBtnClickHandler = () => {
         dispatch({
             type:'follow_btn_click',
-            m_id : mId,
-            m_profile_thumbnail: mProfileThumbnail,
+            m_id : member_info.M_ID,
+            m_profile_thumbnail: member_info.M_PROFILE_THUMBNAIL,
         });
         navigate('/member/follow_form');
     }
