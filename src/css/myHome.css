@@ -89,6 +89,10 @@
     box-sizing: border-box; /* 요소의 크기에 경계 상자와 안팎 여백을 포함 */
 } 
 
+#my_profile_wrap div.profile_img_text {
+    text-align: center;
+}
+
 #my_profile_wrap #story_wrap {
     height: 620px;
     width: 100%;

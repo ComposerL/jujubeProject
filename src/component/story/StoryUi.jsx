@@ -173,9 +173,7 @@ const StoryUi = (props) => {
 	}
 	
 	const HomeMemberInfoHandler = (member) => {
-        console.log('searchMemberInfoHandler()');
-        console.log('member: ', member.M_ID);
-	console.log('loginedMember: ', loginedMember);
+		
 		if(member.M_ID === loginedMember) {
 			sessionStorage.setItem('member_info', JSON.stringify(member));
 			navigate('/member/my_home');

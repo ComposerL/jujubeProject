@@ -270,7 +270,7 @@ const MyProfile = (props) => {
 
             <div id='profile_img'>
                 {storys === null || storys.length === 0
-                    ? '내용이 없습니다.'
+                    ? <div className='profile_img_text'>내용이 없습니다.</div>
                     : <div className='profile_item'>
                         {storys.map((story, idx) => {
                             return (

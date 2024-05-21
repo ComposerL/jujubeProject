@@ -119,9 +119,33 @@ const SearchMember = () => {
     
     const searchMemberInfoHandler = (member) => {
         console.log('searchMemberInfoHandler()');
-                   
-            sessionStorage.setItem('member_info', JSON.stringify(member));
+                          
+        if(member.M_ID === loginedMemberID) {
+			sessionStorage.setItem('member_info', JSON.stringify(member));
+			navigate('/member/my_home');
+			
+			dispatch({
+				type: 'story_open_btn',
+				storymodal: false,
+			});
+			dispatch({
+				type: 'reply_modal_close',
+				modal: false,
+			});
+
+		} else {
+			sessionStorage.setItem('member_info', JSON.stringify(member));
             navigate('/member/other_home');
+
+			dispatch({
+				type: 'story_open_btn',
+				storymodal: false,
+			});
+			dispatch({
+				type: 'reply_modal_close',
+				modal: false,
+			});
+		}
  
     }
 
