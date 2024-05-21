@@ -174,17 +174,37 @@ const StoryUi = (props) => {
 	
 	const HomeMemberInfoHandler = (member) => {
         console.log('searchMemberInfoHandler()');
-        
-		if(member.m_id === loginedMember) {
+        console.log('member: ', member.M_ID);
+	console.log('loginedMember: ', loginedMember);
+		if(member.M_ID === loginedMember) {
 			sessionStorage.setItem('member_info', JSON.stringify(member));
 			navigate('/member/my_home');
 			
+			dispatch({
+				type: 'story_open_btn',
+				storymodal: false,
+			});
+			dispatch({
+				type: 'reply_modal_close',
+				modal: false,
+			});
+
 		} else {
 			sessionStorage.setItem('member_info', JSON.stringify(member));
             navigate('/member/other_home');
+
+			dispatch({
+				type: 'story_open_btn',
+				storymodal: false,
+			});
+			dispatch({
+				type: 'reply_modal_close',
+				modal: false,
+			});
 		}
 
     }
+	
 	
 	return (
 		<li className={`story_li_${props.s_no}`}>

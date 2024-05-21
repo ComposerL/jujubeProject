@@ -40,18 +40,18 @@ const MyProfile = (props) => {
 
         setStorys(story);
     }, [member_info, story, props.setStoryFlag]);
-    useEffect(() => {
+    // useEffect(() => {
 
-        dispatch({
-            type: 'story_open_btn',
-            storymodal: false,
-        });
-        dispatch({
-            type: 'reply_modal_close',
-            modal: false,
-        });
+    //     dispatch({
+    //         type: 'story_open_btn',
+    //         storymodal: false,
+    //     });
+    //     dispatch({
+    //         type: 'reply_modal_close',
+    //         modal: false,
+    //     });
 
-    }, []);
+    // }, []);
 
     const FriendButton = () => {
         return (
