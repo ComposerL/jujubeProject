@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { session_check } from '../../util/session_check';
+import { jwtDecode } from "jwt-decode";
 
 axios.defaults.withCredentials = true;
 
@@ -16,8 +17,8 @@ const SearchMember = () => {
     const navigate = useNavigate();
     const [searchId, setSearchId] = useState('');
     const [memberList, setMemberList] = useState([]);
-    const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
-    // const loginedMemberID = sessionStorage.getItem('sessionID').M_ID;
+    // const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
+    const loginedMemberID = jwtDecode(sessionStorage.getItem('sessionID')).m_id;
 
     useEffect(() => {
         console.log("searchMember useEffect()");

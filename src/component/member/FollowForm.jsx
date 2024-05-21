@@ -5,13 +5,15 @@ import axios from 'axios';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { useNavigate } from 'react-router-dom';
 import { session_check } from '../../util/session_check';
+import { jwtDecode } from "jwt-decode";
 
 const FollowForm = () => {
 
     const [followID,setFollowID] = useState('');
     const [followNickName,setFollowNickName] = useState('');
     const m_id = useSelector(store => store.m_id);
-    const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
+    // const loginedMemberID = useSelector(store => store.loginedMember.M_ID);
+    const loginedMemberID = jwtDecode(sessionStorage.getItem('sessionID')).m_id;
     const m_profile_thumbnail = useSelector(store => store.m_profile_thumbnail);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -101,9 +103,9 @@ const FollowForm = () => {
                         </div>
                     </div>
                     <div className="follow_form_section3_input">                        
-                        <span className='section3_follow_my_id'>{loginedMemberID}</span>
+                        <span className='section3_follow_my_id'>{followID}</span>
                         님을 &nbsp; 
-                        <span className='section3_follow_to_id'>{followID}</span>
+                        <span className='section3_follow_to_id'>{loginedMemberID}</span>
                         님의 &nbsp;
                         <input type="text" name = 'f_ilchon_name' value={followNickName} onChange={(e) => setFollowNickName(e.target.value)} placeholder='내 일촌명 입력' />로
                     </div>
