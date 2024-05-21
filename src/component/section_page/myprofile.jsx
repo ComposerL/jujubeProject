@@ -56,6 +56,8 @@ const MyProfile = (props) => {
 
     }, []);
 
+    console.log('m_id: ', member_info.M_ID)
+
     const FriendButton = () => {
         return (
             <div>
