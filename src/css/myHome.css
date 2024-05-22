@@ -8,10 +8,25 @@
 }
 
 #my_profile_wrap div.profile_member_name {
-    text-align: left;
-    padding: 10px 40px;
+    width: 150px;
+    text-align: center;
+    margin-left: 130px;
+}
+
+#my_profile_wrap div.profile_member_name p {
+    padding: 10px;
     font-size: 1.1em;
     font-weight: bold;
+}
+
+#my_profile_wrap div.profile_self_intro {
+    width: 250px;
+    text-align: center;
+    margin-left: 80px;
+}
+
+#my_profile_wrap div.profile_self_intro p {
+    padding: 10px;
 }
 
 #my_profile_wrap div.profile_header {
@@ -19,6 +34,7 @@
     padding-top: 5px;
     /* justify-content: space-between; */
     gap: 60px;
+    justify-content: center;
     flex-direction: row;
     align-items: center;
     margin: 10px;
@@ -38,16 +54,11 @@
     border-radius: 50%;
 }
 
-#my_profile_wrap div.profile_self_intro p {
-    padding: 10px 40px;
-}
-
 #my_profile_wrap div.profile_follow_btn {
     text-align: center;
     padding: 20px;
     border-bottom: 1px solid #ddd;
 }
-
 
 #my_profile_wrap div.profile_follow_btn input[type="button"] {
     background-color: #3897f0;
