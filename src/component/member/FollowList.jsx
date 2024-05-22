@@ -1,11 +1,11 @@
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../css/member/follow_list.css';
 import { getCookie, removeCookie } from '../../util/cookie';
 import { session_check } from '../../util/session_check';
-import { jwtDecode } from 'jwt-decode';
 
 
 const FollowList = () => {
