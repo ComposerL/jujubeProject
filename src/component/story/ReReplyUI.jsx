@@ -1,6 +1,6 @@
+import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { getCookie } from '../../util/cookie';
 
 axios.defaults.withCredentials = true;

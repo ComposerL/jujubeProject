@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ReReplyUI from './ReReplyUI';
-import $ from 'jquery';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCookie, removeCookie } from '../../util/cookie';
+import ReReplyUI from './ReReplyUI';
 
 axios.defaults.withCredentials = true;
 
@@ -197,7 +196,7 @@ const ReplyUI = (props) => {
             <div>
                 <div className="story_reply_writer_profile">
                     {
-                        props.reply.M_PROFILE_THUMBNAIL !== undefined && props.reply.M_PROFILE_THUMBNAIL!== null
+                        props.reply.M_PROFILE_THUMBNAIL !== undefined && props.reply.M_PROFILE_THUMBNAIL !== null
                         ?
                         <img src={`${process.env.REACT_APP_HOST}/${props.reply.R_M_ID}/${props.reply.M_PROFILE_THUMBNAIL}`} alt="" />
                         :
@@ -226,7 +225,13 @@ const ReplyUI = (props) => {
                     :
                     <div id={reReplyWriteView ? `re_reply_write_form_wrap_show` : `re_reply_write_form_wrap_hide`}>
                         <div className='re_reply_write_form_Profile'>
-                            <img src="" alt="" />
+                            {
+                                loginedMember.M_PROFILE_THUMBNAIL !== undefined && loginedMember.M_PROFILE_THUMBNAIL !== null
+                                ?
+                                <img src={`${process.env.REACT_APP_HOST}/${loginedMember.M_ID}/${loginedMember.M_PROFILE_THUMBNAIL}`} alt="" />
+                                :
+                                <img src="/imgs/profile_default.png" alt="" />
+                            }
                         </div>
                         <div className='re_reply_write_form_input'>
                             <input type="text" value={rTxt} onChange={(e) => setRTxt(e.target.value)}/>

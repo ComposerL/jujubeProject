@@ -160,9 +160,20 @@ div.story_reply_writer_info div.re_reply_write_btn {
 #re_reply_write_form_wrap_show div.re_reply_write_form_Profile {
     width: 20px;
     height: 20px;
+    line-height: 20px;
     border-radius: 20px;
     background-color: #fff;
     overflow: hidden;
+    display: flex;
+	justify-content: center;
+	align-items: center;
+
+    img {
+        max-width: 20px;
+        max-height: 20px;
+        object-fit: contain;
+    }
+
 }
 #re_reply_write_form_wrap_show div.re_reply_write_form_input {
     width: 202px;
@@ -240,12 +251,18 @@ div.story_reply_writer_info p.re_reply_list_btn {
 #re_reply_list_wrap .re_reply_writer_profile {
     width: 30px;
     height: 30px;
+    line-height: 30px;
     border-radius: 30px;
     overflow: hidden;
     margin-right: 10px;
     background-color: #fff;
+    display: flex;
+	justify-content: center;
+	align-items: center;
     img {
-        width: 100%;
+        max-width: 30px;
+        max-height: 30px;
+        object-fit: contain;
     }
 }
 
