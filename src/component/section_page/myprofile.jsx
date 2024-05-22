@@ -43,31 +43,20 @@ const MyProfile = (props) => {
 
         setStorys(story);
 
-        if (storymodal === true || modal === true) {
-        
-            dispatch({
-                type: 'story_open_btn',
-                storymodal: false,
-            });
-            dispatch({
-                type: 'reply_modal_close',
-                modal: false,
-            });
-        }
-
     }, [member_info, story, props.setStoryFlag]);
-    // useEffect(() => {
+    
+    useEffect(() => {
 
-        // dispatch({
-        //     type: 'story_open_btn',
-        //     storymodal: false,
-        // });
-        // dispatch({
-        //     type: 'reply_modal_close',
-        //     modal: false,
-        // });
+        dispatch({
+            type: 'story_open_btn',
+            storymodal: false,
+        });
+        dispatch({
+            type: 'reply_modal_close',
+            modal: false,
+        });
 
-    // }, []);
+    }, []);
 
     const FriendButton = () => {
         return (
@@ -261,8 +250,7 @@ const MyProfile = (props) => {
     return (
         <div id='my_profile_wrap'>
             <div className='profile_header'>
-                {
-                    mProfileThumbnail !== null
+                {mProfileThumbnail !== null
                     ?
                     <img src={`${process.env.REACT_APP_HOST}/${mId}/${mProfileThumbnail}`} />
                     :

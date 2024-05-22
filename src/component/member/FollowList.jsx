@@ -113,7 +113,7 @@ const FollowList = () => {
     }
 
     const followListMemberInfoHandler = (member) => {
-
+        console.log("member:=====>",member)
 		if(member.M_ID === loginedMember) {
 			sessionStorage.setItem('member_info', JSON.stringify(member));
 			navigate('/member/my_home');
@@ -126,8 +126,11 @@ const FollowList = () => {
 				type: 'reply_modal_close',
 				modal: false,
 			});
-
+            
 		} else {
+            member.forEach(item => {
+                item.m_id = item.f_id;
+            });
 			sessionStorage.setItem('member_info', JSON.stringify(member));
             navigate('/member/other_home');
 
