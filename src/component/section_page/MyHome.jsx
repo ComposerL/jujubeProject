@@ -33,7 +33,7 @@ const MyHome = () => {
             });
         }
 
-},[storymodal , modal, storylike]);
+},[storymodal, modal, storylike]);
 
 
     const axios_get_member = () => {

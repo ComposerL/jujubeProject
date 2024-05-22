@@ -58,6 +58,11 @@
                 cursor: pointer;
             }
 
+            div.follow_list_info_btn_wrap {
+                display: flex;
+                
+            }
+
             div.Follow_list_result_frofile_thum_wrap {
                 width: 50px;
                 height: 50px;

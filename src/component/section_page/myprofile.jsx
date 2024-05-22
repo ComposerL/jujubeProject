@@ -35,42 +35,26 @@ const MyProfile = (props) => {
 
     useEffect(() => {
 
-        if (storymodal === true || modal === true) {
-
-            dispatch({
-                type: 'story_open_btn',
-                storymodal: false,
-            });
-            dispatch({
-                type: 'reply_modal_close',
-                modal: false,
-            });
-        }
-    
-    }, [])
-
-    useEffect(() => {
-        // console.log('myprofile useEffct22');
-
         setMId(member_info.M_ID);
-        setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
-        setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
+            setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
+            setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
 
-        setStorys(story);
+            setStorys(story);
 
     }, [member_info, story, props.setStoryFlag]);
-    // useEffect(() => {
 
-        // dispatch({
-        //     type: 'story_open_btn',
-        //     storymodal: false,
-        // });
-        // dispatch({
-        //     type: 'reply_modal_close',
-        //     modal: false,
-        // });
+    useEffect(() => {
 
-    // }, []);
+        dispatch({
+            type: 'story_open_btn',
+            storymodal: false,
+        });
+        dispatch({
+            type: 'reply_modal_close',
+            modal: false,
+        });
+
+    }, []);
 
     const FriendButton = () => {
         return (

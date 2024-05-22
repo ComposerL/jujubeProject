@@ -37,7 +37,7 @@ const OtherHome = () => {
                 type:'session_out',
             });
         }
-        
+
     },[storymodal, modal, storylike]);
     
     
@@ -70,9 +70,9 @@ const OtherHome = () => {
                     console.log("undefined member");
                     sessionStorage.removeItem('sessionID');
                     sessionStorage.setItem('sessionID',getCookie('accessToken'));
-                    dispatch({
-                        type: 'session_out',
-                    });
+                    // dispatch({
+                    //     type: 'session_out',
+                    // });
                     navigate('/');
                 } else {
                     sessionStorage.removeItem('sessionID');

@@ -56,6 +56,19 @@ const Home = () => {
 
     },[modal,storyFlag]);
 
+    useEffect(() => {
+
+        dispatch({
+            type: 'story_open_btn',
+            storymodal: false,
+        });
+        dispatch({
+            type: 'reply_modal_close',
+            modal: false,
+        });
+
+    }, []);
+
     //비동기 통신
     const axios_get_member = () => {
         console.log("axios_get_member()");
