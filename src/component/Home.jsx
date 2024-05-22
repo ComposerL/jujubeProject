@@ -41,7 +41,6 @@ const Home = () => {
             event.preventDefault();
             const scrollAmount = event.deltaY > 0 ? 50 : -50;
             scrollRef.current.scrollTop += scrollAmount;
-            console.log('Scroll position:', scrollRef.current.scrollTop);
         };
     
         const scrollableElement = scrollRef.current;

@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import '../../css/story/story.css';
 import StoryReplyUI from '../story/StoryReplyUI';
 import StoryUi from '../story/StoryUi';
-import axios from 'axios';
-import '../../css/story/story.css';
-import $ from 'jquery';
-import { jwtDecode } from 'jwt-decode';
 
+import { useNavigate } from 'react-router-dom';
 import { removeCookie } from '../../util/cookie';
-import { Link, useNavigate } from 'react-router-dom';
 
 const MyProfile = (props) => {
     const navigate = useNavigate();
@@ -35,13 +34,6 @@ const MyProfile = (props) => {
     const member_info = JSON.parse(sessionStorage.getItem('member_info'));
 
     useEffect(() => {
-        // console.log('myprofile useEffct22');
-
-        setMId(member_info.M_ID);
-        setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
-        setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
-
-        setStorys(story);
 
         if (storymodal === true || modal === true) {
 
@@ -54,6 +46,17 @@ const MyProfile = (props) => {
                 modal: false,
             });
         }
+    
+    }, [])
+
+    useEffect(() => {
+        // console.log('myprofile useEffct22');
+
+        setMId(member_info.M_ID);
+        setMSelfIntroduction(member_info.M_SELF_INTRODUCTION);
+        setMProfileThumbnail(member_info.M_PROFILE_THUMBNAIL);
+
+        setStorys(story);
 
     }, [member_info, story, props.setStoryFlag]);
     // useEffect(() => {
