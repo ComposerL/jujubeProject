@@ -179,8 +179,8 @@ const SignUp = () => {
                         </div>
 
                         <input type="button" value="회원가입" onClick={signUpClickHandler}/><br />
-                        <div className="or_line">또는</div>
-                        <p><a href="#none">비밀번호 찾기</a></p>
+                        {/* <div className="or_line">또는</div> */}
+                        {/* <p><a href="#none">비밀번호 찾기</a></p> */}
                     </form>
                 </div>
 

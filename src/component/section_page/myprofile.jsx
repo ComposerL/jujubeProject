@@ -44,7 +44,7 @@ const MyProfile = (props) => {
         setStorys(story);
 
         if (storymodal === true || modal === true) {
-
+        
             dispatch({
                 type: 'story_open_btn',
                 storymodal: false,
@@ -261,7 +261,8 @@ const MyProfile = (props) => {
     return (
         <div id='my_profile_wrap'>
             <div className='profile_header'>
-                {mProfileThumbnail !== null
+                {
+                    mProfileThumbnail !== null
                     ?
                     <img src={`${process.env.REACT_APP_HOST}/${mId}/${mProfileThumbnail}`} />
                     :

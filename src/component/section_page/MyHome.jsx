@@ -26,7 +26,9 @@ const MyHome = () => {
         let session  = session_check();
         if(session !== null){
             axios_get_member();
+
         }else{
+
             sessionStorage.removeItem('sessionID');
             dispatch({
                 type:'session_out',
