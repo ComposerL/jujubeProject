@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import '../../css/member/follow_form.css';
-import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { getCookie, removeCookie } from '../../util/cookie';
-import { useNavigate } from 'react-router-dom';
-import { session_check } from '../../util/session_check';
 import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import '../../css/member/follow_form.css';
+import { getCookie, removeCookie } from '../../util/cookie';
+import { session_check } from '../../util/session_check';
 
 const FollowForm = () => {
 
@@ -98,7 +98,9 @@ const FollowForm = () => {
                     </div>
                     <div className='follow_form_section2_contents'>
                         <div className='follow_form_section2_profile_wrap'>
-                            <img src={`${process.env.REACT_APP_HOST}/${followID}/${m_profile_thumbnail}`} alt="" />
+                            <div className='follow_form_section2_profile_img_wrap'>
+                                <img src={`${process.env.REACT_APP_HOST}/${followID}/${m_profile_thumbnail}`} alt="" />
+                            </div>
                         </div>
                         <div className='follow_form_section2_text'>
                             <p className='section2_follow_my_id'>{followID}님께</p>
