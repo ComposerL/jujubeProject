@@ -15,14 +15,19 @@
             div.follow_form_section2_profile_wrap {
                 width: 80px;
                 height: 80px;
+                line-height: 80px;
                 border-radius: 50%;
                 background-color: #eee;
                 display: inline-block;
                 margin-right: 20px;
                 overflow: hidden;
                 vertical-align: top;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 img {
-                    width: 100%;
+                    max-width: 80px;
+                    max-height: 80px;
                 }
             }
             div.follow_form_section2_text {
