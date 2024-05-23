@@ -165,6 +165,19 @@ const Home = () => {
         <div id='home_wrap' ref={scrollRef} >
             <ul id='story_wrap'>
                 {   
+                    allStorys === undefined || allStorys.length === 0
+                    ?
+                    <li
+                        style={{
+                            textAlign: 'center',
+                            marginTop: '200px',
+                            fontSize: '1.8em',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        친구도 없고.. 게시물도 없고..
+                    </li>
+                    :
                     allStorys.map((allStory,idx) => {
                         return (
                             <StoryUi
