@@ -157,7 +157,15 @@ const SignIn = () => {
     }
     
     return (
-        <div id="sign_in_container">            
+        <div id="sign_in_container">
+            <div id="sign_in_symbol_wrap">
+                <img src="/imgs/symbol_1.png" alt="" />
+            </div>
+            <div id='sign_in_logo_wrap'>
+                <h1 id="sign_in_logo">
+                    <img src="/imgs/logo1.png" alt="" />
+                </h1>
+            </div>
             <div className="sign_in_box">
                 <h3>로그인</h3>
                 <form name='sign_in_form'>
